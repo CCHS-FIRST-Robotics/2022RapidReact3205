@@ -10,7 +10,7 @@ import com.ctre.phoenix.sensors.*;
  */
 public class HardwareObjects {
     public TalonSRX FLD_MOTOR;
-    public TalonSPX FRD_MOTOR;
+    public TalonSRX FRD_MOTOR;
     public TalonSRX BLD_MOTOR;
     public TalonSRX BRD_MOTOR;
     public PigeonIMU IMU;
@@ -20,7 +20,7 @@ public class HardwareObjects {
      */
     public HardwareObjects() {
         this.FLD_MOTOR = new WPI_TalonSRX(Constants.L_TALON_PORT1);
-        this.FRD_MOTOR = new WPI_TalonSPX(Constants.L_VICTOR_PORT2);
+        this.FRD_MOTOR = new WPI_TalonSRX(Constants.L_VICTOR_PORT2);
         this.BLD_MOTOR = new WPI_TalonSRX(Constants.R_TALON_PORT1);
         this.BRD_MOTOR = new WPI_TalonSRX(Constants.R_TALON_PORT2);
         IMU = new PigeonIMU(RIGHT_MOTOR2);

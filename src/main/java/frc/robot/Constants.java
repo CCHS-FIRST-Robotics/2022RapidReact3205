@@ -63,7 +63,7 @@ public final class Constants {
     // ==================
     // ENCODER VARIANCE
     // ==================
-    public static final double VAR_RAD_VAR = 0.1 * 0.1;
+    public static final double VAR_RAD_VAR = 0.1 * 0.1 / 20;
 
     // ==================
     // IMU VARIANCE

@@ -10,7 +10,7 @@ public class Drive {
 
     }
 
-    public void setDrives(double fl, double fr, double bl, double br) {
+    public void setDrives(double fl, double fr, double bl, double br, HardwareObjects hardware) {
         hardware.FLD_MOTOR.set(ControlMode.PercentOutput, fl);
         hardware.FRD_MOTOR.set(ControlMode.PercentOutput, fr * -1);
         hardware.BLD_MOTOR.set(ControlMode.PercentOutput, bl * -1);

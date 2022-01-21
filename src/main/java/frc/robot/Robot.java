@@ -19,7 +19,14 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private RobotContainer robotContainer;
 
+  public Robot(){
+    this.robotContainer = new RobotContainer();
+    addPeriodic(() -> {
+      this.robotContainer.mainLoop();
+    }, Constants.MAIN_DT);
+  }
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.

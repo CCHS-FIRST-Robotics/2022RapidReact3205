@@ -8,7 +8,11 @@ public class Wheel {
     public Variances Var = new Variances();
 
     public Wheel() {
-
+        
+    }
+    public void predict(double dt, double heading){
+        Val.predict(dt,heading);
+        Var.predict(dt, Val.fl_radss, Val.fr_radss, Val.bl_radss, Val.br_radss);
     }
 
     class Values {
@@ -42,7 +46,7 @@ public class Wheel {
         public void predict(double dt, double heading) {
             // Local vel transform
             double r4 = Constants.WHEEL_RADIUS / 4;
-            double turn_denom = 1 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH);
+            double turn_denom = 2 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH);
 
             double vfwd = r4 * (this.fl_radss + this.fr_radss + this.bl_radss + this.br_radss);
             double vside = r4 * (this.fl_radss - this.fr_radss - this.bl_radss + this.br_radss);
@@ -84,5 +88,31 @@ public class Wheel {
         public double bl_radss;
         public double br_radss;
 
+        public double whl_o_pos;
+        public double whl_o_heading;
+
+        public double whl_o_vel;
+        public double whl_o_angvel;
+
+        public Variances(){
+            this.fl_radss = Constants.VAR_RAD_VAR;
+            this.fr_radss = Constants.VAR_RAD_VAR;
+            this.bl_radss = Constants.VAR_RAD_VAR;
+            this.br_radss = Constants.VAR_RAD_VAR;
+
+            this.whl_o_pos = Constants.INIT_VARIANCE;
+            this.whl_o_heading = Constants.INIT_VARIANCE;
+
+            this.whl_o_vel = Constants.INIT_VARIANCE;
+            this.whl_o_angvel = Constants.INIT_VARIANCE;
+        }
+
+        public void predict(double dt, double fl, double fr, double bl, double br){
+            double a_pwr_prop = (Math.abs(fl) * this.fl_radss + Math.abs(fr) * this.fr_radss + Math.abs(bl) * this.bl_radss + Math.abs(br) * this.br_radss);
+            this.whl_o_vel = Constants.WHEEL_RADIUS * a_pwr_prop/4;
+            this.whl_o_angvel = Constants.WHEEL_RADIUS * (2 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH)) * a_pwr_prop/4;
+            this.whl_o_pos = this.whl_o_pos + this.whl_o_vel * dt;
+            this.whl_o_heading = this.whl_o_heading + this.whl_o_angvel * dt;
+        }
     }
 }
