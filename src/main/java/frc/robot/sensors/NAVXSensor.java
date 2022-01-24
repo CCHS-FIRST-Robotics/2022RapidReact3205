@@ -10,17 +10,20 @@ import frc.robot.helper.*;
 
 public class NAVXSensor extends BaseSensor {
     double ang_var;
-    public NAVXSensor(double sync_time){
+
+    public NAVXSensor(double sync_time) {
         this.ang_var = Constants.BASE_HEADING_VAR;
         this.SYNC_TIME = sync_time;
     }
-    public boolean shouldUse(){
+
+    public boolean shouldUse() {
         return true;
     }
-    public void reset(HardwareObjects hardware){
+
+    public void reset(HardwareObjects hardware) {
         hardware.NAVX.reset();
         hardware.NAVX.calibrate();
-        while (hardware.NAVX.isCalibrating()){
+        while (hardware.NAVX.isCalibrating()) {
 
         }
         hardware.NAVX.zeroYaw();
@@ -34,24 +37,26 @@ public class NAVXSensor extends BaseSensor {
         }
     }
 
-    public void processValue(MainState state, HardwareObjects hardware){
+    public void processValue(MainState state, HardwareObjects hardware) {
         updateHeadingVar();
 
-        double heading = hardware.NAVX.getFusedHeading() * 2 * Math.PI/360;
+        double heading = hardware.NAVX.getFusedHeading() * 2 * Math.PI / 360;
         heading = SimpleMat.angleRectifier(heading);
-        double[] global_acc = {hardware.NAVX.getWorldLinearAccelX(), hardware.NAVX.getWorldLinearAccelY()};
+        double[] global_acc = { hardware.NAVX.getWorldLinearAccelX(), hardware.NAVX.getWorldLinearAccelY() };
         global_acc = SimpleMat.scaleVec(global_acc, 9.81);
-        
+
         double[] a2 = state.kalman2Update(state.getAccVal(), state.getAccVar(), global_acc, Constants.IMU_ACC_VAR);
         double[] h2 = state.kalmanUpdate(state.getHeadingVal(), state.getHeadingVar(), heading, ang_var);
-        
-        double[] new_acc = {a2[0], a2[1]};
-        state.setAcc(new_acc, a2[2]);
-        state.setHeading(h2[0],h2[1]);
-        
-        SmartDashboard.putNumber("Heading", heading);
 
-        SmartDashboard.putNumber("Acc x", global_acc[0]);
-        SmartDashboard.putNumber("Acc y", global_acc[1]);
+        double[] new_acc = { a2[0], a2[1] };
+        state.setAcc(new_acc, a2[2]);
+        state.setHeading(h2[0], h2[1]);
+
+        SmartDashboard.putNumber("Navx Heading", heading);
+
+        SmartDashboard.putNumberArray("Navx Acc", global_acc);
+
+        double[] raw_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY(), hardware.NAVX.getRawAccelZ() };
+        SmartDashboard.putNumberArray("Navx 3 Raw Acc", raw_acc);
     }
 }

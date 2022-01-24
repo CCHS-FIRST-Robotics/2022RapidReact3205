@@ -16,6 +16,7 @@ import frc.robot.sensors.IMUSensor;
 import frc.robot.sensors.NAVXSensor;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
+import frc.robot.map.Map;
 
 import static frc.robot.Constants.*;
 
@@ -26,6 +27,7 @@ import static frc.robot.Constants.*;
  * @author Ludwig Tay
  */
 public class RobotContainer {
+  public Map map = new Map();
   public MainState main_state = new MainState();
   // public SomeSensor some_sensor = new SomeSensor();
   public Calendar main_timer = Calendar.getInstance();
@@ -45,7 +47,7 @@ public class RobotContainer {
    * RobotContainer Constructor.
    */
   public RobotContainer() {
-    this.main_state = new MainState();
+    this.map = new Map();
     this.ai = new AI();
     this.command_handler = new CommandHandler();
     this.main_command = new Command(0, 0, 0, 0);
@@ -55,6 +57,7 @@ public class RobotContainer {
     this.navx_sensor = new NAVXSensor(SYNC_TIME);
     this.hardware = new HardwareObjects();
     this.network = new Network();
+    this.main_state = this.map.initialize(this.hardware);
 
     reset();
   }
@@ -68,8 +71,8 @@ public class RobotContainer {
    */
   public void reset() {
     this.imu_sensor.reset(this.hardware);
-    this.main_command = new Command(0, 0, 0 ,0);
-    this.main_state = new MainState();
+    this.main_command = new Command(0, 0, 0, 0);
+    this.main_state = this.map.initialize(this.hardware);
     this.network.init(SYNC_TIME);
   }
 
@@ -88,7 +91,7 @@ public class RobotContainer {
     if (this.imu_sensor.shouldUse(this.hardware)) {
       this.imu_sensor.processValue(this.main_state, this.hardware);
     }
-    if (this.navx_sensor.shouldUse()){
+    if (this.navx_sensor.shouldUse()) {
       this.navx_sensor.processValue(this.main_state, this.hardware);
     }
 

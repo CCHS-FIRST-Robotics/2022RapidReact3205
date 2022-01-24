@@ -3,6 +3,7 @@ package frc.robot.state;
 import frc.robot.Constants;
 import frc.robot.helper.SimpleMat;
 import java.lang.Math;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Class handles robot motion kinematics. Stores values and variances and
@@ -32,6 +33,9 @@ public class Kinematics {
     public void predict(double dt) {
         this.Val.predict(dt);
         this.Var.predict(dt);
+        SmartDashboard.putNumber("Kin Heading", this.Val.heading);
+        SmartDashboard.putNumberArray("Kin Pos", this.Val.pos);
+        SmartDashboard.putNumberArray("Kin Acc", this.Val.acc);
     }
 
     /**

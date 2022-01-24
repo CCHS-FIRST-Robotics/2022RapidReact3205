@@ -53,7 +53,8 @@ public class Controller {
         double blr = this.bl_pid.update(bld);
         double brr = this.br_pid.update(brd);
 
-        Command command = new Command(flr, frr, blr, brr);
+        //Command command = new Command(flr, frr, blr, brr);
+        Command command = new Command(flt, frt, blt,brt);
         return command;
     }
 }

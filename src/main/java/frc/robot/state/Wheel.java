@@ -2,17 +2,25 @@ package frc.robot.state;
 
 import frc.robot.Constants;
 import frc.robot.helper.SimpleMat;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wheel {
     public Values Val = new Values();
     public Variances Var = new Variances();
 
     public Wheel() {
-        
+
     }
-    public void predict(double dt, double heading){
-        Val.predict(dt,heading);
-        Var.predict(dt, Val.fl_radss, Val.fr_radss, Val.bl_radss, Val.br_radss);
+
+    public void predict(double dt, double heading) {
+        this.Val.predict(dt, heading);
+        this.Var.predict(dt, this.Val.fl_radss, this.Val.fr_radss, this.Val.bl_radss, this.Val.br_radss);
+        SmartDashboard.putNumber("FL rpm", this.Val.fl_radss * 30 / Math.PI);
+        SmartDashboard.putNumber("FR rpm", this.Val.fr_radss * 30 / Math.PI);
+        SmartDashboard.putNumber("BL rpm", this.Val.bl_radss * 30 / Math.PI);
+        SmartDashboard.putNumber("BR rpm", this.Val.br_radss * 30 / Math.PI);
+        SmartDashboard.putNumberArray("Odo Pos", this.Val.whl_o_pos);
+        SmartDashboard.putNumber("Odo Heading", this.Val.whl_o_heading);
     }
 
     class Values {
@@ -94,7 +102,7 @@ public class Wheel {
         public double whl_o_vel;
         public double whl_o_angvel;
 
-        public Variances(){
+        public Variances() {
             this.fl_radss = Constants.VAR_RAD_VAR;
             this.fr_radss = Constants.VAR_RAD_VAR;
             this.bl_radss = Constants.VAR_RAD_VAR;
@@ -107,10 +115,12 @@ public class Wheel {
             this.whl_o_angvel = Constants.INIT_VARIANCE;
         }
 
-        public void predict(double dt, double fl, double fr, double bl, double br){
-            double a_pwr_prop = (Math.abs(fl) * this.fl_radss + Math.abs(fr) * this.fr_radss + Math.abs(bl) * this.bl_radss + Math.abs(br) * this.br_radss);
-            this.whl_o_vel = Constants.WHEEL_RADIUS * a_pwr_prop/4;
-            this.whl_o_angvel = Constants.WHEEL_RADIUS * (2 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH)) * a_pwr_prop/4;
+        public void predict(double dt, double fl, double fr, double bl, double br) {
+            double a_pwr_prop = (Math.abs(fl) * this.fl_radss + Math.abs(fr) * this.fr_radss
+                    + Math.abs(bl) * this.bl_radss + Math.abs(br) * this.br_radss);
+            this.whl_o_vel = Constants.WHEEL_RADIUS * a_pwr_prop / 4;
+            this.whl_o_angvel = Constants.WHEEL_RADIUS * (2 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH))
+                    * a_pwr_prop / 4;
             this.whl_o_pos = this.whl_o_pos + this.whl_o_vel * dt;
             this.whl_o_heading = this.whl_o_heading + this.whl_o_angvel * dt;
         }
