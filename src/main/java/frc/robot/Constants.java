@@ -81,11 +81,13 @@ public final class Constants {
     // ==================
     // MOTOR CONSTANTS
     // ==================
-    public static final double MOTOR_MAX_POWER = 674; // OUTPUT IN WATTS
+    public static final double GEAR_RATIO = 10.71;
 
-    public static final double MOTOR_MAX_TORQUE = 40.97;
+    public static final double MOTOR_MAX_POWER = 337; // OUTPUT IN WATTS
 
-    public static final double MOTOR_MAX_RPM = 400;
+    public static final double MOTOR_MAX_TORQUE = 2.41 * GEAR_RATIO;
+
+    public static final double MOTOR_MAX_RPM = 5330 / GEAR_RATIO;
 
     public static final double MOTOR_PROP_VAR = 0.1;
 
@@ -96,8 +98,9 @@ public final class Constants {
     // ==================
     public static final double ROBOT_WIDTH = 0.635;
     public static final double ROBOT_LENGTH = 0.735;
-    public static final double WHEEL_RADIUS = 0.09;
-    public static final double ROBOT_MASS = 20;
+    public static final double WHEEL_RADIUS = 0.0726;
+    public static final double ROBOT_MASS = 12;
+    public static final double MOI = 0.5 * ROBOT_LENGTH * ROBOT_LENGTH * ROBOT_MASS;
 
     public static final double GRAV_ACC = -9.81;
 
@@ -132,6 +135,7 @@ public final class Constants {
 
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.02;
+    public static final double[] C_BASE_PID = {0.02, 0.002, 0};
     public static final double INTERGRAL_HALFLIFE_T = 8;
 
 }

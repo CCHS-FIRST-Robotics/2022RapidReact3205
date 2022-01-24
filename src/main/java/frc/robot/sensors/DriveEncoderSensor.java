@@ -19,6 +19,10 @@ public class DriveEncoderSensor extends BaseSensor {
         this.last_updated = sync_time;
     }
 
+    public boolean shouldUse(){
+        return true;
+    }
+
     public void processValue(MainState state, HardwareObjects hardware){
         double fl_raw = hardware.FLD_MOTOR.getSelectedSensorVelocity(1);
         double fr_raw = hardware.FRD_MOTOR.getSelectedSensorVelocity(1);

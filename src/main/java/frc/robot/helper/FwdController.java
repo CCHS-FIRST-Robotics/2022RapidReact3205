@@ -58,7 +58,9 @@ public class FwdController {
         if (dt == 0) {
             dt = 0.0001;
         }
-        double current_v = (state.getLWhlRadssVal() * 0.5 + state.getRWhlRadssVal() * 0.5) * Constants.WHEEL_RADIUS;
+        double ave_fwd = state.getFLRadssVal() + state.getFRRadssVal() + state.getBLRadssVal() + state.getBRRadssVal();
+        ave_fwd = ave_fwd/4;
+        double current_v = ave_fwd * Constants.WHEEL_RADIUS;
         double dir;
         if (x > 0) {
             dir = 1;
@@ -70,7 +72,7 @@ public class FwdController {
         target_v = target_v + radpss * dt;
         target_v = Math.min(this.v_max, Math.max(-1 * this.v_max, target_v));
         SmartDashboard.putNumber("C Target Radss", target_v);
-        double delta = target_v - (state.getLWhlRadssVal() * 0.5 + state.getRWhlRadssVal() * 0.5);
+        double delta = target_v - ave_fwd;
         double resp = this.whl_c.update(delta);
         resp = Math.min(1, Math.max(-1, resp));
         return resp;

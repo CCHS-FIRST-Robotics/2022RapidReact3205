@@ -33,7 +33,7 @@ public class RobotContainer {
   public IMUSensor imu_sensor = new IMUSensor(SYNC_TIME);
   public AI ai = new AI();
   public CommandHandler command_handler = new CommandHandler();
-  public Command main_command = new Command(0, 0);
+  public Command main_command = new Command(0, 0, 0, 0);
   public HardwareObjects hardware;
   public Network network;
 
@@ -46,7 +46,7 @@ public class RobotContainer {
     this.main_state = new MainState();
     this.ai = new AI();
     this.command_handler = new CommandHandler();
-    this.main_command = new Command(0, 0);
+    this.main_command = new Command(0, 0, 0, 0);
     this.SYNC_TIME = (double) main_timer.getTimeInMillis() / 1000;
     this.drive_encoder_sensor = new DriveEncoderSensor(SYNC_TIME);
     this.imu_sensor = new IMUSensor(SYNC_TIME);
@@ -65,7 +65,7 @@ public class RobotContainer {
    */
   public void reset() {
     this.imu_sensor.reset(this.hardware);
-    this.main_command = new Command(0, 0);
+    this.main_command = new Command(0, 0, 0 ,0);
     this.main_state = new MainState();
     this.network.init(SYNC_TIME);
   }

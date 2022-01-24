@@ -23,13 +23,13 @@ public class HardwareObjects {
         this.FRD_MOTOR = new WPI_TalonSRX(Constants.L_VICTOR_PORT2);
         this.BLD_MOTOR = new WPI_TalonSRX(Constants.R_TALON_PORT1);
         this.BRD_MOTOR = new WPI_TalonSRX(Constants.R_TALON_PORT2);
-        IMU = new PigeonIMU(RIGHT_MOTOR2);
+        //IMU = new PigeonIMU(RIGHT_MOTOR2);
 
         this.FLD_MOTOR.configFactoryDefault();
         this.FRD_MOTOR.configFactoryDefault();
         this.BLD_MOTOR.configFactoryDefault();
         this.BRD_MOTOR.configFactoryDefault();
-        IMU.configFactoryDefault();
-        IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+        //IMU.configFactoryDefault();
+        //IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
     }
 }
