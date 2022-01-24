@@ -31,6 +31,13 @@ public class MainState {
         }
     }
 
+    public double[] kalman2Update(double[] current_val, double current_var, double[] sensed_val, double sensed_var){
+        double[] x = kalmanUpdate(current_val[0], current_var, sensed_val[0], sensed_var);
+        double[] y = kalmanUpdate(current_val[1], current_var, sensed_val[1], sensed_var);
+        double[] z = {x[0],y[0], x[1]};
+        return z;
+    }
+
     /**
      * Kalman Update. Main method of fusing sensor values by comparing variances.
      * Special version for wrapping angular values like heading.
