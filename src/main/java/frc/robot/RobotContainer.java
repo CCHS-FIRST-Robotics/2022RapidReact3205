@@ -13,6 +13,7 @@ import frc.robot.state.MainState;
 import frc.robot.commands.UpdateState;
 import frc.robot.sensors.DriveEncoderSensor;
 import frc.robot.sensors.IMUSensor;
+import frc.robot.sensors.NAVXSensor;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
 
@@ -31,6 +32,7 @@ public class RobotContainer {
   double SYNC_TIME = 0;
   public DriveEncoderSensor drive_encoder_sensor = new DriveEncoderSensor(SYNC_TIME);
   public IMUSensor imu_sensor = new IMUSensor(SYNC_TIME);
+  public NAVXSensor navx_sensor = new NAVXSensor(SYNC_TIME);
   public AI ai = new AI();
   public CommandHandler command_handler = new CommandHandler();
   public Command main_command = new Command(0, 0, 0, 0);
@@ -50,6 +52,7 @@ public class RobotContainer {
     this.SYNC_TIME = (double) main_timer.getTimeInMillis() / 1000;
     this.drive_encoder_sensor = new DriveEncoderSensor(SYNC_TIME);
     this.imu_sensor = new IMUSensor(SYNC_TIME);
+    this.navx_sensor = new NAVXSensor(SYNC_TIME);
     this.hardware = new HardwareObjects();
     this.network = new Network();
 
@@ -84,6 +87,9 @@ public class RobotContainer {
     }
     if (this.imu_sensor.shouldUse(this.hardware)) {
       this.imu_sensor.processValue(this.main_state, this.hardware);
+    }
+    if (this.navx_sensor.shouldUse()){
+      this.navx_sensor.processValue(this.main_state, this.hardware);
     }
 
     this.main_state.predict(Constants.MAIN_DT);

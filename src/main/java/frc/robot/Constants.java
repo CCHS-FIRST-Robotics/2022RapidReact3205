@@ -96,8 +96,8 @@ public final class Constants {
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
     // ==================
-    public static final double ROBOT_WIDTH = 0.635;
-    public static final double ROBOT_LENGTH = 0.735;
+    public static final double ROBOT_WIDTH = 0.2667;
+    public static final double ROBOT_LENGTH = 0.5207;
     public static final double WHEEL_RADIUS = 0.0726;
     public static final double ROBOT_MASS = 12;
     public static final double MOI = 0.5 * ROBOT_LENGTH * ROBOT_LENGTH * ROBOT_MASS;
