@@ -9,7 +9,6 @@ public class Wheel {
     public Variances Var = new Variances();
 
     public Wheel() {
-
     }
 
     public void predict(double dt, double heading) {
@@ -29,10 +28,10 @@ public class Wheel {
         public double bl_radss;
         public double br_radss;
 
-        public double[] whl_o_pos;
+        public double[] whl_o_pos = {0,0};
         public double whl_o_heading;
 
-        public double[] whl_o_vel;
+        public double[] whl_o_vel = {0,0};
         public double whl_o_angvel;
 
         public Values() {

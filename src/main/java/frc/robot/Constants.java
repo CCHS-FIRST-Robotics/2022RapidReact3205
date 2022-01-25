@@ -17,12 +17,11 @@ package frc.robot;
 public final class Constants {
     // ==================
     // HARDWARE PORTS
-    // ==================
-    public static final int R_TALON_PORT2 = 6;
-    public static final int L_TALON_PORT1 = 9;
-
-    public static final int R_TALON_PORT1 = 1;
-    public static final int L_VICTOR_PORT2 = 2;
+    // ==================]
+    public static final int FL_TALON_PORT = 2;
+    public static final int FR_TALON_PORT = 1;
+    public static final int BL_TALON_PORT = 3;
+    public static final int BR_TALON_PORT = 4;
 
     public static final int IMU_PORT = 6;
 

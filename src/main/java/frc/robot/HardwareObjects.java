@@ -21,10 +21,10 @@ public class HardwareObjects {
      * Constructor for HardwareObjects. Handles creation and initialization.
      */
     public HardwareObjects() {
-        this.FLD_MOTOR = new WPI_TalonSRX(Constants.L_TALON_PORT1);
-        this.FRD_MOTOR = new WPI_TalonSRX(Constants.L_VICTOR_PORT2);
-        this.BLD_MOTOR = new WPI_TalonSRX(Constants.R_TALON_PORT1);
-        this.BRD_MOTOR = new WPI_TalonSRX(Constants.R_TALON_PORT2);
+        this.FLD_MOTOR = new WPI_TalonSRX(Constants.FL_TALON_PORT);
+        this.FRD_MOTOR = new WPI_TalonSRX(Constants.FR_TALON_PORT);
+        this.BLD_MOTOR = new WPI_TalonSRX(Constants.BL_TALON_PORT);
+        this.BRD_MOTOR = new WPI_TalonSRX(Constants.BR_TALON_PORT);
         this.NAVX = new AHRS();
         //IMU = new PigeonIMU(RIGHT_MOTOR2);
 

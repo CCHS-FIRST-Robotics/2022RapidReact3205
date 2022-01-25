@@ -45,7 +45,8 @@ public class IMUSensor extends BaseSensor {
      */
     public boolean shouldUse(HardwareObjects hardware) {
         this.log_active_sensor = (hardware.IMU.getState() == PigeonIMU.PigeonState.Ready);
-        return (hardware.IMU.getState() == PigeonIMU.PigeonState.Ready);
+        //return (hardware.IMU.getState() == PigeonIMU.PigeonState.Ready);
+        return false;
     }
 
     /**
@@ -65,20 +66,20 @@ public class IMUSensor extends BaseSensor {
      * @param hardware Robot hardware objects.
      */
     public void reset(HardwareObjects hardware) {
-        short[] xyz_acc = new short[3];
-        hardware.IMU.getBiasedAccelerometer(xyz_acc);
-        double x_acc = (double) xyz_acc[0] * -9.81 / 16384;
-        double y_acc = (double) xyz_acc[1] * -9.81 / 16384;
-        double z_acc = (double) xyz_acc[2] * -9.81 / 16384;
+        //short[] xyz_acc = new short[3];
+        //hardware.IMU.getBiasedAccelerometer(xyz_acc);
+        //double x_acc = (double) xyz_acc[0] * -9.81 / 16384;
+        //double y_acc = (double) xyz_acc[1] * -9.81 / 16384;
+        //double z_acc = (double) xyz_acc[2] * -9.81 / 16384;
 
-        this.x_acc_zero = x_acc;
-        this.xyz_acc_zero[0] = x_acc;
-        this.xyz_acc_zero[1] = y_acc;
-        this.xyz_acc_zero[2] = z_acc;
+        //this.x_acc_zero = x_acc;
+        //this.xyz_acc_zero[0] = x_acc;
+        //this.xyz_acc_zero[1] = y_acc;
+        //this.xyz_acc_zero[2] = z_acc;
 
-        this.yz_mag_zero = SimpleMat.mag(this.xyz_acc_zero) - 9.8;
+        //this.yz_mag_zero = SimpleMat.mag(this.xyz_acc_zero) - 9.8;
 
-        hardware.IMU.setFusedHeading(0);
+        //hardware.IMU.setFusedHeading(0);
     }
 
     /**
