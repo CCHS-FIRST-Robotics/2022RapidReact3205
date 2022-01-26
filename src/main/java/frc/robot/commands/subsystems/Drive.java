@@ -11,9 +11,9 @@ public class Drive {
     }
 
     public void setDrives(double fl, double fr, double bl, double br, HardwareObjects hardware) {
-        hardware.FLD_MOTOR.set(ControlMode.PercentOutput, fl);
+        hardware.FLD_MOTOR.set(ControlMode.PercentOutput, fl * 1);
         hardware.FRD_MOTOR.set(ControlMode.PercentOutput, fr * -1);
-        hardware.BLD_MOTOR.set(ControlMode.PercentOutput, bl * -1);
-        hardware.BRD_MOTOR.set(ControlMode.PercentOutput, br);
+        hardware.BLD_MOTOR.set(ControlMode.PercentOutput, bl * 1);
+        hardware.BRD_MOTOR.set(ControlMode.PercentOutput, br * -1);
     }
 }

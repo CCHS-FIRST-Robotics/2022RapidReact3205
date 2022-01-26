@@ -33,10 +33,10 @@ public class Controller {
         double lr_turn = xbox.getRightX();
         double fb_2 = xbox.getRightY();
 
-        double flt = fb_1 + fb_2 + lr_turn + lr_strafe;
-        double frt = fb_1 + fb_2 - lr_turn - lr_strafe;
-        double blt = fb_1 + fb_2 + lr_turn - lr_strafe;
-        double brt = fb_1 + fb_2 - lr_turn + lr_strafe;
+        double flt = -1*fb_1 - fb_2 + lr_turn + lr_strafe;
+        double frt = -1*fb_1 - fb_2 - lr_turn - lr_strafe;
+        double blt = -1*fb_1 - fb_2 + lr_turn - lr_strafe;
+        double brt = -1*fb_1 - fb_2 - lr_turn + lr_strafe;
 
         flt = Math.min(1, Math.max(-1, flt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         frt = Math.min(1, Math.max(-1, frt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
@@ -54,7 +54,7 @@ public class Controller {
         double brr = this.br_pid.update(brd);
 
         //Command command = new Command(flr, frr, blr, brr);
-        Command command = new Command(flt, frt, blt,brt);
+        Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;
     }
 }
