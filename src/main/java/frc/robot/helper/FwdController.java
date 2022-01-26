@@ -15,7 +15,9 @@ public class FwdController {
 
     PID whl_c;
 
-    public FwdController() {
+    public FwdController(double v_max, double a_max) {
+        this.v_max = v_max;
+        this.a_max = a_max;
         this.target_v = 0;
         this.whl_c = new PID(Constants.C_BASE_GAIN, Constants.C_BASE_GAIN * 0.1, Constants.C_BASE_GAIN * 0.001);
         reset();
@@ -59,7 +61,7 @@ public class FwdController {
             dt = 0.0001;
         }
         double ave_fwd = state.getFLRadssVal() + state.getFRRadssVal() + state.getBLRadssVal() + state.getBRRadssVal();
-        ave_fwd = ave_fwd/4;
+        ave_fwd = ave_fwd / 4;
         double current_v = ave_fwd * Constants.WHEEL_RADIUS;
         double dir;
         if (x > 0) {
