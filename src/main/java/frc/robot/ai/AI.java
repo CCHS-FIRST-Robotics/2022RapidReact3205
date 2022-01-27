@@ -19,7 +19,7 @@ public class AI {
     public Command main_command = new Command(0, 0, 0, 0);
     // public AutonomousTestDrive autonomousTestDrive = new AutonomousTestDrive();
     // public AutonomousTravel autonomous;
-    //public AutonomousTravel autonomous;
+    public Autonomous autonomous;
 
     /**
      * Constructor for AI
@@ -28,7 +28,7 @@ public class AI {
         this.current_state = States.CONTROLLER;
         this.controller_state = new Controller();
         this.main_command = new Command(0, 0,0 ,0);
-        //this.autonomous = new AutonomousTravel();
+        this.autonomous = new Autonomous();
     }
 
     /**
@@ -43,7 +43,7 @@ public class AI {
                 main_command = this.controller_state.getCommands(state);
                 break;
             case AUTONOMOUS:
-                //main_command = this.autonomous.getCommands(state);
+                main_command = this.autonomous.getCommands(state);
                 break;
             case DISABLED:
                 main_command = new Command(0, 0, 0 ,0 );
@@ -66,6 +66,7 @@ public class AI {
     }
 
     public void setAutonomousState() {
+        this.autonomous.init();
         this.current_state = States.AUTONOMOUS;
     }
 }

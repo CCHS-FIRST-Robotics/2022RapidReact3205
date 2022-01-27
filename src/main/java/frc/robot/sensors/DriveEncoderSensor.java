@@ -29,10 +29,10 @@ public class DriveEncoderSensor extends BaseSensor {
         double bl_raw = hardware.BLD_MOTOR.getSelectedSensorVelocity(1);
         double br_raw = hardware.BRD_MOTOR.getSelectedSensorVelocity(1);
         double dps2rads = 2 * Math.PI / 60;
-        fl_raw = fl_raw * dps2rads * -1;
-        fr_raw = fr_raw * dps2rads * 1;
-        bl_raw = bl_raw * dps2rads * -1;
-        br_raw = br_raw * dps2rads * 1;
+        fl_raw = fl_raw * dps2rads * 1;
+        fr_raw = fr_raw * dps2rads * -1;
+        bl_raw = bl_raw * dps2rads * 1;
+        br_raw = br_raw * dps2rads * -1;
         state.setFLRadss(fl_raw, Constants.VAR_RAD_VAR);
         state.setFRRadss(fr_raw, Constants.VAR_RAD_VAR);
         state.setBLRadss(bl_raw, Constants.VAR_RAD_VAR);
