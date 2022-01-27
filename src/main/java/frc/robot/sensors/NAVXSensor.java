@@ -42,19 +42,27 @@ public class NAVXSensor extends BaseSensor {
 
         double heading = hardware.NAVX.getFusedHeading() * 2 * Math.PI / 360;
         heading = SimpleMat.angleRectifier(heading);
+
         double[] global_acc = { hardware.NAVX.getWorldLinearAccelX(), hardware.NAVX.getWorldLinearAccelY() };
         global_acc = SimpleMat.scaleVec(global_acc, 9.81);
 
+        double ang_vel = hardware.NAVX.getRate() * 2 * Math.PI / 360;
+
         double[] a2 = state.kalman2Update(state.getAccVal(), state.getAccVar(), global_acc, Constants.IMU_ACC_VAR);
         double[] h2 = state.kalmanUpdate(state.getHeadingVal(), state.getHeadingVar(), heading, ang_var);
+        double[] av2 = state.kalmanUpdate(state.getAngVelVal(), state.getAngVelVar(), ang_vel,
+                ang_var / Constants.MAIN_DT);
 
         double[] new_acc = { a2[0], a2[1] };
         state.setAcc(new_acc, a2[2]);
         state.setHeading(h2[0], h2[1]);
+        state.setAngVel(av2[0], av2[1]);
 
         SmartDashboard.putNumber("Navx Heading", heading);
 
         SmartDashboard.putNumberArray("Navx Acc", global_acc);
+
+        SmartDashboard.putNumber("Navx Angvel", ang_vel);
 
         double[] raw_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY(), hardware.NAVX.getRawAccelZ() };
         SmartDashboard.putNumberArray("Navx 3 Raw Acc", raw_acc);
