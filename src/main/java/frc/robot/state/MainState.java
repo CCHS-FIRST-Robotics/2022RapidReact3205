@@ -1,14 +1,17 @@
 package frc.robot.state;
+
 import java.lang.*;
 
 public class MainState {
     Kinematics Phy = new Kinematics();
     Wheel Whl = new Wheel();
-    public void predict(double dt){
+
+    public void predict(double dt) {
         this.Whl.predict(dt, this.Phy.Val.heading);
         this.Phy.predict(dt);
     }
-/**
+
+    /**
      * Kalman Update. Main method of fusing sensor values by comparing variances.
      * 
      * @param current_val Current value from state.
@@ -31,10 +34,10 @@ public class MainState {
         }
     }
 
-    public double[] kalman2Update(double[] current_val, double current_var, double[] sensed_val, double sensed_var){
+    public double[] kalman2Update(double[] current_val, double current_var, double[] sensed_val, double sensed_var) {
         double[] x = kalmanUpdate(current_val[0], current_var, sensed_val[0], sensed_var);
         double[] y = kalmanUpdate(current_val[1], current_var, sensed_val[1], sensed_var);
-        double[] z = {x[0],y[0], x[1]};
+        double[] z = { x[0], y[0], x[1] };
         return z;
     }
 
@@ -158,96 +161,166 @@ public class MainState {
         this.Phy.Val.ang_acc = val;
         this.Phy.Var.ang_acc = var;
     }
+
     // WHL RPM
-    public double getFLRadssVal(){
+    public double getFLRadssVal() {
         return this.Whl.Val.fl_radss;
     }
-    public double getFLRadssVar(){
+
+    public double getFLRadssVar() {
         return this.Whl.Var.fl_radss;
     }
-    public void setFLRadss(double val, double var){
+
+    public void setFLRadss(double val, double var) {
         this.Whl.Val.fl_radss = val;
         this.Whl.Var.fl_radss = var;
     }
 
-    public double getFRRadssVal(){
+    public double getFRRadssVal() {
         return this.Whl.Val.fr_radss;
     }
-    public double getFRRadssVar(){
+
+    public double getFRRadssVar() {
         return this.Whl.Var.fr_radss;
     }
-    public void setFRRadss(double val, double var){
+
+    public void setFRRadss(double val, double var) {
         this.Whl.Val.fr_radss = val;
         this.Whl.Var.fr_radss = var;
     }
 
-    public double getBLRadssVal(){
+    public double getBLRadssVal() {
         return this.Whl.Val.bl_radss;
     }
-    public double getBLRadssVar(){
+
+    public double getBLRadssVar() {
         return this.Whl.Var.bl_radss;
     }
-    public void setBLRadss(double val, double var){
+
+    public void setBLRadss(double val, double var) {
         this.Whl.Val.bl_radss = val;
         this.Whl.Var.bl_radss = var;
     }
 
-    public double getBRRadssVal(){
+    public double getBRRadssVal() {
         return this.Whl.Val.br_radss;
     }
-    public double getBRRadssVar(){
+
+    public double getBRRadssVar() {
         return this.Whl.Var.br_radss;
     }
-    public void setBRRadss(double val, double var){
+
+    public void setBRRadss(double val, double var) {
         this.Whl.Val.br_radss = val;
         this.Whl.Var.br_radss = var;
     }
 
-    //Whl Odo Pos
-    public double[] getWhlOPosVal(){
+    // Whl Odo Pos
+    public double[] getWhlOPosVal() {
         return this.Whl.Val.whl_o_pos;
     }
-    public double getWhlOPosVar(){
+
+    public double getWhlOPosVar() {
         return this.Whl.Var.whl_o_pos;
     }
-    public void setWhlOPos(double[] val, double var){
+
+    public void setWhlOPos(double[] val, double var) {
         this.Whl.Val.whl_o_pos = val;
         this.Whl.Var.whl_o_pos = var;
     }
-    
-    //Whl Odo Vel
-    public double[] getWhlOVelVal(){
+
+    // Whl Odo Vel
+    public double[] getWhlOVelVal() {
         return this.Whl.Val.whl_o_vel;
     }
-    public double getWhlOVelVar(){
+
+    public double getWhlOVelVar() {
         return this.Whl.Var.whl_o_vel;
     }
-    public void setWhlOVel(double[] val, double var){
+
+    public void setWhlOVel(double[] val, double var) {
         this.Whl.Val.whl_o_vel = val;
         this.Whl.Var.whl_o_vel = var;
     }
 
-    //Whl Odo Heading
-    public double getWhlOHeadingVal(){
+    // Whl Odo Heading
+    public double getWhlOHeadingVal() {
         return this.Whl.Val.whl_o_heading;
     }
-    public double getWhlOHeadingVar(){
+
+    public double getWhlOHeadingVar() {
         return this.Whl.Var.whl_o_heading;
     }
-    public void setWhlOHeading(double val, double var){
+
+    public void setWhlOHeading(double val, double var) {
         this.Whl.Val.whl_o_heading = val;
         this.Whl.Var.whl_o_heading = var;
     }
 
-    //Whl Odo Ang Vel
-    public double getWhlOAngVelVal(){
+    // Whl Odo Ang Vel
+    public double getWhlOAngVelVal() {
         return this.Whl.Val.whl_o_angvel;
     }
-    public double getWhlOAngVelVar(){
+
+    public double getWhlOAngVelVar() {
         return this.Whl.Var.whl_o_angvel;
     }
-    public void setWhlOAngVel(double val, double var){
+
+    public void setWhlOAngVel(double val, double var) {
         this.Whl.Val.whl_o_angvel = val;
         this.Whl.Var.whl_o_angvel = var;
+    }
+
+    // Whl Odo Torque
+    public double getFLTVal() {
+        return this.Whl.Val.fl_t;
+    }
+
+    public double getFLTVar() {
+        return this.Whl.Var.fl_t;
+    }
+
+    public void setFLT(double val, double var) {
+        this.Whl.Val.fl_t = val;
+        this.Whl.Var.fl_t = var;
+    }
+
+    public double getFRTVal() {
+        return this.Whl.Val.fr_t;
+    }
+
+    public double getFRTVar() {
+        return this.Whl.Var.fr_t;
+    }
+
+    public void setFRT(double val, double var) {
+        this.Whl.Val.fr_t = val;
+        this.Whl.Var.fr_t = var;
+    }
+
+    public double getBLTVal() {
+        return this.Whl.Val.bl_t;
+    }
+
+    public double getBLTVar() {
+        return this.Whl.Var.bl_t;
+    }
+
+    public void setBLT(double val, double var) {
+        this.Whl.Val.bl_t = val;
+        this.Whl.Var.bl_t = var;
+    }
+
+    public double getBRTVal() {
+        return this.Whl.Val.br_t;
+    }
+
+    public double getBRTVar() {
+        return this.Whl.Var.br_t;
+    }
+
+    public void setBRT(double val, double var) {
+        this.Whl.Val.br_t = val;
+        this.Whl.Var.br_t = var;
     }
 }

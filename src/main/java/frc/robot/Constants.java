@@ -98,6 +98,8 @@ public final class Constants {
     public static final double ROBOT_WIDTH = 0.2667;
     public static final double ROBOT_LENGTH = 0.5207;
     public static final double WHEEL_RADIUS = 0.0726;
+    public static final double WHEEL_MASS = 0.5669905;
+    public static final double WHEEL_MOI = 0.5 * WHEEL_RADIUS * WHEEL_RADIUS * WHEEL_MASS;
     public static final double ROBOT_MASS = 12;
     public static final double MOI = 0.5 * ROBOT_LENGTH * ROBOT_LENGTH * ROBOT_MASS;
 
@@ -134,7 +136,7 @@ public final class Constants {
 
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.02;
-    public static final double[] C_BASE_PID = {0.02, 0.002, 0};
+    public static final double[] C_BASE_PID = { 0.002, 0.0002, 0 };
     public static final double INTERGRAL_HALFLIFE_T = 8;
 
 }

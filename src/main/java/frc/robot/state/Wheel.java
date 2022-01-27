@@ -28,10 +28,15 @@ public class Wheel {
         public double bl_radss;
         public double br_radss;
 
-        public double[] whl_o_pos = {0,0};
+        public double fl_t;
+        public double fr_t;
+        public double bl_t;
+        public double br_t;
+
+        public double[] whl_o_pos = { 0, 0 };
         public double whl_o_heading;
 
-        public double[] whl_o_vel = {0,0};
+        public double[] whl_o_vel = { 0, 0 };
         public double whl_o_angvel;
 
         public Values() {
@@ -39,6 +44,11 @@ public class Wheel {
             this.fr_radss = Constants.INIT_WHL_RPM;
             this.bl_radss = Constants.INIT_WHL_RPM;
             this.br_radss = Constants.INIT_WHL_RPM;
+
+            this.fl_t = 0;
+            this.fr_t = 0;
+            this.bl_t = 0;
+            this.br_t = 0;
 
             this.whl_o_pos[0] = 0;
             this.whl_o_pos[1] = 0;
@@ -80,6 +90,7 @@ public class Wheel {
                 xyl_disp[1] = (1 - Math.cos(theta)) * A[1] + Math.sin(theta) * A[0];
                 tl_disp = theta;
             }
+            theta = SimpleMat.angleRectifier(theta);
             double[] local_vel = { xyl_disp[0] / dt, xyl_disp[1] / dt };
             this.whl_o_angvel = angvel;
             // offset xyl_disp and local vel
@@ -95,6 +106,11 @@ public class Wheel {
         public double bl_radss;
         public double br_radss;
 
+        public double fl_t;
+        public double fr_t;
+        public double bl_t;
+        public double br_t;
+
         public double whl_o_pos;
         public double whl_o_heading;
 
@@ -106,6 +122,11 @@ public class Wheel {
             this.fr_radss = Constants.VAR_RAD_VAR;
             this.bl_radss = Constants.VAR_RAD_VAR;
             this.br_radss = Constants.VAR_RAD_VAR;
+
+            this.fl_t = Constants.INIT_VARIANCE;
+            this.fr_t = Constants.INIT_VARIANCE;
+            this.bl_t = Constants.INIT_VARIANCE;
+            this.br_t = Constants.INIT_VARIANCE;
 
             this.whl_o_pos = Constants.INIT_VARIANCE;
             this.whl_o_heading = Constants.INIT_VARIANCE;
