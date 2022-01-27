@@ -7,7 +7,7 @@ import frc.robot.helper.SimpleMat;
 public class UpdateState {
 
     public static double motorT(double whl_radss, double pwr_prop) {
-        double rpm_prop = whl_radss / (Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60);
+        double rpm_prop = Math.abs(whl_radss) / (Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60);
         double torque = pwr_prop * (1 - rpm_prop) * Constants.MOTOR_MAX_TORQUE;
         return torque;
     }
