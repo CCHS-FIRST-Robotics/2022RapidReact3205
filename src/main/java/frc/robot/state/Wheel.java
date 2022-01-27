@@ -19,6 +19,7 @@ public class Wheel {
         SmartDashboard.putNumber("BL rpm", this.Val.bl_radss * 30 / Math.PI);
         SmartDashboard.putNumber("BR rpm", this.Val.br_radss * 30 / Math.PI);
         SmartDashboard.putNumberArray("Odo Pos", this.Val.whl_o_pos);
+        SmartDashboard.putNumberArray("Odo Vel", this.Val.whl_o_vel);
         SmartDashboard.putNumber("Odo Heading", this.Val.whl_o_heading);
     }
 
@@ -72,7 +73,8 @@ public class Wheel {
             // Local pos transform
             double[] xyl_disp = { 0, 0 };
             double tl_disp = 0;
-            if (angvel == 0) {
+            SmartDashboard.putNumber("odo angvel",angvel);
+            if (Math.abs(angvel) == 0) {
                 xyl_disp[0] = vside * dt;
                 xyl_disp[1] = vfwd * dt;
                 tl_disp = 0;
@@ -88,12 +90,15 @@ public class Wheel {
                 }
                 xyl_disp[0] = (1 - Math.cos(theta)) * A[0] + Math.sin(theta) * A[1];
                 xyl_disp[1] = (1 - Math.cos(theta)) * A[1] + Math.sin(theta) * A[0];
+                SimpleMat.scaleVec(xyl_disp, dt);
                 tl_disp = theta;
             }
             theta = SimpleMat.angleRectifier(theta);
             double[] local_vel = { xyl_disp[0] / dt, xyl_disp[1] / dt };
             this.whl_o_angvel = angvel;
             // offset xyl_disp and local vel
+            SmartDashboard.putNumberArray("Odo xyldisp", local_vel);
+            SmartDashboard.putNumber("Odo given h", heading);
             this.whl_o_vel = SimpleMat.rot2d(local_vel, heading);
             this.whl_o_pos = SimpleMat.add(this.whl_o_pos, SimpleMat.rot2d(xyl_disp, heading));
             this.whl_o_heading = SimpleMat.angleRectifier(this.whl_o_heading + theta);

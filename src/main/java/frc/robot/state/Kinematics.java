@@ -103,6 +103,9 @@ public class Kinematics {
             } else {
                 this.ang_vel = this.ang_vel + (this.ang_acc + ang_fric) * dt;
             }
+            if (Double.isNaN(heading)){
+                heading = 0;
+            }
 
         }
     }

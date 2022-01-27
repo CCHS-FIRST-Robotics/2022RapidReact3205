@@ -32,7 +32,7 @@ public class UpdateState {
         double fwd_force = (flf + frf + blf + brf) * r2o2;
         double side_force = (flf - frf - blf + brf) * r2o2;
         // assume com = center
-        double cross_tc = Math.asin(Math.PI * 0.75 - Math.atan(Constants.ROBOT_WIDTH / Constants.ROBOT_LENGTH));
+        double cross_tc = Math.sin(Math.PI * 0.75 - Math.atan(Constants.ROBOT_WIDTH / Constants.ROBOT_LENGTH));
         double[] p_vec = { Constants.ROBOT_WIDTH, Constants.ROBOT_LENGTH };
         double adist = SimpleMat.mag(p_vec);
         double torque = cross_tc * adist * (-1 * flf + frf - blf + brf);

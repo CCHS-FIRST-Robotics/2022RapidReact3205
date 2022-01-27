@@ -40,13 +40,13 @@ public class NAVXSensor extends BaseSensor {
     public void processValue(MainState state, HardwareObjects hardware) {
         updateHeadingVar();
 
-        double heading = hardware.NAVX.getFusedHeading() * 2 * Math.PI / 360;
+        double heading = hardware.NAVX.getFusedHeading() * -1 * 2 * Math.PI / 360;
         heading = SimpleMat.angleRectifier(heading);
 
         double[] global_acc = { hardware.NAVX.getWorldLinearAccelX(), hardware.NAVX.getWorldLinearAccelY() };
         global_acc = SimpleMat.scaleVec(global_acc, 9.81);
 
-        double ang_vel = hardware.NAVX.getRate() * 2 * Math.PI / 360;
+        double ang_vel = hardware.NAVX.getRate() * -1 * 2 * Math.PI / 360;
 
         double[] a2 = state.kalman2Update(state.getAccVal(), state.getAccVar(), global_acc, Constants.IMU_ACC_VAR);
         double[] h2 = state.kalmanUpdate(state.getHeadingVal(), state.getHeadingVar(), heading, ang_var);

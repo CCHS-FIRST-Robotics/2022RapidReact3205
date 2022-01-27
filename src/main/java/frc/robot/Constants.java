@@ -136,7 +136,7 @@ public final class Constants {
 
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.02;
-    public static final double[] C_BASE_PID = { 0.002, 0.0002, 0 };
+    public static final double[] C_BASE_PID = { 0.01, 0.00001, 0.0 };
     public static final double INTERGRAL_HALFLIFE_T = 8;
 
 }
