@@ -120,6 +120,9 @@ public class SimpleMat {
         if (remainder > Math.PI) {
             remainder = remainder - 2 * Math.PI;
         }
+        if (remainder < -1 * Math.PI) {
+            remainder = remainder + 2 * Math.PI;
+        }
         return remainder;
     }
 
