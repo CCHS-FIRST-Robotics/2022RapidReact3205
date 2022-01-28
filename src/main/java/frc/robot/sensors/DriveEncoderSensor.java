@@ -19,11 +19,11 @@ public class DriveEncoderSensor extends BaseSensor {
         this.last_updated = sync_time;
     }
 
-    public boolean shouldUse(){
+    public boolean shouldUse() {
         return true;
     }
 
-    public void processValue(MainState state, HardwareObjects hardware){
+    public void processValue(MainState state, HardwareObjects hardware) {
         double fl_raw = hardware.FLD_MOTOR.getSelectedSensorVelocity(1);
         double fr_raw = hardware.FRD_MOTOR.getSelectedSensorVelocity(1);
         double bl_raw = hardware.BLD_MOTOR.getSelectedSensorVelocity(1);
@@ -38,14 +38,18 @@ public class DriveEncoderSensor extends BaseSensor {
         state.setBLRadss(bl_raw, Constants.VAR_RAD_VAR);
         state.setBRRadss(br_raw, Constants.VAR_RAD_VAR);
 
-        double[] pos_res =  state.kalman2Update(state.getPosVal(), state.getPosVar(), state.getWhlOPosVal(), state.getWhlOPosVar());
-        double[] vel_res = state.kalman2Update(state.getVelVal(), state.getVelVar(), state.getWhlOVelVal(), state.getWhlOVelVar());
-        double[] h_res = state.kalmanAngleUpdate(state.getHeadingVal(), state.getHeadingVar(), state.getWhlOHeadingVal(), state.getWhlOAngVelVar());
-        double[] avel_res = state.kalmanUpdate(state.getAngVelVal(), state.getAngVelVar(), state.getWhlOAngVelVal(), state.getWhlOAngVelVar());
-        double[] npos = {pos_res[0], pos_res[1]};
-        double[] nvel = {vel_res[0], vel_res[1]};
-        state.setPos(npos,pos_res[2]);
-        state.setVel(nvel,vel_res[2]);
+        double[] pos_res = state.kalman2Update(state.getPosVal(), state.getPosVar(), state.getWhlOPosVal(),
+                state.getWhlOPosVar());
+        double[] vel_res = state.kalman2Update(state.getVelVal(), state.getVelVar(), state.getWhlOVelVal(),
+                state.getWhlOVelVar());
+        double[] h_res = state.kalmanAngleUpdate(state.getHeadingVal(), state.getHeadingVar(),
+                state.getWhlOHeadingVal(), state.getWhlOAngVelVar());
+        double[] avel_res = state.kalmanUpdate(state.getAngVelVal(), state.getAngVelVar(), state.getWhlOAngVelVal(),
+                state.getWhlOAngVelVar());
+        double[] npos = { pos_res[0], pos_res[1] };
+        double[] nvel = { vel_res[0], vel_res[1] };
+        state.setPos(npos, pos_res[2]);
+        state.setVel(nvel, vel_res[2]);
         state.setHeading(h_res[0], h_res[1]);
         state.setAngVel(avel_res[0], avel_res[1]);
     }

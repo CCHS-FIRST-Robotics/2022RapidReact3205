@@ -27,7 +27,7 @@ public class AI {
     public AI() {
         this.current_state = States.CONTROLLER;
         this.controller_state = new Controller();
-        this.main_command = new Command(0, 0,0 ,0);
+        this.main_command = new Command(0, 0, 0, 0);
         this.autonomous = new Autonomous();
     }
 
@@ -46,7 +46,7 @@ public class AI {
                 main_command = this.autonomous.getCommands(state);
                 break;
             case DISABLED:
-                main_command = new Command(0, 0, 0 ,0 );
+                main_command = new Command(0, 0, 0, 0);
         }
         return main_command;
     }
@@ -65,8 +65,8 @@ public class AI {
         this.current_state = States.CONTROLLER;
     }
 
-    public void setAutonomousState() {
-        this.autonomous.init();
+    public void setAutonomousState(MainState state) {
+        this.autonomous.init(state);
         this.current_state = States.AUTONOMOUS;
     }
 }

@@ -12,7 +12,7 @@ public class Wheel {
     }
 
     public void predict(double dt, double heading, double[] acc, double ang_vel) {
-        this.Val.predict(dt, heading, acc , ang_vel);
+        this.Val.predict(dt, heading, acc, ang_vel);
         this.Var.predict(dt, this.Val.fl_radss, this.Val.fr_radss, this.Val.bl_radss, this.Val.br_radss);
         SmartDashboard.putNumber("FL rpm", this.Val.fl_radss * 30 / Math.PI);
         SmartDashboard.putNumber("FR rpm", this.Val.fr_radss * 30 / Math.PI);
@@ -60,12 +60,15 @@ public class Wheel {
 
             this.whl_o_angvel = 0;
         }
-        double[] computeVels( double[] acc, double ang_vel){
-            double[] wt = {this.fl_t, this.fr_t, this.bl_t, this.br_t};
+
+        double[] computeVels(double[] acc, double ang_vel) {
+            double[] wt = { this.fl_t, this.fr_t, this.bl_t, this.br_t };
             double q = 4 * Constants.WHEEL_MOI / (Constants.WHEEL_RADIUS * Constants.WHEEL_RADIUS);
-            double qvyw = -1 * (Constants.ROBOT_MASS + q) * acc[0] - (wt[1] + wt[2] - wt[0] - wt[3])/Constants.WHEEL_RADIUS;
-            double qvxw = -1 * (Constants.ROBOT_MASS + q) * acc[1] + (wt[1] + wt[2] + wt[0] + wt[3])/Constants.WHEEL_RADIUS;
-            double[] vel = {qvxw/(q*ang_vel),qvyw/(q * ang_vel)};
+            double qvyw = -1 * (Constants.ROBOT_MASS + q) * acc[0]
+                    - (wt[1] + wt[2] - wt[0] - wt[3]) / Constants.WHEEL_RADIUS;
+            double qvxw = -1 * (Constants.ROBOT_MASS + q) * acc[1]
+                    + (wt[1] + wt[2] + wt[0] + wt[3]) / Constants.WHEEL_RADIUS;
+            double[] vel = { qvxw / (q * ang_vel), qvyw / (q * ang_vel) };
             return vel;
         }
 
@@ -78,17 +81,21 @@ public class Wheel {
             double vside = r4 * (this.fl_radss - this.fr_radss - this.bl_radss + this.br_radss);
             double angvel = r4 * turn_denom * (this.fl_radss * -1 + this.fr_radss - this.bl_radss + this.br_radss);
             double theta = angvel * dt;
-            
+
             // experimental computeVels
-            double[] local_acc = SimpleMat.rot2d(acc, heading * -1);
-            double[] e_vel = computeVels(local_acc, ang_vel);
-            SmartDashboard.putNumberArray("Odo experimental vel", e_vel);
-            
+            double[] e_vel = { vside, vfwd };
+            if (ang_vel != 0) {
+                double[] local_acc = SimpleMat.rot2d(acc, heading * -1);
+                double[] ec_vel = computeVels(local_acc, ang_vel);
+                e_vel[0] = ec_vel[0];
+                e_vel[1] = ec_vel[1];
+                SmartDashboard.putNumberArray("Odo experimental vel", e_vel);
+            }
             // Local pos transform
 
             double[] xyl_disp = { 0, 0 };
             double tl_disp = 0;
-            SmartDashboard.putNumber("odo angvel",angvel);
+            SmartDashboard.putNumber("odo angvel", angvel);
             if (Math.abs(angvel) == 0) {
                 xyl_disp[0] = vside * dt;
                 xyl_disp[1] = vfwd * dt;
@@ -97,16 +104,16 @@ public class Wheel {
                 double[] r_vec = { vside / angvel, vfwd / angvel };
                 double[] A = { 0, 0 };
                 if (angvel < 0) {
-                    A[0] = 1 *r_vec[1];
+                    A[0] = 1 * r_vec[1];
                     A[1] = -1 * r_vec[0];
                 } else {
-                    A[0] = -1 * r_vec[1]; 
+                    A[0] = -1 * r_vec[1];
                     A[1] = 1 * r_vec[0];
-                } 
+                }
                 xyl_disp = SimpleMat.rot2d(SimpleMat.scaleVec(A, -1), theta);
-                xyl_disp = SimpleMat.add(A, xyl_disp); 
-                //xyl_disp[0] = (1 - Math.cos(theta)) * A[0] + Math.sin(theta) * A[1];
-                //xyl_disp[1] = (1 - Math.cos(theta)) * A[1] + Math.sin(theta) * A[0];
+                xyl_disp = SimpleMat.add(A, xyl_disp);
+                // xyl_disp[0] = (1 - Math.cos(theta)) * A[0] + Math.sin(theta) * A[1];
+                // xyl_disp[1] = (1 - Math.cos(theta)) * A[1] + Math.sin(theta) * A[0];
                 SimpleMat.scaleVec(xyl_disp, dt);
                 tl_disp = theta;
             }
