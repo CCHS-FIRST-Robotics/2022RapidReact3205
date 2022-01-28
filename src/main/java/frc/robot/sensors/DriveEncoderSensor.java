@@ -43,7 +43,7 @@ public class DriveEncoderSensor extends BaseSensor {
         double[] vel_res = state.kalman2Update(state.getVelVal(), state.getVelVar(), state.getWhlOVelVal(),
                 state.getWhlOVelVar());
         double[] h_res = state.kalmanAngleUpdate(state.getHeadingVal(), state.getHeadingVar(),
-                state.getWhlOHeadingVal(), state.getWhlOAngVelVar());
+                state.getWhlOHeadingVal(), state.getWhlOHeadingVar());
         double[] avel_res = state.kalmanUpdate(state.getAngVelVal(), state.getAngVelVar(), state.getWhlOAngVelVal(),
                 state.getWhlOAngVelVar());
         double[] npos = { pos_res[0], pos_res[1] };

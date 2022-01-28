@@ -101,7 +101,7 @@ public class Wheel {
                 xyl_disp[1] = vfwd * dt;
                 tl_disp = 0;
             } else {
-                double[] r_vec = { vside / angvel, vfwd / angvel };
+                double[] r_vec = { vside / Math.abs(angvel), vfwd / Math.abs(angvel) };
                 double[] A = { 0, 0 };
                 if (angvel < 0) {
                     A[0] = 1 * r_vec[1];
@@ -114,7 +114,7 @@ public class Wheel {
                 xyl_disp = SimpleMat.add(A, xyl_disp);
                 // xyl_disp[0] = (1 - Math.cos(theta)) * A[0] + Math.sin(theta) * A[1];
                 // xyl_disp[1] = (1 - Math.cos(theta)) * A[1] + Math.sin(theta) * A[0];
-                SimpleMat.scaleVec(xyl_disp, dt);
+                //SimpleMat.scaleVec(xyl_disp, dt);
                 tl_disp = theta;
             }
             theta = SimpleMat.angleRectifier(theta);
@@ -168,7 +168,7 @@ public class Wheel {
             double a_pwr_prop = (Math.abs(fl) * this.fl_radss + Math.abs(fr) * this.fr_radss
                     + Math.abs(bl) * this.bl_radss + Math.abs(br) * this.br_radss);
             this.whl_o_vel = Constants.WHEEL_RADIUS * a_pwr_prop / 4;
-            this.whl_o_angvel = Constants.WHEEL_RADIUS * (2 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH))
+            this.whl_o_angvel = 10000000 * Constants.WHEEL_RADIUS * (2 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH))
                     * a_pwr_prop / 4;
             this.whl_o_pos = this.whl_o_pos + this.whl_o_vel * dt;
             this.whl_o_heading = this.whl_o_heading + this.whl_o_angvel * dt;

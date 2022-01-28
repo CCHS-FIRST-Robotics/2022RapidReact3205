@@ -27,10 +27,12 @@ public class Travel {
 
     public Travel(double[] target_pos, double target_heading, double max_prop) {
 
-        this.v_max = max_prop * (Math.sqrt(2) / 2) * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI
+        this.v_max = max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI
                 / 60;
-        this.a_max = max_prop * 2 * Math.sqrt(2) * Constants.MOTOR_MAX_TORQUE
+        this.a_max = max_prop * 4 * Constants.MOTOR_MAX_TORQUE
                 / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
+        SmartDashboard.putNumber("vmax",this.v_max);
+        SmartDashboard.putNumber("amax",this.a_max);
         this.v_contr = new FwdController(this.v_max, this.a_max);
 
         this.angvel_max = max_prop * Constants.ROBOT_WIDTH * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * Math.PI
@@ -85,14 +87,15 @@ public class Travel {
         double current_vel = SimpleMat.dot(direction_vec, state.getVelVal());
         double target_v = this.v_contr.update(current_vel, adist);
 
-        double current_v_max = Math.abs(this.angvel_max * tdist / (2 * Math.sin(theta / 2)));
-        target_v = Math.min(target_v, current_v_max);
+        //double current_v_max = Math.abs(this.angvel_max * tdist / (2 * Math.sin(theta / 2)));
+        //target_v = Math.min(target_v, current_v_max);
 
         double target_ang_vel = 2 * (target_v / tdist) * Math.sin(theta / 2);
         double[] local_vel = SimpleMat.rot2d(direction_vec, -1 * state.getHeadingVal());
         local_vel = SimpleMat.scaleVec(local_vel, target_v);
 
         double[] whl_array = MecanumIK.mecanumIK(local_vel, target_ang_vel);
+        
 
         double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
         double frr = this.fr.update(whl_array[1] - state.getFRRadssVal());
@@ -100,7 +103,8 @@ public class Travel {
         double brr = this.br.update(whl_array[3] - state.getBRRadssVal());
 
         SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
-        SmartDashboard.putNumber("Travel/Desired Target V", target_v);
+        SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
+        SmartDashboard.putNumber("Travel/theta", theta);
         SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
 
         // return new Command(0, 0, 0, 0);

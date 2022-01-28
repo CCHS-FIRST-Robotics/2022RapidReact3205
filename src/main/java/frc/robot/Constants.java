@@ -86,7 +86,7 @@ public final class Constants {
 
     public static final double MOTOR_MAX_TORQUE = 2.41 * GEAR_RATIO;
 
-    public static final double MOTOR_MAX_RPM = 5330 / GEAR_RATIO;
+    public static final double MOTOR_MAX_RPM = 1*5330 / GEAR_RATIO;
 
     public static final double MOTOR_PROP_VAR = 0.1;
 

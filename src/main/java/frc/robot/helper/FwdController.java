@@ -67,10 +67,10 @@ public class FwdController {
             dir = -1;
         }
         double acc = getAcc(x * dir, current_v * dir) * dir;
-        double radpss = acc / Constants.WHEEL_RADIUS;
-        target_v = target_v + radpss * dt;
-        target_v = Math.min(this.v_max, Math.max(-1 * this.v_max, target_v));
-        SmartDashboard.putNumber("C Target Radss", target_v);
+        this.target_v = this.target_v + acc * dt;
+        SmartDashboard.putNumber("FWDC x", target_v);
+        this.target_v = Math.min(this.v_max, Math.max(-1 * this.v_max, target_v));
+        
         return target_v;
     }
 }
