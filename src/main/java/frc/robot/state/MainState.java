@@ -7,7 +7,7 @@ public class MainState {
     Wheel Whl = new Wheel();
 
     public void predict(double dt) {
-        this.Whl.predict(dt, this.Phy.Val.heading);
+        this.Whl.predict(dt, this.Phy.Val.heading, this.Phy.Val.acc, this.Phy.Val.ang_vel);
         this.Phy.predict(dt);
     }
 
