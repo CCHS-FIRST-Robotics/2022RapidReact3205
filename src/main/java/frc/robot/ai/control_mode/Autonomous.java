@@ -12,12 +12,12 @@ public class Autonomous {
         ROTATE
     }
 
-    Methods[] cmdlist = { Methods.TRAVEL , Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.ROTATE};
-    double[][] coords = { { 1, 1, Math.PI/4 } , {0,1,0}, {0,0,0}, {0,-1,-1*Math.PI/4}, {0, 0, 0}};
+    Methods[] cmdlist = { Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.ROTATE };
+    double[][] coords = { { 1, 1, Math.PI / 4 }, { 0, 1, 0 }, { 0, 0, 0 }, { 0, -1, -1 * Math.PI / 4 }, { 0, 0, 0 } };
     int current_step = 0;
 
     // One for each method
-    Travel travel;
+    SimpleTravel travel;
     TurnToPoint rotate;
 
     public Autonomous() {
@@ -33,7 +33,7 @@ public class Autonomous {
         switch (this.cmdlist[this.current_step]) {
             case TRAVEL:
                 double[] pos = { coords[this.current_step][0], coords[this.current_step][1] };
-                this.travel = new Travel(pos, coords[this.current_step][2], 1);
+                this.travel = new SimpleTravel(pos, coords[this.current_step][2], 1);
                 this.travel.init(state);
                 break;
             case ROTATE:
