@@ -18,12 +18,15 @@ public class TurnToPoint {
     double max_prop = 1;
     double angvel_max;
     double angacc_max;
+    double init_dtheta;
     FwdController velcontr;
+    double stime;
 
     public TurnToPoint(double[] tvec, double max_prop) {
         this.tpos[0] = tvec[0];
         this.tpos[1] = tvec[1];
         this.max_prop = max_prop;
+        this.stime = (double) System.currentTimeMillis()/1000;
 
         this.angvel_max = max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 4 * Math.PI
                 / (60 * Constants.ROBOT_WIDTH);
@@ -53,10 +56,19 @@ public class TurnToPoint {
 
         return pwr_cmd;
     }
+    public void init(MainState main_state){
+        this.init_dtheta = getTheta(main_state);
+        this.stime = (double) System.currentTimeMillis()/1000;
+    }
 
     public boolean exit(MainState main_state) {
         double remaining = Math.abs(getTheta(main_state));
         if (remaining < Constants.ACCEPTABLE_ANGLE_ERROR) {
+            return true;
+        }
+        double ctime = (double) System.currentTimeMillis()/1000;
+        double time_limit = this.init_dtheta / (this.angvel_max * 0.1);
+        if ((ctime - stime) > time_limit){
             return true;
         }
         return false;
