@@ -13,6 +13,7 @@ import frc.robot.state.MainState;
 import frc.robot.commands.UpdateState;
 import frc.robot.sensors.DriveEncoderSensor;
 import frc.robot.sensors.NAVXSensor;
+import frc.robot.sensors.NAVXAccumSensor;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
 import frc.robot.map.Map;
@@ -38,7 +39,7 @@ public class RobotContainer {
   public Command main_command = new Command(0, 0, 0, 0);
   public HardwareObjects hardware;
   public Network network;
-
+  public NAVXAccumSensor navx_accum;
   double log;
 
   /**
@@ -55,6 +56,7 @@ public class RobotContainer {
     this.hardware = new HardwareObjects();
     this.network = new Network();
     this.main_state = this.map.initialize(this.hardware);
+    this.navx_accum = new NAVXAccumSensor(this.main_state, this.hardware, SYNC_TIME);
 
     reset();
   }
@@ -70,6 +72,7 @@ public class RobotContainer {
     this.main_command = new Command(0, 0, 0, 0);
     this.main_state = this.map.initialize(this.hardware);
     this.network.init(SYNC_TIME);
+    this.navx_accum.reset(this.main_state, this.hardware);
   }
 
   /**
@@ -86,6 +89,9 @@ public class RobotContainer {
     }
     if (this.navx_sensor.shouldUse()) {
       this.navx_sensor.processValue(this.main_state, this.hardware);
+    }
+    if (this.navx_accum.shouldUse()) {
+      this.navx_accum.processValue(this.main_state, this.hardware);
     }
 
     this.main_state.predict(Constants.MAIN_DT);

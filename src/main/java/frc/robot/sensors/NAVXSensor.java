@@ -20,14 +20,14 @@ public class NAVXSensor extends BaseSensor {
         return true;
     }
 
-    public void reset(HardwareObjects hardware) {
+    public void reset(double angle, HardwareObjects hardware) {
         hardware.NAVX.reset();
         hardware.NAVX.calibrate();
         while (hardware.NAVX.isCalibrating()) {
 
         }
         hardware.NAVX.zeroYaw();
-        hardware.NAVX.setAngleAdjustment(0);
+        hardware.NAVX.setAngleAdjustment(angle);
     }
 
     void updateHeadingVar() {
@@ -46,7 +46,7 @@ public class NAVXSensor extends BaseSensor {
         double[] global_acc = { hardware.NAVX.getWorldLinearAccelX(), hardware.NAVX.getWorldLinearAccelY() };
         global_acc = SimpleMat.scaleVec(global_acc, 9.81);
 
-        double ang_vel = hardware.NAVX.getRate() * -1 * 2 * Math.PI / 360;
+        double ang_vel = hardware.NAVX.getRawGyroZ() * -1 * 2 * Math.PI / 360;
 
         double[] a2 = state.kalman2Update(state.getAccVal(), state.getAccVar(), global_acc, Constants.IMU_ACC_VAR);
         double[] h2 = state.kalmanUpdate(state.getHeadingVal(), state.getHeadingVar(), heading, ang_var * 0.01);

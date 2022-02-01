@@ -8,7 +8,13 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SimpleTravel extends Travel {
+    double stime;
+    double init_dist;
+
     public SimpleTravel(double[] target_pos, double target_heading, double max_prop) {
+
+        this.stime = (double) System.currentTimeMillis() / 1000;
+        this.init_dist = 10;
 
         this.v_max = max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI
                 / 60;
@@ -35,6 +41,9 @@ public class SimpleTravel extends Travel {
     public void init(MainState state) {
         this.ipos[0] = state.getPosVal()[0];
         this.ipos[1] = state.getPosVal()[1];
+
+        this.stime = (double) System.currentTimeMillis() / 1000;
+        this.init_dist = getAdist(state);
     }
 
     public boolean exit(MainState state) {
@@ -50,6 +59,11 @@ public class SimpleTravel extends Travel {
             if (tdist < 0.5) {
                 return true;
             }
+        }
+        double ctime = (double) System.currentTimeMillis() / 1000;
+        double time_limit = this.init_dist / (this.v_max * 0.1);
+        if ((ctime - stime) > time_limit) {
+            return true;
         }
         return false;
     }

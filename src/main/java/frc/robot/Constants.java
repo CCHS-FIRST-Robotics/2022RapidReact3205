@@ -71,7 +71,7 @@ public final class Constants {
     public static final double DELTA_VAR = 0.0001;
     public static final double MAX_HEADING_VAR = 0.2 * 0.2;
 
-    public static final double IMU_ACC_VAR = 4;
+    public static final double IMU_ACC_VAR = 0.3 * 0.3;
     // ==================
     // TIME CONSTANTS
     // ==================
@@ -86,7 +86,7 @@ public final class Constants {
 
     public static final double MOTOR_MAX_TORQUE = 2.41 * GEAR_RATIO;
 
-    public static final double MOTOR_MAX_RPM = 1*5330 / GEAR_RATIO;
+    public static final double MOTOR_MAX_RPM = 1 * 5330 / GEAR_RATIO;
 
     public static final double MOTOR_PROP_VAR = 0.1;
 

@@ -25,6 +25,18 @@ public class Travel {
 
     double[] ipos = { 0, 0 };
 
+    double getAdist(MainState state) {
+        double theta = this.thead - state.getHeadingVal();
+        double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
+        double adist;
+        if (theta == 0) {
+            adist = tdist;
+        } else {
+            adist = theta * tdist / (2 * Math.sin(theta / 2));
+        }
+        return adist;
+    }
+
     public Command update(MainState state) {
         double theta = this.thead - state.getHeadingVal();
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));

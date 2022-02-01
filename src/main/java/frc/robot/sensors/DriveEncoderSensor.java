@@ -29,7 +29,7 @@ public class DriveEncoderSensor extends BaseSensor {
         double bl_raw = hardware.BLD_MOTOR.getSelectedSensorVelocity(1);
         double br_raw = hardware.BRD_MOTOR.getSelectedSensorVelocity(1);
         SmartDashboard.putNumber("fl raw", fl_raw);
-        double dps2rads = 0.147 * 2 * Math.PI / 60;
+        double dps2rads = 10 * 2 * Math.PI / 4096;
         fl_raw = fl_raw * dps2rads * -1;
         fr_raw = fr_raw * dps2rads * 1;
         bl_raw = bl_raw * dps2rads * -1;
