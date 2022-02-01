@@ -18,7 +18,7 @@ public class SimpleTravel extends Travel {
 
         this.v_max = max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI
                 / 60;
-        this.a_max = max_prop * 4 * Constants.MOTOR_MAX_TORQUE
+        this.a_max = 0.8 * max_prop * 4 * Constants.MOTOR_MAX_TORQUE
                 / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
         SmartDashboard.putNumber("vmax", this.v_max);
         SmartDashboard.putNumber("amax", this.a_max);
@@ -48,21 +48,31 @@ public class SimpleTravel extends Travel {
 
     public boolean exit(MainState state) {
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
-        if (tdist < 0.1) {
-            return true;
+        if (tdist < 0.05) {
+            if (Math.abs(state.getHeadingVal() - thead) < 0.05){
+                return true;
+            }
         }
         double[] tdiff = SimpleMat.subtract(state.getPosVal(), this.tpos);
         tdiff = SimpleMat.unitVec(tdiff);
         double[] sdiff = SimpleMat.subtract(this.ipos, this.tpos);
         sdiff = SimpleMat.unitVec(sdiff);
-        if (SimpleMat.dot(tdiff, sdiff) < Math.cos(Math.PI * 0.25)) {
-            if (tdist < 0.5) {
-                return true;
+        if (SimpleMat.dot(tdiff, sdiff) < Math.cos(Math.PI * 0.125)) {
+            if (tdist < 0.1) {
+                if (Math.abs(state.getHeadingVal() - thead) < 0.05){
+                    return true;
+                }
             }
         }
         double ctime = (double) System.currentTimeMillis() / 1000;
-        double time_limit = this.init_dist / (this.v_max * 0.1);
+        double time_limit = this.init_dist / (this.v_max * 0.01);
         if ((ctime - stime) > time_limit) {
+            //return true;
+        }
+
+        double vel_mag = SimpleMat.mag(state.getVelVal()) + SimpleMat.mag(state.getAccVal()) * Constants.MAIN_DT;
+        double avel_mag = Math.abs(state.getAngVelVal()) + Math.abs(state.getAngAccVal()) * Constants.MAIN_DT;
+        if (vel_mag < 0.1 && avel_mag < 0.1 && tdist < 0.2) {
             return true;
         }
         return false;

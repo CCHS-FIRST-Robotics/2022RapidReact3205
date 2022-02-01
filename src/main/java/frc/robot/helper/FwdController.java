@@ -67,10 +67,18 @@ public class FwdController {
             dir = -1;
         }
         double acc = getAcc(x * dir, current_v * dir) * dir;
+        SmartDashboard.putNumber("FwdCont/acc",acc);
         this.target_v = this.target_v + acc * dt;
         SmartDashboard.putNumber("FWDC x", target_v);
         this.target_v = Math.min(this.v_max, Math.max(-1 * this.v_max, target_v));
-        
+        if (Math.abs(this.target_v) < 0.02 * this.v_max){
+            if (this.target_v > 0){
+                this.target_v = 0.02 * this.v_max;
+            }
+            else{
+                this.target_v = -0.02 * this.v_max;
+            }
+        }
         return target_v;
     }
 }

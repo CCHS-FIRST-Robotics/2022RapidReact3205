@@ -14,6 +14,8 @@ public class TurnToPoint {
     PID bl;
     PID br;
 
+    PID turn;
+
     double[] tpos = { 0, 0 };
     double max_prop = 1;
     double angvel_max;
@@ -44,6 +46,8 @@ public class TurnToPoint {
         this.fr = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.bl = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.br = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+
+        this.turn = new PID(2,100,0.0);
     }
 
     double getTheta(MainState main_state) {
@@ -68,16 +72,17 @@ public class TurnToPoint {
             return true;
         }
         double ctime = (double) System.currentTimeMillis() / 1000;
-        double time_limit = this.init_dtheta / (this.angvel_max * 0.1);
+        double time_limit = this.init_dtheta / (this.angvel_max * 0.0001);
         if ((ctime - stime) > time_limit) {
-            return true;
+            //return true;
         }
         return false;
     }
 
     public Command update(MainState state) {
         double dtheta = getTheta(state);
-        double target_avel = this.velcontr.update(state.getAngVelVal(), dtheta);
+        //double target_avel = this.velcontr.update(state.getAngVelVal(), dtheta);
+        double target_avel = Math.max(Math.min(this.turn.update(dtheta), this.angvel_max), this.angvel_max * -1);
 
         SmartDashboard.putNumber("turn/dtheta", dtheta);
 
@@ -86,6 +91,7 @@ public class TurnToPoint {
 
         SmartDashboard.putNumber("turn/tavel", target_avel);
         SmartDashboard.putNumber("turn/avel_max", this.angvel_max);
+        SmartDashboard.putNumber("turn/aacc_max", this.angacc_max);
         SmartDashboard.putNumberArray("turn/whl arr", whl_array);
 
         double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());

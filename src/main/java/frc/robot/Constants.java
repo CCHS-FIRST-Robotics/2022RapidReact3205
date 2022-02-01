@@ -71,7 +71,7 @@ public final class Constants {
     public static final double DELTA_VAR = 0.0001;
     public static final double MAX_HEADING_VAR = 0.2 * 0.2;
 
-    public static final double IMU_ACC_VAR = 0.3 * 0.3;
+    public static final double IMU_ACC_VAR = 0.1 * 0.1;
     // ==================
     // TIME CONSTANTS
     // ==================
@@ -136,7 +136,7 @@ public final class Constants {
 
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.02;
-    public static final double[] C_BASE_PID = { 0.01, 0.1, 0.0001 };
-    public static final double INTERGRAL_HALFLIFE_T = 3;
+    public static final double[] C_BASE_PID = { 0.015, 0.1, 0.0005 };
+    public static final double INTERGRAL_HALFLIFE_T = 10;
 
 }

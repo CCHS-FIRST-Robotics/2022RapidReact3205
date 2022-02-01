@@ -34,7 +34,7 @@ public class NAVXAccumSensor extends BaseSensor {
         // not moving
         double vel_mag = SimpleMat.mag(state.getVelVal()) + SimpleMat.mag(state.getAccVal()) * Constants.MAIN_DT;
         double avel_mag = Math.abs(state.getAngVelVal()) + Math.abs(state.getAngAccVal()) * Constants.MAIN_DT;
-        if (vel_mag < 0.1 && avel_mag < 0.1) {
+        if (vel_mag < 0.2 && avel_mag < 0.2) {
             return true;
         }
         return false;

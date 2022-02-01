@@ -12,8 +12,8 @@ public class Autonomous {
         ROTATE
     }
 
-    Methods[] cmdlist = { Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.ROTATE };
-    double[][] coords = { { 1, 1, Math.PI / 4 }, { 0, 1, 0 }, { 0, 0, 0 }, { 0, -1, -1 * Math.PI / 4 }, { 0, 0, 0 } };
+    Methods[] cmdlist = { Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.ROTATE, Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL };
+    double[][] coords = { { 1, 1, Math.PI / 4 }, { 0, 1, 0 }, { 0, 0, 0 }, { 0, -1, -1 * Math.PI / 4 }, { 0, 0, 0 }, {-2,2,Math.PI/4}, {-1, 1, 0}, {0, 0, 0} };
     int current_step = 0;
 
     // One for each method
