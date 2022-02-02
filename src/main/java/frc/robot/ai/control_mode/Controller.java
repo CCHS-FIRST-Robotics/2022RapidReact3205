@@ -1,4 +1,5 @@
 package frc.robot.ai.control_mode;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,28 +16,35 @@ import frc.robot.commands.Command;
 
 public class Controller {
     XboxController xbox = new XboxController(Constants.XBOX_PORT);
-    
+
+    Curve sfr_curve;
+    Curve sfl_curve;
+
     PID fl_pid;
     PID fr_pid;
     PID bl_pid;
     PID br_pid;
 
     public Controller() {
-        this.fl_pid = new PID(Constants.C_BASE_PID[0],Constants.C_BASE_PID[1],Constants.C_BASE_PID[2]);
-        this.fr_pid = new PID(Constants.C_BASE_PID[0],Constants.C_BASE_PID[1],Constants.C_BASE_PID[2]);
-        this.bl_pid = new PID(Constants.C_BASE_PID[0],Constants.C_BASE_PID[1],Constants.C_BASE_PID[2]);
-        this.br_pid = new PID(Constants.C_BASE_PID[0],Constants.C_BASE_PID[1],Constants.C_BASE_PID[2]);
+        this.sfr_curve = new Curve(Constants.SLOW_CURVE[0], Constants.SLOW_CURVE[1], Constants.SLOW_CURVE[2]);
+        this.sfl_curve = new Curve(Constants.SLOW_CURVE[0], Constants.SLOW_CURVE[1], Constants.SLOW_CURVE[2]);
+
+        this.fl_pid = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr_pid = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl_pid = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br_pid = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
     }
-    public Command getCommands(MainState state){
+
+    public Command getCommands(MainState state) {
         double lr_strafe = xbox.getLeftX();
         double fb_1 = xbox.getLeftY();
-        double lr_turn = xbox.getRightX();
-        double fb_2 = xbox.getRightY();
+        double lr_turn = sfl_curve.getProp(xbox.getRightX());
+        double fb_2 = sfr_curve.getProp(xbox.getRightY());
 
-        double flt = -1*fb_1 - fb_2 + lr_turn + lr_strafe;
-        double frt = -1*fb_1 - fb_2 - lr_turn - lr_strafe;
-        double blt = -1*fb_1 - fb_2 + lr_turn - lr_strafe;
-        double brt = -1*fb_1 - fb_2 - lr_turn + lr_strafe;
+        double flt = -1 * fb_1 - fb_2 + lr_turn + lr_strafe;
+        double frt = -1 * fb_1 - fb_2 - lr_turn - lr_strafe;
+        double blt = -1 * fb_1 - fb_2 + lr_turn - lr_strafe;
+        double brt = -1 * fb_1 - fb_2 - lr_turn + lr_strafe;
 
         flt = Math.min(1, Math.max(-1, flt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         frt = Math.min(1, Math.max(-1, frt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
@@ -54,7 +62,7 @@ public class Controller {
         double brr = this.br_pid.update(brd);
 
         Command command = new Command(flr, frr, blr, brr);
-        //Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
+        // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;
     }
 }

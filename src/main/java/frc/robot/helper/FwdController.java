@@ -5,9 +5,9 @@ import frc.robot.Constants;
 import frc.robot.state.MainState;
 
 public class FwdController {
-    double v_max = 0.5 * Constants.MOTOR_MAX_RPM * 2 * Math.PI * Constants.WHEEL_RADIUS / 60;
-    double a_max = 0.5 * (2 * Constants.MOTOR_MAX_TORQUE / Constants.WHEEL_RADIUS) / Constants.ROBOT_MASS;
-    double jerk = 3;
+    double v_max;
+    double a_max;
+    double jerk;
 
     double target_v = 0;
 
@@ -18,12 +18,18 @@ public class FwdController {
     public FwdController(double v_max, double a_max) {
         this.v_max = v_max;
         this.a_max = a_max;
+        this.jerk = a_max / 1;
         this.target_v = 0;
         this.whl_c = new PID(Constants.C_BASE_GAIN, Constants.C_BASE_GAIN * 0.1, Constants.C_BASE_GAIN * 0.001);
         reset();
     }
 
     double getAcc(double clean_x, double clean_v) {
+        // too short
+        double min_dist = (2 * this.a_max * this.v_max / this.jerk) - (clean_v * clean_v) / (2 * this.a_max);
+        if (clean_x > min_dist) {
+            return this.a_max;
+        }
         // Check if its too far
         if (Math.pow(clean_x / this.a_max, 0.5) < clean_x / this.v_max) {
             return this.a_max;
@@ -67,18 +73,17 @@ public class FwdController {
             dir = -1;
         }
         double acc = getAcc(x * dir, current_v * dir) * dir;
-        SmartDashboard.putNumber("FwdCont/acc",acc);
+        SmartDashboard.putNumber("FwdCont/acc", acc);
         this.target_v = this.target_v + acc * dt;
         SmartDashboard.putNumber("FWDC x", target_v);
         this.target_v = Math.min(this.v_max, Math.max(-1 * this.v_max, target_v));
-        if (Math.abs(this.target_v) < 0.02 * this.v_max){
-            if (this.target_v > 0){
+        if (Math.abs(this.target_v) < 0.02 * this.v_max) {
+            if (this.target_v > 0) {
                 this.target_v = 0.02 * this.v_max;
-            }
-            else{
+            } else {
                 this.target_v = -0.02 * this.v_max;
             }
         }
-        return target_v;
+        return this.target_v;
     }
 }
