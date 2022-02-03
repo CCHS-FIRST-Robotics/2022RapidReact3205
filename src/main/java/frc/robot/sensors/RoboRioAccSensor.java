@@ -7,6 +7,8 @@ import frc.robot.helper.SimpleMat;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RoboRioAccSensor extends BaseSensor {
+    double[] zero = { 0, 0 };
+
     public RoboRioAccSensor(double SYNC_TIME) {
         this.SYNC_TIME = SYNC_TIME;
     }
@@ -15,9 +17,21 @@ public class RoboRioAccSensor extends BaseSensor {
         return true;
     }
 
+    public void reset(HardwareObjects hardware) {
+        double[] acc_vec = { hardware.RR_ACC.getX(), hardware.RR_ACC.getY() };
+        acc_vec = SimpleMat.scaleVec(acc_vec, Constants.GRAV_ACC);
+        this.zero[0] = 0;
+        this.zero[1] = 0;
+        for (int i = 0; i < 10; i++) {
+            this.zero = SimpleMat.add(this.zero, acc_vec);
+        }
+        this.zero = SimpleMat.scaleVec(this.zero, -0.1);
+    }
+
     public void processValue(MainState state, HardwareObjects hardware) {
         double[] acc_vec = { hardware.RR_ACC.getX(), hardware.RR_ACC.getY() };
         acc_vec = SimpleMat.scaleVec(acc_vec, Constants.GRAV_ACC);
+        acc_vec = SimpleMat.add(acc_vec, this.zero);
 
         SmartDashboard.putNumberArray("RR Acc/RR Acc", acc_vec);
 

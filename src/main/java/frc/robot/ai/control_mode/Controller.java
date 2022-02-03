@@ -41,6 +41,15 @@ public class Controller {
         double lr_turn = sfl_curve.getProp(xbox.getRightX());
         double fb_2 = sfr_curve.getProp(xbox.getRightY());
 
+        double intake = xbox.getLeftTriggerAxis();
+        double storage = xbox.getRightTriggerAxis();
+        if (xbox.getLeftBumperPressed()) {
+            intake = intake * -1;
+        }
+        if (xbox.getRightBumperPressed()) {
+            storage = storage * -1;
+        }
+
         double flt = -1 * fb_1 - fb_2 + lr_turn + lr_strafe;
         double frt = -1 * fb_1 - fb_2 - lr_turn - lr_strafe;
         double blt = -1 * fb_1 - fb_2 + lr_turn - lr_strafe;
@@ -61,7 +70,8 @@ public class Controller {
         double blr = this.bl_pid.update(bld);
         double brr = this.br_pid.update(brd);
 
-        Command command = new Command(flr, frr, blr, brr);
+        double[] ocmd = { flr, frr, blr, brr, intake, storage };
+        Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;
     }

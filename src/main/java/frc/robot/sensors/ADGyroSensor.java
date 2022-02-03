@@ -6,6 +6,7 @@ import frc.robot.state.MainState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ADGyroSensor extends BaseSensor {
+
     public ADGyroSensor(double SYNC_TIME) {
         this.SYNC_TIME = SYNC_TIME;
     }

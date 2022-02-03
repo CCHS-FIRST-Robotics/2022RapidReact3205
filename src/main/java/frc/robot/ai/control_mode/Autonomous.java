@@ -1,5 +1,6 @@
 package frc.robot.ai.control_mode;
 
+import frc.robot.Constants;
 import frc.robot.ai.subroutines.*;
 import frc.robot.commands.*;
 import frc.robot.state.MainState;
@@ -49,9 +50,9 @@ public class Autonomous {
 
     public Command getCommands(MainState state) {
         if (this.current_step + 1 > this.cmdlist.length) {
-            return new Command(0, 0, 0, 0);
+            return new Command(Constants.DEFAULT_CMD);
         }
-        Command main_cmd = new Command(0, 0, 0, 0);
+        Command main_cmd = new Command(Constants.DEFAULT_CMD);
         boolean exit = false;
         switch (this.cmdlist[this.current_step]) {
             case TRAVEL:
@@ -68,7 +69,7 @@ public class Autonomous {
             this.current_step++;
         }
         if (this.current_step + 1 > this.cmdlist.length) {
-            return new Command(0, 0, 0, 0);
+            return new Command(Constants.DEFAULT_CMD);
         } else {
             setMethods(state);
         }

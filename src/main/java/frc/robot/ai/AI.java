@@ -1,6 +1,7 @@
 package frc.robot.ai;
 
 import frc.robot.state.*;
+import frc.robot.Constants;
 import frc.robot.ai.control_mode.*;
 import frc.robot.commands.*;
 
@@ -16,7 +17,7 @@ public class AI {
 
     public States current_state = States.CONTROLLER;
     public Controller controller_state = new Controller();
-    public Command main_command = new Command(0, 0, 0, 0);
+    public Command main_command = new Command(Constants.DEFAULT_CMD);
     // public AutonomousTestDrive autonomousTestDrive = new AutonomousTestDrive();
     // public AutonomousTravel autonomous;
     public Autonomous autonomous;
@@ -27,7 +28,7 @@ public class AI {
     public AI() {
         this.current_state = States.CONTROLLER;
         this.controller_state = new Controller();
-        this.main_command = new Command(0, 0, 0, 0);
+        this.main_command = new Command(Constants.DEFAULT_CMD);
         this.autonomous = new Autonomous();
     }
 
@@ -46,7 +47,7 @@ public class AI {
                 main_command = this.autonomous.getCommands(state);
                 break;
             case DISABLED:
-                main_command = new Command(0, 0, 0, 0);
+                main_command = new Command(Constants.DEFAULT_CMD);
         }
         return main_command;
     }

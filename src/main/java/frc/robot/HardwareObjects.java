@@ -17,6 +17,10 @@ public class HardwareObjects {
     public TalonSRX FRD_MOTOR;
     public TalonSRX BLD_MOTOR;
     public TalonSRX BRD_MOTOR;
+
+    public TalonSRX INTAKE_MOTOR;
+    public TalonSRX STORAGE_1_MOTOR;
+
     public PigeonIMU IMU;
     public AHRS NAVX;
     public ADXRS450_Gyro AD_GYRO;
@@ -30,6 +34,10 @@ public class HardwareObjects {
         this.FRD_MOTOR = new WPI_TalonSRX(Constants.FR_TALON_PORT);
         this.BLD_MOTOR = new WPI_TalonSRX(Constants.BL_TALON_PORT);
         this.BRD_MOTOR = new WPI_TalonSRX(Constants.BR_TALON_PORT);
+
+        this.INTAKE_MOTOR = new WPI_TalonSRX(Constants.INTAKE_TALON_PORT);
+        this.STORAGE_1_MOTOR = new WPI_TalonSRX(Constants.STORAGE_1_TALON_PORT);
+
         this.NAVX = new AHRS();
         // IMU = new PigeonIMU(RIGHT_MOTOR2);
 
@@ -37,6 +45,9 @@ public class HardwareObjects {
         this.FRD_MOTOR.configFactoryDefault();
         this.BLD_MOTOR.configFactoryDefault();
         this.BRD_MOTOR.configFactoryDefault();
+
+        this.INTAKE_MOTOR.configFactoryDefault();
+        this.STORAGE_1_MOTOR.configFactoryDefault();
         // IMU.configFactoryDefault();
         // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
         this.NAVX.reset();
