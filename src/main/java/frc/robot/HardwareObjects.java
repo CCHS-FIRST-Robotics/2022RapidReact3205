@@ -3,6 +3,9 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.sensors.*;
 import com.kauailabs.navx.frc.*;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /**
  * Class that contains and initializes for all hardware objects
@@ -16,6 +19,8 @@ public class HardwareObjects {
     public TalonSRX BRD_MOTOR;
     public PigeonIMU IMU;
     public AHRS NAVX;
+    public ADXRS450_Gyro AD_GYRO;
+    public Accelerometer RR_ACC;
 
     /**
      * Constructor for HardwareObjects. Handles creation and initialization.
@@ -26,21 +31,26 @@ public class HardwareObjects {
         this.BLD_MOTOR = new WPI_TalonSRX(Constants.BL_TALON_PORT);
         this.BRD_MOTOR = new WPI_TalonSRX(Constants.BR_TALON_PORT);
         this.NAVX = new AHRS();
-        //IMU = new PigeonIMU(RIGHT_MOTOR2);
+        // IMU = new PigeonIMU(RIGHT_MOTOR2);
 
         this.FLD_MOTOR.configFactoryDefault();
         this.FRD_MOTOR.configFactoryDefault();
         this.BLD_MOTOR.configFactoryDefault();
         this.BRD_MOTOR.configFactoryDefault();
-        //IMU.configFactoryDefault();
-        //IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+        // IMU.configFactoryDefault();
+        // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
         this.NAVX.reset();
         this.NAVX.calibrate();
-        while (this.NAVX.isCalibrating()){
+        while (this.NAVX.isCalibrating()) {
 
         }
         this.NAVX.zeroYaw();
         this.NAVX.setAngleAdjustment(0);
+
+        this.AD_GYRO = new ADXRS450_Gyro();
+        this.AD_GYRO.calibrate();
+
+        this.RR_ACC = new BuiltInAccelerometer();
 
     }
 }

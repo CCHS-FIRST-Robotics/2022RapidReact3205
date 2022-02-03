@@ -49,7 +49,7 @@ public class SimpleTravel extends Travel {
     public boolean exit(MainState state) {
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
         if (tdist < 0.05) {
-            if (Math.abs(state.getHeadingVal() - thead) < 0.05){
+            if (Math.abs(state.getHeadingVal() - thead) < 0.1) {
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public class SimpleTravel extends Travel {
         sdiff = SimpleMat.unitVec(sdiff);
         if (SimpleMat.dot(tdiff, sdiff) < Math.cos(Math.PI * 0.125)) {
             if (tdist < 0.1) {
-                if (Math.abs(state.getHeadingVal() - thead) < 0.05){
+                if (Math.abs(state.getHeadingVal() - thead) < 0.1) {
                     return true;
                 }
             }
@@ -67,7 +67,7 @@ public class SimpleTravel extends Travel {
         double ctime = (double) System.currentTimeMillis() / 1000;
         double time_limit = this.init_dist / (this.v_max * 0.01);
         if ((ctime - stime) > time_limit) {
-            //return true;
+            // return true;
         }
 
         double vel_mag = SimpleMat.mag(state.getVelVal()) + SimpleMat.mag(state.getAccVal()) * Constants.MAIN_DT;
