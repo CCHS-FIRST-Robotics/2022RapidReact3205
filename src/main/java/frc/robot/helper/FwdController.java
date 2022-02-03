@@ -31,9 +31,12 @@ public class FwdController {
             return this.a_max;
         }
         // Check if its too far
+        boolean tf_triggered = false;
         if (Math.pow(clean_x / this.a_max, 0.5) < clean_x / this.v_max) {
+            tf_triggered = true;
             return this.a_max;
         }
+        SmartDashboard.putBoolean("FwdCont/tf triggered", tf_triggered);
         // Compute lin straight down
         double lsd = -1 * Math.pow(clean_v, 2) / (2 * clean_x);
         // Newtons method with convergence check

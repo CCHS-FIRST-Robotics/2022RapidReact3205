@@ -12,8 +12,10 @@ public class Autonomous {
         ROTATE
     }
 
-    Methods[] cmdlist = { Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.ROTATE, Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL };
-    double[][] coords = { { 1, 1, Math.PI / 4 }, { 0, 1, 0 }, { 0, 0, 0 }, { 0, -1, -1 * Math.PI / 4 }, { 0, 0, 0 }, {-2,2,Math.PI/4}, {-1, 1, 0}, {0, 0, 0} };
+    Methods[] cmdlist = { Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL, Methods.ROTATE,
+            Methods.TRAVEL, Methods.TRAVEL, Methods.TRAVEL };
+    double[][] coords = { { 1, 1, Math.PI / 4 }, { 0, 1, 0 }, { 0, 0, 0 }, { 0, -1, -1 * Math.PI / 4 }, { 0, 0, 0 },
+            { -2, 2, Math.PI / 4 }, { -1, 1, 0 }, { 0, 0, 0 } };
     int current_step = 0;
 
     // One for each method
@@ -35,10 +37,12 @@ public class Autonomous {
                 double[] pos = { coords[this.current_step][0], coords[this.current_step][1] };
                 this.travel = new SimpleTravel(pos, coords[this.current_step][2], 1);
                 this.travel.init(state);
+                SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
             case ROTATE:
                 double[] tpos = { coords[this.current_step][0], coords[this.current_step][1] };
                 this.rotate = new TurnToPoint(tpos, 1);
+                SmartDashboard.putString("Auton/func", "ROTATE");
                 break;
         }
     }
@@ -49,7 +53,6 @@ public class Autonomous {
         }
         Command main_cmd = new Command(0, 0, 0, 0);
         boolean exit = false;
-        SmartDashboard.putNumber("current step", this.current_step);
         switch (this.cmdlist[this.current_step]) {
             case TRAVEL:
                 main_cmd = travel.update(state);
