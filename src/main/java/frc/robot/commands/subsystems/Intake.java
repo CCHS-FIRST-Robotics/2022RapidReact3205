@@ -12,6 +12,6 @@ public class Intake {
 
     public void setDrives(double intake, double storage, HardwareObjects hardware) {
         hardware.INTAKE_MOTOR.set(ControlMode.PercentOutput, intake * -1);
-        hardware.STORAGE_1_MOTOR.set(ControlMode.PercentOutput, storage);
+        hardware.STORAGE_1_MOTOR.set(ControlMode.PercentOutput, storage * -1);
     }
 }
