@@ -43,8 +43,9 @@ public class NAVXSensor extends BaseSensor {
         double heading = hardware.NAVX.getAngle() * -1 * 2 * Math.PI / 360;
         heading = SimpleMat.angleRectifier(heading);
 
-        double[] global_acc = { hardware.NAVX.getWorldLinearAccelX(), hardware.NAVX.getWorldLinearAccelY() };
+        double[] global_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY() };
         global_acc = SimpleMat.scaleVec(global_acc, 9.81);
+        global_acc = SimpleMat.rot2d(global_acc, state.getHeadingVal());
 
         double ang_vel = hardware.NAVX.getRawGyroZ() * -1 * 2 * Math.PI / 360;
 

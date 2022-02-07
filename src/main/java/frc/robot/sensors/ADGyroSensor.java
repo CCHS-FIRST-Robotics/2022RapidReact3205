@@ -27,6 +27,6 @@ public class ADGyroSensor extends BaseSensor {
 
         double var = Constants.MAX_HEADING_VAR / Constants.MAIN_DT;
         double[] av1 = state.kalmanUpdate(state.getAngVelVal(), state.getAngVelVar(), raw_gyro, var);
-        state.setAngVel(av1[0], av1[1]);
+        // state.setAngVel(av1[0], av1[1]);
     }
 }
