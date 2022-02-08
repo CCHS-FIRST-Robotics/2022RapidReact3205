@@ -43,7 +43,7 @@ public class RobotContainer {
   public HardwareObjects hardware;
   public Network network;
   public NAVXAccumSensor navx_accum;
-  public ADGyroSensor ad_gyro;
+  //public ADGyroSensor ad_gyro;
   public RoboRioAccSensor rr_acc;
   public LidarSensor lidar;
   double log;
@@ -63,7 +63,7 @@ public class RobotContainer {
     this.network = new Network();
     this.main_state = this.map.initialize(this.hardware);
     this.navx_accum = new NAVXAccumSensor(this.main_state, this.hardware, SYNC_TIME);
-    this.ad_gyro = new ADGyroSensor(SYNC_TIME);
+    //this.ad_gyro = new ADGyroSensor(SYNC_TIME);
     this.rr_acc = new RoboRioAccSensor(SYNC_TIME);
     this.lidar = new LidarSensor(SYNC_TIME);
     reset();
@@ -81,7 +81,7 @@ public class RobotContainer {
     this.main_state = this.map.initialize(this.hardware);
     this.network.init(SYNC_TIME);
     this.navx_accum.reset(this.main_state, this.hardware);
-    this.ad_gyro.reset(this.hardware);
+    //this.ad_gyro.reset(this.hardware);
     this.rr_acc.reset(this.hardware);
     this.lidar.reset();
   }
@@ -104,9 +104,9 @@ public class RobotContainer {
     if (this.navx_accum.shouldUse()) {
       this.navx_accum.processValue(this.main_state, this.hardware);
     }
-    if (this.ad_gyro.shouldUse()) {
-      this.ad_gyro.processValue(this.main_state, this.hardware);
-    }
+    //if (this.ad_gyro.shouldUse()) {
+    //  this.ad_gyro.processValue(this.main_state, this.hardware);
+    //}
     if (this.rr_acc.shouldUse()) {
       this.rr_acc.processValue(this.main_state, this.hardware);
     }

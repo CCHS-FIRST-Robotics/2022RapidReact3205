@@ -10,6 +10,7 @@ import frc.robot.helper.*;
 
 public class NAVXSensor extends BaseSensor {
     double ang_var;
+    double[] zero = {0,0};
 
     public NAVXSensor(double sync_time) {
         this.ang_var = Constants.BASE_HEADING_VAR;
@@ -28,6 +29,16 @@ public class NAVXSensor extends BaseSensor {
         }
         hardware.NAVX.zeroYaw();
         hardware.NAVX.setAngleAdjustment(angle);
+        this.zero[0] = 0;
+        this.zero[1] = 0;
+        for (int c = 0; c<10; c++){
+            double[] global_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY() };
+            global_acc = SimpleMat.scaleVec(global_acc, -9.81);
+            this.zero = SimpleMat.add(this.zero, global_acc);
+        }
+        this.zero = SimpleMat.scaleVec(this.zero, -0.1);
+
+        
     }
 
     void updateHeadingVar() {
@@ -44,8 +55,9 @@ public class NAVXSensor extends BaseSensor {
         heading = SimpleMat.angleRectifier(heading);
 
         double[] global_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY() };
-        global_acc = SimpleMat.scaleVec(global_acc, 9.81);
+        global_acc = SimpleMat.scaleVec(global_acc, -9.81);
         global_acc = SimpleMat.rot2d(global_acc, state.getHeadingVal());
+        global_acc = SimpleMat.add(global_acc, this.zero);
 
         double ang_vel = hardware.NAVX.getRawGyroZ() * -1 * 2 * Math.PI / 360;
 
