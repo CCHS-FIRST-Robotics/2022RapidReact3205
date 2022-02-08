@@ -36,7 +36,7 @@ public class TurnToPoint {
         double cross_tc = Math.sin(Math.PI * 0.75 - Math.atan(Constants.ROBOT_WIDTH / Constants.ROBOT_LENGTH));
         double[] p_vec = { Constants.ROBOT_WIDTH, Constants.ROBOT_LENGTH };
         double adist = SimpleMat.mag(p_vec);
-        this.angacc_max = max_prop * adist * cross_tc * 4 * Constants.MOTOR_MAX_TORQUE
+        this.angacc_max = 0.5 * max_prop * adist * cross_tc * 4 * Constants.MOTOR_MAX_TORQUE
                 / (Constants.WHEEL_RADIUS * Constants.MOI);
 
         SmartDashboard.putNumber("turn/angmax", this.angvel_max);
@@ -47,7 +47,7 @@ public class TurnToPoint {
         this.bl = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.br = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
 
-        this.turn = new PID(2, 100, 0.0);
+        this.turn = new PID(5, 50, 0.2);
     }
 
     double getTheta(MainState main_state) {
@@ -81,9 +81,9 @@ public class TurnToPoint {
 
     public Command update(MainState state) {
         double dtheta = getTheta(state);
-        double target_avel = this.velcontr.update(state.getAngVelVal(), dtheta);
-        // double target_avel = Math.max(Math.min(this.turn.update(dtheta),
-        // this.angvel_max), this.angvel_max * -1);
+        //double target_avel = this.velcontr.update(state.getAngVelVal(), dtheta);
+        double target_avel = Math.max(Math.min(this.turn.update(dtheta),
+        this.angvel_max), this.angvel_max * -1);
 
         SmartDashboard.putNumber("turn/dtheta", dtheta);
 

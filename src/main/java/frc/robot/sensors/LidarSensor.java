@@ -3,6 +3,7 @@ package frc.robot.sensors;
 import frc.robot.state.MainState;
 import frc.robot.Constants;
 import frc.robot.network.Network;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LidarSensor extends BaseSensor {
 
@@ -25,7 +26,8 @@ public class LidarSensor extends BaseSensor {
         double[] ha = state.kalmanAngleUpdate(state.getHeadingVal(), state.getHeadingVar(), heading,
                 Constants.LIDAR_H_VAR);
         double[] new_pos = { npa[0], npa[1] };
-        state.setPos(new_pos, pos[2]);
-        state.setHeading(ha[0], ha[1]);
+        SmartDashboard.putNumberArray("lidar/pos",pos);
+        //state.setPos(new_pos, pos[2]);
+        //state.setHeading(ha[0], ha[1]);
     }
 }

@@ -57,9 +57,9 @@ public class NAVXSensor extends BaseSensor {
         double[] global_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY() };
         global_acc = SimpleMat.scaleVec(global_acc, -9.81);
         global_acc = SimpleMat.rot2d(global_acc, state.getHeadingVal());
-        global_acc = SimpleMat.add(global_acc, this.zero);
+        //global_acc = SimpleMat.add(global_acc, this.zero);
 
-        double ang_vel = hardware.NAVX.getRawGyroZ() * -1 * 2 * Math.PI / 360;
+        double ang_vel = hardware.NAVX.getRawGyroZ() * 1 * 2 * Math.PI / 360;
 
         double[] a2 = state.kalman2Update(state.getAccVal(), state.getAccVar(), global_acc, Constants.IMU_ACC_VAR);
         double[] h2 = state.kalmanUpdate(state.getHeadingVal(), state.getHeadingVar(), heading, ang_var * 0.01);

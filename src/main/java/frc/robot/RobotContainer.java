@@ -77,6 +77,7 @@ public class RobotContainer {
    * Reset values in robot container.
    */
   public void reset() {
+    this.navx_sensor.reset(0, this.hardware);
     this.main_command = new Command(Constants.DEFAULT_CMD);
     this.main_state = this.map.initialize(this.hardware);
     this.network.init(SYNC_TIME);

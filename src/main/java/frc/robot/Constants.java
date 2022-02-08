@@ -143,11 +143,11 @@ public final class Constants {
     public static final double[] FORWARD_TUNING = { 0.3, 0.05, 0.4 };
 
     // Controller Tunings
-    public static final double C_BASE_GAIN = 0.02;
+    public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.015, 0.1, 0.0005 };
     public static final double INTERGRAL_HALFLIFE_T = 20;
 
-    public static final double[] SLOW_CURVE = { 1, 0.2, 3 };
+    public static final double[] SLOW_CURVE = { 0.4, 0.2, 3 };
 
     public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0 };
 
