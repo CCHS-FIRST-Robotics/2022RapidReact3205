@@ -75,6 +75,11 @@ public final class Constants {
     public static final double MAX_HEADING_VAR = 0.2 * 0.2;
 
     public static final double IMU_ACC_VAR = 0.1 * 0.1;
+
+    // LIDAR VARIANCE
+    public static final double LIDAR_P_VAR = 0.15 * 0.15;
+    public static final double LIDAR_H_VAR = 0.1 * 0.1;
+
     // ==================
     // TIME CONSTANTS
     // ==================

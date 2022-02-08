@@ -15,9 +15,11 @@ public class Network {
     NetworkTableEntry y_pos;
     NetworkTableEntry heading;
     public StereoNet stereo_net;
+    public Lidar lidar;
 
     public Network() {
         this.stereo_net = new StereoNet();
+        this.lidar = new Lidar();
     }
 
     public void init(double init_time) {
@@ -41,7 +43,8 @@ public class Network {
         this.heading = state.getEntry("heading");
         this.heading.setDouble(0);
 
-        stereo_net.init(inst);
+        this.stereo_net.init(inst);
+        this.lidar.init(inst);
     }
 
     public void writeNTable(MainState state) {

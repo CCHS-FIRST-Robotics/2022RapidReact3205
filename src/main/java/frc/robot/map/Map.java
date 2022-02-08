@@ -6,11 +6,13 @@ import frc.robot.HardwareObjects;
 public class Map {
     public InitPos pos;
     public double[] hub_pos = { 0, 0 };
+    public Obstacle obs;
 
     public Map() {
         this.pos = new InitPos();
         this.hub_pos[0] = 0;
         this.hub_pos[1] = 0;
+        this.obs = new Obstacle();
     }
 
     public MainState initialize(HardwareObjects hardware) {
