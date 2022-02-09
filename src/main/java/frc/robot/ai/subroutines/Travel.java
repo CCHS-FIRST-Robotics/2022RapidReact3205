@@ -37,7 +37,7 @@ public class Travel {
         return adist;
     }
 
-    public Command update(MainState state) {
+    public Command trajectory(MainState state, boolean override_adist, double nadist) {
         double theta = this.thead - state.getHeadingVal();
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
         double adist;
@@ -52,6 +52,9 @@ public class Travel {
 
         double current_vel = SimpleMat.dot(direction_vec, state.getVelVal());
         double target_v = this.v_contr.update(current_vel, adist);
+        if (override_adist) {
+            target_v = this.v_contr.update(current_vel, nadist);
+        }
 
         // double current_v_max = Math.abs(this.angvel_max * tdist / (2 * Math.sin(theta
         // / 2)));

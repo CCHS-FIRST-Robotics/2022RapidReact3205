@@ -77,4 +77,8 @@ public class SimpleTravel extends Travel {
         }
         return false;
     }
+
+    public Command update(MainState state) {
+        return trajectory(state, false, 0);
+    }
 }
