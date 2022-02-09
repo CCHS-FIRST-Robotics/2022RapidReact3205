@@ -17,6 +17,7 @@ import frc.robot.sensors.NAVXSensor;
 import frc.robot.sensors.NAVXAccumSensor;
 import frc.robot.sensors.RoboRioAccSensor;
 import frc.robot.sensors.LidarSensor;
+import frc.robot.sensors.StorageLidar;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
 import frc.robot.map.Map;
@@ -43,6 +44,8 @@ public class RobotContainer {
   public HardwareObjects hardware;
   public Network network;
   public NAVXAccumSensor navx_accum;
+  public StorageLidar s_lidar;
+
   //public ADGyroSensor ad_gyro;
   public RoboRioAccSensor rr_acc;
   public LidarSensor lidar;
@@ -66,6 +69,7 @@ public class RobotContainer {
     //this.ad_gyro = new ADGyroSensor(SYNC_TIME);
     this.rr_acc = new RoboRioAccSensor(SYNC_TIME);
     this.lidar = new LidarSensor(SYNC_TIME);
+    this.s_lidar = new StorageLidar(SYNC_TIME);
     reset();
   }
 
@@ -85,6 +89,7 @@ public class RobotContainer {
     //this.ad_gyro.reset(this.hardware);
     this.rr_acc.reset(this.hardware);
     this.lidar.reset();
+    this.s_lidar.reset(this.hardware);
   }
 
   /**
@@ -113,6 +118,9 @@ public class RobotContainer {
     }
     if (this.lidar.shouldUse()) {
       this.lidar.processValue(this.main_state, this.network);
+    }
+    if (this.s_lidar.shouldUse()){
+      this.s_lidar.processValue(this.hardware);
     }
 
     this.main_state.predict(Constants.MAIN_DT);

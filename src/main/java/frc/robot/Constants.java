@@ -30,6 +30,8 @@ public final class Constants {
 
     public static final int XBOX_PORT = 0;
 
+    public static final int S_LIDAR = 0;
+
     // ==================
     // STATE INITIALIZATION
     // ==================
@@ -147,7 +149,7 @@ public final class Constants {
     public static final double[] C_BASE_PID = { 0.015, 0.1, 0.0005 };
     public static final double INTERGRAL_HALFLIFE_T = 20;
 
-    public static final double[] SLOW_CURVE = { 0.4, 0.2, 3 };
+    public static final double[] SLOW_CURVE = { 0.2, 0.4, 5 };
 
     public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0 };
 

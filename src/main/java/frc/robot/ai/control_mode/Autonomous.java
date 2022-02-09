@@ -62,6 +62,8 @@ public class Autonomous {
             case CURVE:
                 this.curve = new CurveFwdTravel(this.coord_list.get(this.current_step),
                         this.ang_list.get(this.current_step), 1);
+                this.curve.init(state);
+                break;
         }
     }
 
