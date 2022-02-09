@@ -53,7 +53,10 @@ public class CurveFwdTravel extends Travel {
         tdiff = SimpleMat.unitVec(tdiff);
         double[] sdiff = SimpleMat.subtract(this.l_start_pos, this.tpos);
         sdiff = SimpleMat.unitVec(sdiff);
-        if (SimpleMat.dot(tdiff, sdiff) > 0) {
+        double prod = SimpleMat.dot(tdiff, sdiff);
+        SmartDashboard.putNumber("CFT/ trip prod", prod);
+        
+        if (prod > 0) {
             return true;
         }
         return false;
@@ -85,7 +88,11 @@ public class CurveFwdTravel extends Travel {
                 this.thead = this.final_head;
             }
         }
+        SmartDashboard.putNumber("CFT/Steps Remaining", (double) this.point_list.size());
+        SmartDashboard.putNumberArray("CFT/Current TPos", this.tpos);
+        SmartDashboard.putNumber("CFT/Current TPos", this.thead);
         return cmd;
+
     }
 
     public boolean exit(MainState state) {
