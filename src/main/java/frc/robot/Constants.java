@@ -80,6 +80,8 @@ public final class Constants {
     public static final double LIDAR_P_VAR = 0.15 * 0.15;
     public static final double LIDAR_H_VAR = 0.1 * 0.1;
 
+    public static final double LIDAR_LITE_VAR = 0.02 * 0.02;
+
     // ==================
     // TIME CONSTANTS
     // ==================

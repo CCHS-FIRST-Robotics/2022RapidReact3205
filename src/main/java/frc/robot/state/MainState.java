@@ -5,6 +5,7 @@ import java.lang.*;
 public class MainState {
     Kinematics Phy = new Kinematics();
     Wheel Whl = new Wheel();
+    Storage Sto = new Storage();
 
     public void predict(double dt) {
         this.Whl.predict(dt, this.Phy.Val.heading, this.Phy.Val.acc, this.Phy.Val.ang_vel);
@@ -322,5 +323,19 @@ public class MainState {
     public void setBRT(double val, double var) {
         this.Whl.Val.br_t = val;
         this.Whl.Var.br_t = var;
+    }
+
+    // get storage
+    public double getSLIDARVal() {
+        return this.Sto.val.s_lidar_dist;
+    }
+
+    public double getSLIDARVar() {
+        return this.Sto.var.s_lidar_dist;
+    }
+
+    public void setSLIDAR(double val, double var) {
+        this.Sto.val.s_lidar_dist = val;
+        this.Sto.var.s_lidar_dist = var;
     }
 }
