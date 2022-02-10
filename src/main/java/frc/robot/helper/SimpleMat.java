@@ -215,4 +215,8 @@ public class SimpleMat {
     public static double unitClamp(double a) {
         return Math.min(1, Math.max(-1, a));
     }
+
+    public static double globalAngle(double[] vec){
+        return vecsAngle2(SimpleMat.unitVec(vec), new double[] {0,1}) * -1;
+    }
 }

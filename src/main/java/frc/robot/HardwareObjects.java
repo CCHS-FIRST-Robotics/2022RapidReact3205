@@ -6,7 +6,7 @@ import com.kauailabs.navx.frc.*;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-
+import edu.wpi.first.wpilibj.Counter;
 /**
  * Class that contains and initializes for all hardware objects
  * 
@@ -25,6 +25,7 @@ public class HardwareObjects {
     public AHRS NAVX;
     public ADXRS450_Gyro AD_GYRO;
     public Accelerometer RR_ACC;
+    public Counter S_LIDAR;
 
     /**
      * Constructor for HardwareObjects. Handles creation and initialization.
@@ -38,6 +39,8 @@ public class HardwareObjects {
         this.INTAKE_MOTOR = new WPI_TalonSRX(Constants.INTAKE_TALON_PORT);
         this.STORAGE_1_MOTOR = new WPI_TalonSRX(Constants.STORAGE_1_TALON_PORT);
 
+        this.S_LIDAR = new Counter(Constants.S_LIDAR);
+
         this.NAVX = new AHRS();
         // IMU = new PigeonIMU(RIGHT_MOTOR2);
 
@@ -50,6 +53,11 @@ public class HardwareObjects {
         this.STORAGE_1_MOTOR.configFactoryDefault();
         // IMU.configFactoryDefault();
         // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+
+        this.S_LIDAR.setMaxPeriod(1.00);
+        this.S_LIDAR.setSemiPeriodMode(true);
+        this.S_LIDAR.reset();
+
         this.NAVX.reset();
         this.NAVX.calibrate();
         while (this.NAVX.isCalibrating()) {

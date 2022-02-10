@@ -11,6 +11,7 @@ import frc.robot.Constants;
 public class CurveFwdTravel extends Travel {
     ArrayList<double[]> point_list;
     public double[] l_start_pos = { 0, 0 };
+    public double[] lsp2 = {0,0};
     public double final_head;
 
     public CurveFwdTravel(ArrayList<double[]> point_list, double final_head, double max_prop) {
@@ -44,16 +45,26 @@ public class CurveFwdTravel extends Travel {
     }
 
     public void init(MainState state) {
+        //this.lsp2 = state.getPosVal();
         this.l_start_pos[0] = state.getPosVal()[0];
         this.l_start_pos[1] = state.getPosVal()[1];
+        double[] heading_vec = SimpleMat.subtract(this.point_list.get(0) , state.getPosVal() );
+        double heading = SimpleMat.globalAngle(heading_vec);
+        this.thead = final_head;
+        //this.thead = heading;
+        this.tpos = this.point_list.get(0);
     }
 
     public boolean tripSubsection(MainState state) {
         double[] tdiff = SimpleMat.subtract(this.tpos, state.getPosVal());
+        double dist = SimpleMat.mag(tdiff);
         tdiff = SimpleMat.unitVec(tdiff);
-        double[] sdiff = SimpleMat.subtract(this.l_start_pos, this.tpos);
+        double[] sdiff = SimpleMat.subtract(this.lsp2, this.tpos);
         sdiff = SimpleMat.unitVec(sdiff);
         double prod = SimpleMat.dot(tdiff, sdiff);
+        SmartDashboard.putNumberArray("CFT/ tdiff", tdiff);
+        SmartDashboard.putNumberArray("CFT/ sdiff", sdiff);
+        SmartDashboard.putNumberArray("CFT/ l_start_pos", this.lsp2);
         SmartDashboard.putNumber("CFT/ trip prod", prod);
         
         if (prod > 0) {
@@ -65,22 +76,25 @@ public class CurveFwdTravel extends Travel {
     void getTrajParams() {
         double[] new_pos = this.point_list.get(1);
         double[] heading_vec = SimpleMat.subtract(this.point_list.get(1), this.point_list.get(0));
-        double[] n_vec = { 0, 1 };
-        double heading = SimpleMat.vecsAngle2(n_vec, SimpleMat.unitVec(heading_vec));
+        double heading = SimpleMat.globalAngle(heading_vec);
         this.point_list.remove(0);
         this.tpos = new_pos;
-        this.thead = heading;
+        this.thead = final_head;
+        //this.thead = heading;
     }
 
     public Command update(MainState state) {
         double adist = curveLength(state);
         Command cmd;
+        SmartDashboard.putNumber("CFT/ adist", adist);
         if (this.point_list.size() > 1) {
             cmd = trajectory(state, true, adist);
         } else {
             cmd = trajectory(state, false, 0);
         }
         if (tripSubsection(state)) {
+            //this.l_start_pos = state.getPosVal();
+            this.lsp2 = state.getPosVal();
             if (this.point_list.size() > 1) {
                 getTrajParams();
             } else {
@@ -90,7 +104,8 @@ public class CurveFwdTravel extends Travel {
         }
         SmartDashboard.putNumber("CFT/Steps Remaining", (double) this.point_list.size());
         SmartDashboard.putNumberArray("CFT/Current TPos", this.tpos);
-        SmartDashboard.putNumber("CFT/Current TPos", this.thead);
+        SmartDashboard.putNumber("CFT/Current THead", this.thead);
+        //return new Command(Constants.DEFAULT_CMD);
         return cmd;
 
     }

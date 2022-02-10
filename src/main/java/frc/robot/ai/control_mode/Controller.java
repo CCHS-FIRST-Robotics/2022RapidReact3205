@@ -38,15 +38,15 @@ public class Controller {
     public Command getCommands(MainState state) {
         double lr_strafe = xbox.getLeftX();
         double fb_1 = xbox.getLeftY();
-        double lr_turn = sfl_curve.getProp(xbox.getRightX());
+        double lr_turn = (xbox.getRightX());
         double fb_2 = sfr_curve.getProp(xbox.getRightY());
 
         double intake = xbox.getLeftTriggerAxis();
         double storage = xbox.getRightTriggerAxis();
-        if (xbox.getLeftBumperPressed()) {
+        if (xbox.getLeftBumper()) {
             intake = intake * -1;
         }
-        if (xbox.getRightBumperPressed()) {
+        if (xbox.getRightBumper()) {
             storage = storage * -1;
         }
 
