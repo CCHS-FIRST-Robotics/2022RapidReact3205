@@ -17,6 +17,8 @@ import frc.robot.commands.Command;
 public class Controller {
     XboxController xbox = new XboxController(Constants.XBOX_PORT);
 
+    IntakeHandler intake;
+
     Curve sfr_curve;
     Curve sfl_curve;
 
@@ -33,6 +35,9 @@ public class Controller {
         this.fr_pid = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.bl_pid = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.br_pid = new PID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+
+        this.intake = new IntakeHandler();
+        this.intake.idle();
     }
 
     public Command getCommands(MainState state) {
@@ -43,11 +48,25 @@ public class Controller {
 
         double intake = xbox.getLeftTriggerAxis();
         double storage = xbox.getRightTriggerAxis();
-        if (xbox.getLeftBumper()) {
+        if (xbox.getLeftBumper() && this.intake.substate == 0) {
             intake = intake * -1;
         }
-        if (xbox.getRightBumper()) {
+        if (xbox.getRightBumper() && this.intake.substate == 0) {
             storage = storage * -1;
+        }
+        if (xbox.getAButtonReleased()) {
+            this.intake.intakeOnly();
+        }
+        if (xbox.getBButtonReleased()) {
+            this.intake.intakeStorage();
+        }
+        if (xbox.getXButtonReleased()) {
+            this.intake.idle();
+        }
+        if (this.intake.substate != 0) {
+            double[] ins_cmd = this.intake.update(state);
+            intake = ins_cmd[0];
+            storage = ins_cmd[1];
         }
 
         double flt = -1 * fb_1 - fb_2 + lr_turn + lr_strafe;
