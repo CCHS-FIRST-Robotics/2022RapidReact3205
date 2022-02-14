@@ -69,15 +69,15 @@ public class Controller {
             storage = ins_cmd[1];
         }
 
-        double flt = -1 * fb_1 - fb_2 + lr_turn + lr_strafe;
-        double frt = -1 * fb_1 - fb_2 - lr_turn - lr_strafe;
-        double blt = -1 * fb_1 - fb_2 + lr_turn - lr_strafe;
-        double brt = -1 * fb_1 - fb_2 - lr_turn + lr_strafe;
+        double flt = -1 * fb_1 + lr_turn + lr_strafe;
+        double frt = -1 * fb_1 - lr_turn - lr_strafe;
+        double blt = -1 * fb_1 + lr_turn - lr_strafe;
+        double brt = -1 * fb_1 - lr_turn + lr_strafe;
 
-        flt = Math.min(1, Math.max(-1, flt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        frt = Math.min(1, Math.max(-1, frt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        blt = Math.min(1, Math.max(-1, blt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        brt = Math.min(1, Math.max(-1, brt)) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        flt = (Math.min(1, Math.max(-1, flt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        frt = (Math.min(1, Math.max(-1, frt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        blt = (Math.min(1, Math.max(-1, blt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        brt = (Math.min(1, Math.max(-1, brt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
 
         double fld = flt - state.getFLRadssVal();
         double frd = frt - state.getFRRadssVal();

@@ -1,12 +1,29 @@
 package frc.robot.map;
 
+import frc.robot.network.Network;
+
 public class Ball {
+    public double[] ball_pos = { 0, 0, 0 };
+    double[] ball_vel = { 0, 0, 0 };
+    public int state = 0;
+    public int aerial = 0;
+    public int color = 0;
+
     public Ball() {
-        // Ball detection is done by coprocessor vision processing
-        // Balls have 3pos and 3vel, and detected
-        // all 22 slots are being emitted
-        // have a detected time, if detected time > 3 secs or strays inside obstacle
-        // cell, the ball object is defuncted
+        this.ball_pos[0] = 0;
+        this.ball_pos[1] = 0;
+        this.ball_pos[2] = 0;
+
+        this.ball_vel[0] = 0;
+        this.ball_vel[1] = 0;
+        this.ball_vel[2] = 0;
+
+        this.state = 0;
+        this.aerial = 0;
+        this.color = 0;
+    }
+
+    public void getVals(Network net) {
 
     }
 }

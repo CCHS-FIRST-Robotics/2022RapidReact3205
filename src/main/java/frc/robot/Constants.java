@@ -155,4 +155,6 @@ public final class Constants {
 
     public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0 };
 
+    // Ball
+    public static final int BALL_NUM = 40;
 }

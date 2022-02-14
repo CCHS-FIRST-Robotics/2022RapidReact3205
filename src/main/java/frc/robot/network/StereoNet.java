@@ -18,7 +18,7 @@ public class StereoNet {
     }
 
     public void init(NetworkTableInstance inst) {
-        NetworkTable stereo = inst.getTable("stereo");
+        NetworkTable stereo = inst.getTable("Stereo");
 
         this.p_x_pos = stereo.getEntry("p_x_pos");
         this.p_x_pos.setDouble(0);

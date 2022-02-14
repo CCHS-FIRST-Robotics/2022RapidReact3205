@@ -14,6 +14,9 @@ public class Network {
     NetworkTableEntry x_pos;
     NetworkTableEntry y_pos;
     NetworkTableEntry heading;
+    NetworkTableEntry x_vel;
+    NetworkTableEntry y_vel;
+    NetworkTableEntry a_vel;
     public StereoNet stereo_net;
     public Lidar lidar;
 
@@ -43,6 +46,15 @@ public class Network {
         this.heading = state.getEntry("heading");
         this.heading.setDouble(0);
 
+        this.x_vel = state.getEntry("x_vel");
+        this.x_vel.setDouble(0);
+
+        this.y_vel = state.getEntry("y_vel");
+        this.y_vel.setDouble(0);
+
+        this.a_vel = state.getEntry("a_vel");
+        this.a_vel.setDouble(0);
+
         this.stereo_net.init(inst);
         this.lidar.init(inst);
     }
@@ -55,5 +67,11 @@ public class Network {
         this.y_pos.setDouble(pos[1]);
 
         this.heading.setDouble(state.getHeadingVal());
+
+        this.x_vel.setDouble(state.getVelVal()[0]);
+        this.y_vel.setDouble(state.getVelVal()[1]);
+
+        this.a_vel.setDouble(state.getAngVelVal());
+
     }
 }
