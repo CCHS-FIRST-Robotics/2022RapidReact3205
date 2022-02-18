@@ -7,6 +7,8 @@ public class Command {
     public double br_pprop = 0;
     public double intake_pprop = 0;
     public double storage_1_pprop = 0;
+    public double storage_2_pprop = 0;
+    public double shooter_pprop = 0;
 
     public Command(double[] values) {
         this.fl_pprop = values[0];
@@ -16,5 +18,14 @@ public class Command {
 
         this.intake_pprop = values[4];
         this.storage_1_pprop = values[5];
+
+        if (values.length > 6){
+            this.storage_2_pprop = values[6];
+            this.shooter_pprop = values[7];
+        }
+        else{
+            this.storage_2_pprop = 0;
+            this.shooter_pprop = 0; 
+        }
     }
 }

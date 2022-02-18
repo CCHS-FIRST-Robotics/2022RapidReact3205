@@ -34,7 +34,7 @@ public class Lidar {
 
         this.h_var = stereo.getEntry("h_var");
         this.h_var.setDouble(1000);
-
+ 
         this.dt = stereo.getEntry("dt");
         this.dt.setDouble(0);
 

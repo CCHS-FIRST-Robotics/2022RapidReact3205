@@ -17,6 +17,7 @@ public class CommandHandler {
     // Define devices as atrributes
     private Drive drive = new Drive();
     private Intake intake = new Intake();
+    private Shooter shooter = new Shooter();
 
     /**
      * Constructor for CommandHandler
@@ -37,5 +38,6 @@ public class CommandHandler {
         // Schedule hardware commands using command
         this.drive.setDrives(command.fl_pprop, command.fr_pprop, command.bl_pprop, command.br_pprop, hardware);
         this.intake.setDrives(command.intake_pprop, command.storage_1_pprop, hardware);
+        this.shooter.setDrives(command.storage_2_pprop, command.shooter_pprop, hardware);
     }
 }

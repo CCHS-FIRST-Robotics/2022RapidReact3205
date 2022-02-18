@@ -18,13 +18,17 @@ public final class Constants {
     // ==================
     // HARDWARE PORTS
     // ==================]
-    public static final int FL_TALON_PORT = 5;
+    public static final int FL_TALON_PORT = 8;
     public static final int FR_TALON_PORT = 2;
     public static final int BL_TALON_PORT = 4;
-    public static final int BR_TALON_PORT = 3;
+    public static final int BR_TALON_PORT = 10;
 
     public static final int INTAKE_TALON_PORT = 6;
     public static final int STORAGE_1_TALON_PORT = 1;
+
+    public static final int STORAGE_2_TALON_PORT = 3;
+    public static final int SHOOTER_1_TALON_PORT = 5;
+    public static final int SHOOTER_2_TALON_PORT = 6;
 
     public static final int IMU_PORT = 6;
 
@@ -153,7 +157,7 @@ public final class Constants {
 
     public static final double[] SLOW_CURVE = { 0.2, 0.4, 5 };
 
-    public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0 };
+    public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
     // Ball
     public static final int BALL_NUM = 40;

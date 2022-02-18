@@ -47,12 +47,16 @@ public class Controller {
         double fb_2 = sfr_curve.getProp(xbox.getRightY());
 
         double intake = xbox.getLeftTriggerAxis();
-        double storage = xbox.getRightTriggerAxis();
+        double storage = xbox.getLeftTriggerAxis();
+
+        double storage_2 = 0;
+        double shooter = xbox.getRightTriggerAxis();
         if (xbox.getLeftBumper() && this.intake.substate == 0) {
             intake = intake * -1;
-        }
-        if (xbox.getRightBumper() && this.intake.substate == 0) {
             storage = storage * -1;
+        }
+        if (xbox.getRightBumper()){
+            storage_2 = 1;
         }
         if (xbox.getAButtonReleased()) {
             this.intake.intakeOnly();
@@ -89,7 +93,7 @@ public class Controller {
         double blr = this.bl_pid.update(bld);
         double brr = this.br_pid.update(brd);
 
-        double[] ocmd = { flr, frr, blr, brr, intake, storage };
+        double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter };
         Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;
