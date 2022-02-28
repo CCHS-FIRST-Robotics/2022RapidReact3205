@@ -19,6 +19,7 @@ public class Network {
     NetworkTableEntry a_vel;
     public StereoNet stereo_net;
     public Lidar lidar;
+    public Map map;
 
     public Network() {
         this.stereo_net = new StereoNet();
@@ -57,6 +58,7 @@ public class Network {
 
         this.stereo_net.init(inst);
         this.lidar.init(inst);
+        this.map.init(inst);
     }
 
     public void writeNTable(MainState state) {
