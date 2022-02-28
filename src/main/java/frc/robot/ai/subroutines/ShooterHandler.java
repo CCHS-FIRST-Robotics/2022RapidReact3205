@@ -10,7 +10,7 @@ public class ShooterHandler {
     PID shooter_1;
     PID shooter_2;
 
-    int state = 0;
+    public int state = 0;
 
     double o_time = System.currentTimeMillis() / 1000;
 

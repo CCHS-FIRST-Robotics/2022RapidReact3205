@@ -166,8 +166,11 @@ public final class Constants {
 
     public static final double[] SLOW_CURVE = { 0.2, 0.4, 5 };
 
-    public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     // Ball
     public static final int BALL_NUM = 40;
+
+    // Brownout protection
+    public static final double[] VOLT_CONCERN_RANGE = { 7.0, 9.0 };
 }

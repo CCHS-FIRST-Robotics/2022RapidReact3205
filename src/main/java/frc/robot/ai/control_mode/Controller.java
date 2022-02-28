@@ -54,7 +54,8 @@ public class Controller {
         double storage = xbox.getLeftTriggerAxis();
 
         double storage_2 = 0;
-        double shooter = xbox.getRightTriggerAxis();
+        double shooter_1 = xbox.getRightTriggerAxis();
+        double shooter_2 = xbox.getRightTriggerAxis();
         if (xbox.getLeftBumper() && this.intake.substate == 0) {
             intake = intake * -1;
             storage = storage * -1;
@@ -79,6 +80,12 @@ public class Controller {
             intake = ins_cmd[0];
             storage = ins_cmd[1];
         }
+        double[] sho_cmd = this.shooter.update(state);
+        if (this.shooter.state != 0) {
+            storage_2 = sho_cmd[0];
+            shooter_1 = sho_cmd[1];
+            shooter_2 = sho_cmd[2];
+        }
 
         double flt = -1 * fb_1 + lr_turn + lr_strafe;
         double frt = -1 * fb_1 - lr_turn - lr_strafe;
@@ -100,7 +107,7 @@ public class Controller {
         double blr = this.bl_pid.update(bld);
         double brr = this.br_pid.update(brd);
 
-        double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter };
+        double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2 };
         Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;
