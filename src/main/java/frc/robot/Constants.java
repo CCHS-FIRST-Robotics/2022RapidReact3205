@@ -108,6 +108,12 @@ public final class Constants {
 
     public static final int TIMEOUT_MS = 50;
 
+    public static final double STORAGE_2_RPM = 400;
+
+    public static final double SHOOTER_RATIO = 0.75;
+    public static final double SHOOTER_1_RPM = 3500 / SHOOTER_RATIO;
+    public static final double SHOOTER_2_RPM = 3500 / SHOOTER_RATIO;
+
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
     // ==================
@@ -152,7 +158,10 @@ public final class Constants {
 
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.05;
-    public static final double[] C_BASE_PID = { 0.015, 0.1, 0.0005 };
+    public static final double[] C_BASE_PID = { 0.01, 0.05, 0.0005 };
+    public static final double[] C_STRONG_PID = { 0.015, 0.1, 0.0005 };
+    public static final double[] R_STRONG_PID = { 0.015, 0.1, 0.0005 };
+
     public static final double INTERGRAL_HALFLIFE_T = 20;
 
     public static final double[] SLOW_CURVE = { 0.2, 0.4, 5 };

@@ -18,6 +18,7 @@ public class Controller {
     XboxController xbox = new XboxController(Constants.XBOX_PORT);
 
     IntakeHandler intake;
+    ShooterHandler shooter;
 
     Curve sfr_curve;
     Curve sfl_curve;
@@ -38,6 +39,9 @@ public class Controller {
 
         this.intake = new IntakeHandler();
         this.intake.idle();
+
+        this.shooter = new ShooterHandler();
+        this.shooter.idle();
     }
 
     public Command getCommands(MainState state) {
@@ -55,17 +59,20 @@ public class Controller {
             intake = intake * -1;
             storage = storage * -1;
         }
-        if (xbox.getRightBumper()){
+        if (xbox.getRightBumper()) {
             storage_2 = 1;
         }
         if (xbox.getAButtonReleased()) {
-            this.intake.intakeOnly();
-        }
-        if (xbox.getBButtonReleased()) {
             this.intake.intakeStorage();
         }
-        if (xbox.getXButtonReleased()) {
+        if (xbox.getBButtonReleased()) {
             this.intake.idle();
+        }
+        if (xbox.getXButtonReleased()) {
+            this.shooter.initFiring();
+        }
+        if (xbox.getYButtonReleased()) {
+            this.shooter.idle();
         }
         if (this.intake.substate != 0) {
             double[] ins_cmd = this.intake.update(state);

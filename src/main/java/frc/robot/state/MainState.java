@@ -6,6 +6,7 @@ public class MainState {
     Kinematics Phy = new Kinematics();
     Wheel Whl = new Wheel();
     Storage Sto = new Storage();
+    Shooter Sho = new Shooter();
 
     public void predict(double dt) {
         this.Whl.predict(dt, this.Phy.Val.heading, this.Phy.Val.acc, this.Phy.Val.ang_vel);
@@ -337,5 +338,32 @@ public class MainState {
     public void setSLIDAR(double val, double var) {
         this.Sto.val.s_lidar_dist = val;
         this.Sto.var.s_lidar_dist = var;
+    }
+
+    public double[] getShooterVal() {
+        return this.Sho.val.shooter_radss;
+    }
+
+    public double getShooterVar() {
+        return this.Sho.var.shooter_radss;
+    }
+
+    public void setShooter(double[] shooter_radss, double var) {
+        this.Sho.val.shooter_radss[0] = shooter_radss[0];
+        this.Sho.val.shooter_radss[1] = shooter_radss[1];
+        this.Sho.var.shooter_radss = var;
+    }
+
+    public double getStorage2Val() {
+        return this.Sho.val.storage_radss;
+    }
+
+    public double getStorage2Var() {
+        return this.Sho.var.storage_radss;
+    }
+
+    public void setStorage2(double storage_radss, double var) {
+        this.Sho.val.storage_radss = storage_radss;
+        this.Sho.var.storage_radss = var;
     }
 }
