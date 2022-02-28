@@ -18,6 +18,7 @@ import frc.robot.sensors.NAVXAccumSensor;
 import frc.robot.sensors.RoboRioAccSensor;
 import frc.robot.sensors.LidarSensor;
 import frc.robot.sensors.StorageLidar;
+import frc.robot.sensors.ShooterEncoder;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
 import frc.robot.map.Map;
@@ -49,6 +50,7 @@ public class RobotContainer {
   // public ADGyroSensor ad_gyro;
   public RoboRioAccSensor rr_acc;
   public LidarSensor lidar;
+  public ShooterEncoder shooter_e;
   double log;
 
   /**
@@ -70,6 +72,7 @@ public class RobotContainer {
     this.rr_acc = new RoboRioAccSensor(SYNC_TIME);
     this.lidar = new LidarSensor(SYNC_TIME);
     this.s_lidar = new StorageLidar(SYNC_TIME);
+    this.shooter_e = new ShooterEncoder(SYNC_TIME);
     reset();
   }
 
@@ -109,6 +112,9 @@ public class RobotContainer {
     }
     if (this.navx_accum.shouldUse()) {
       this.navx_accum.processValue(this.main_state, this.hardware);
+    }
+    if (this.shooter_e.shouldUse()) {
+      this.shooter_e.processValue(this.main_state, this.hardware);
     }
     // if (this.ad_gyro.shouldUse()) {
     // this.ad_gyro.processValue(this.main_state, this.hardware);

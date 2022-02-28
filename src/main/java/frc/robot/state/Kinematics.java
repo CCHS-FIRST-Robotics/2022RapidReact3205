@@ -65,6 +65,50 @@ public class Kinematics {
 
         }
 
+        private double[] TaylorDisplacement(double t) {
+
+            double a = ang_acc;
+            double w = ang_vel;
+            double v = SimpleMat.mag(vel);
+
+            /**
+             * v x
+             * - (v w^2 x^3)/6
+             * - (a v w x^4)/8
+             * - (a^2 v x^5)/40
+             * + (v w^4 x^5)/120
+             * + (a v w^3 x^6)/72
+             **/
+            double yDis = t
+                    - (Math.pow(w, 2) * Math.pow(t, 3)) / 6
+                    - (a * w * Math.pow(t, 4)) / 8
+                    - (Math.pow(a, 2) * Math.pow(t, 5)) / 40
+                    + (Math.pow(w, 4) * Math.pow(t, 5)) / 120
+                    + (a * Math.pow(w, 3) * Math.pow(t, 6)) / 72;
+            yDis *= v;
+
+            /**
+             * -(v w x^2)/2
+             * - (a v x^3)/6
+             * + (v w^3 x^4)/24
+             * + (a v w^2 x^5)/20
+             * + (a^2 v w x^6)/48
+             * - (v w^5 x^6)/720
+             **/
+            double xDis = -(w * Math.pow(t, 2)) / 2
+                    - (a * Math.pow(t, 3)) / 6
+                    + (Math.pow(w, 3) * Math.pow(t, 4)) / 24
+                    + (a * Math.pow(w, 2) * Math.pow(t, 5)) / 20
+                    + (Math.pow(a, 2) * w * Math.pow(t, 6)) / 48
+                    - (Math.pow(w, 5) * Math.pow(t, 6)) / 720;
+            xDis *= v;
+
+            double[] dis = { xDis, yDis };
+            dis = SimpleMat.rot2d(dis, heading);
+
+            return dis;
+        }
+
         /**
          * Predict all kinematics values for dt time.
          * 
@@ -80,9 +124,21 @@ public class Kinematics {
             if (friction_mag * dt > vel_mag) {
                 SimpleMat.scaleVec(friction_a, SimpleMat.mag(this.vel) / (dt * friction_mag));
             }
+            // NEW POSITION CALCULATION WITH TAYLOR SERIES
+            double[] pos1 = { this.pos[0], this.pos[1] };
+            double[] taylor_dis = TaylorDisplacement(dt);
+            SmartDashboard.putNumberArray("Kinematics/TaylorDis", taylor_dis);
+            pos1[0] += taylor_dis[0];
+            pos1[1] += taylor_dis[1];
+
             // POS
             this.pos[0] = this.pos[0] + this.vel[0] * dt + 0.5 * (this.acc[0] + friction_a[0]) * dt * dt;
             this.pos[1] = this.pos[1] + this.vel[1] * dt + 0.5 * (this.acc[1] + friction_a[1]) * dt * dt;
+
+            // AVERAGE POS
+            // this.pos[0] = (pos1[0] + pos[0]) / 2;
+            // this.pos[1] = (pos1[1] + pos[1]) / 2;
+
             // VEL
             this.vel[0] = this.vel[0] + (this.acc[0] + friction_a[0]) * dt;
             this.vel[1] = this.vel[1] + (this.acc[1] + friction_a[1]) * dt;
@@ -91,7 +147,8 @@ public class Kinematics {
             double ang_fric = (this.ang_vel / (Math.abs(this.ang_vel) + 0.001)) * Constants.ROBOT_WIDTH
                     * Constants.GRAV_ACC * friction / (2 * m_o_i);
 
-            this.heading = this.heading + this.ang_vel * dt + 0.5 * (this.ang_acc + ang_fric) * dt * dt;
+            double ang_disp = this.ang_vel * dt + 0.5 * (this.ang_acc + ang_fric) * dt * dt;
+            this.heading = this.heading + ang_disp;
             this.heading = SimpleMat.angleRectifier(this.heading);
             // ANG VEL
             if (Math.abs(this.ang_acc) < Math.abs(ang_fric)) {
@@ -103,9 +160,11 @@ public class Kinematics {
             } else {
                 this.ang_vel = this.ang_vel + (this.ang_acc + ang_fric) * dt;
             }
-            if (Double.isNaN(heading)){
+            if (Double.isNaN(heading)) {
                 heading = 0;
             }
+            this.vel = SimpleMat.rot2d(this.vel, ang_disp);
+            this.acc = SimpleMat.rot2d(this.vel, ang_disp);
 
         }
     }
