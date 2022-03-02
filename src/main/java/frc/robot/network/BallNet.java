@@ -5,12 +5,12 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
 
-public class Ball {
+public class BallNet {
     NetworkTableEntry[] pos = new NetworkTableEntry[Constants.BALL_NUM];
     NetworkTableEntry[] vel = new NetworkTableEntry[Constants.BALL_NUM];
     NetworkTableEntry[] grand_state = new NetworkTableEntry[Constants.BALL_NUM];
 
-    public Ball() {
+    public BallNet() {
 
     }
 
@@ -35,6 +35,7 @@ public class Ball {
     }
 
     public double[] getGStateVals(int ent) {
-        return this.grand_state[ent].getDoubleArray(new double[] { 0, 0, 0 });
+        return this.grand_state[ent].getDoubleArray(new double[] { 0, 0, 0, 0 });
     }
+
 }

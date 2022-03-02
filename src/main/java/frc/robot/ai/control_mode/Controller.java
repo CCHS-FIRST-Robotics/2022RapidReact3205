@@ -70,7 +70,7 @@ public class Controller {
 
         double max_vel = Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         double max_avl = max_vel / (Constants.ROBOT_WIDTH / 2);
-        double rthe = SimpleMat.angleRectifier(theta - state.getHeadingVal());
+        double rthe = SimpleMat.angleRectifier(theta + state.getHeadingVal());
         max_vel = max_vel * Math.max(Math.abs(Math.cos(rthe)), Math.abs(Math.sin(rthe)));
         double[] vel_vec = SimpleMat.projectHeading(theta, mag * max_vel);
         double avel = max_avl * -1 * yaw_val;
@@ -85,7 +85,7 @@ public class Controller {
         double lr_turn = (xbox.getRightX());
         double fb_2 = sfr_curve.getProp(xbox.getRightY());
 
-        double intake = xbox.getLeftTriggerAxis() + this.R_STICK.getRawAxis(2);
+        double intake = xbox.getLeftTriggerAxis() - this.R_STICK.getRawAxis(2);
         double storage = xbox.getLeftTriggerAxis();
 
         double storage_2 = 0;

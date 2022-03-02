@@ -1,5 +1,6 @@
 package frc.robot.map;
 
+import frc.robot.Constants;
 import frc.robot.network.Network;
 
 public class Ball {
@@ -8,6 +9,7 @@ public class Ball {
     public int state = 0;
     public int aerial = 0;
     public int color = 0;
+    public int fresh = 0;
 
     public Ball() {
         this.ball_pos[0] = 0;
@@ -21,9 +23,6 @@ public class Ball {
         this.state = 0;
         this.aerial = 0;
         this.color = 0;
-    }
-
-    public void getVals(Network net) {
-
+        this.fresh = 0;
     }
 }

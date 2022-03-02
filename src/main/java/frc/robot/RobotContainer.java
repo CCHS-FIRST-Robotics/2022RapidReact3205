@@ -128,6 +128,7 @@ public class RobotContainer {
     if (this.s_lidar.shouldUse()) {
       this.s_lidar.processValue(this.main_state, this.hardware);
     }
+    this.map.getBalls(this.network);
 
     this.main_state.predict(Constants.MAIN_DT);
 

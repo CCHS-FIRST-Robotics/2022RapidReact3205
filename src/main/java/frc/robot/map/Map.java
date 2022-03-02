@@ -1,18 +1,25 @@
 package frc.robot.map;
 
 import frc.robot.state.MainState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.HardwareObjects;
+import frc.robot.network.Network;
 
 public class Map {
     public InitPos pos;
     public double[] hub_pos = { 0, 0 };
     public Obstacle obs;
+    public Ball[] balls = new Ball[Constants.BALL_NUM];
 
     public Map() {
         this.pos = new InitPos();
         this.hub_pos[0] = 0;
         this.hub_pos[1] = 0;
         this.obs = new Obstacle();
+        for (int c = 0; c < Constants.BALL_NUM; c++) {
+            balls[c] = new Ball();
+        }
     }
 
     public MainState initialize(HardwareObjects hardware) {
@@ -32,5 +39,23 @@ public class Map {
         state.setWhlOHeading(this.pos.heading, state.getWhlOHeadingVar());
 
         return state;
+    }
+
+    public void getVals(Network net) {
+        int live_balls = 0;
+
+        for (int c = 0; c < Constants.BALL_NUM; c++) {
+            this.balls[c].ball_pos = net.ball_net.getPosVals(c);
+            this.balls[c].ball_vel = net.ball_net.getVelVals(c);
+            double[] g_state = net.ball_net.getGStateVals(c);
+            this.balls[c].state = (int) (g_state[0] + 0.01);
+            this.balls[c].color = (int) (g_state[1] + 0.01);
+            this.balls[c].aerial = (int) (g_state[2] + 0.01);
+            this.balls[c].fresh = (int) (g_state[3] + 0.01);
+            if (this.balls[c].state != 0) {
+                live_balls++;
+            }
+        }
+        SmartDashboard.putNumber("Map/Ball Store", live_balls);
     }
 }

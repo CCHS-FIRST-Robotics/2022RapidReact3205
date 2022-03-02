@@ -19,10 +19,12 @@ public class Network {
     NetworkTableEntry a_vel;
     public StereoNet stereo_net;
     public Lidar lidar;
+    public BallNet ball_net;
 
     public Network() {
         this.stereo_net = new StereoNet();
         this.lidar = new Lidar();
+        this.ball_net = new BallNet();
     }
 
     public void init(double init_time) {
