@@ -1,5 +1,6 @@
 package frc.robot.ai.control_mode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -48,8 +49,12 @@ public class Controller {
 
     double[] starControl(MainState state) {
         // left controllers give a polar vec, angle from 0 and mag from 0 to 1
-        double[] stick_vec = { L_STICK.getRawAxis(1), -1 * L_STICK.getRawAxis(2) };
-        double yaw_val = R_STICK.getRawAxis(1);
+        double[] stick_vec = { L_STICK.getRawAxis(0), -1 * L_STICK.getRawAxis(1) };
+        SmartDashboard.putNumber("stick_L1", L_STICK.getRawAxis(1));
+        SmartDashboard.putNumber("stick_L0", L_STICK.getRawAxis(0));
+        SmartDashboard.putNumber("stick_R1", R_STICK.getRawAxis(1));
+        SmartDashboard.putNumber("stick_R0", R_STICK.getRawAxis(0));
+        double yaw_val = R_STICK.getRawAxis(0);
         double raw_theta = SimpleMat.vecsAngle2(new double[] { 0, 1 }, stick_vec);
         double factor = 1;
         if (raw_theta > -1 * Math.PI / 4 && raw_theta < Math.PI / 4) {
@@ -73,9 +78,12 @@ public class Controller {
         double rthe = SimpleMat.angleRectifier(theta + state.getHeadingVal());
         max_vel = max_vel * Math.max(Math.abs(Math.cos(rthe)), Math.abs(Math.sin(rthe)));
         double[] vel_vec = SimpleMat.projectHeading(theta, mag * max_vel);
+        SmartDashboard.putNumberArray("Vel Vec", vel_vec);
+        
         double avel = max_avl * -1 * yaw_val;
-
+        SmartDashboard.putNumber("AVEL", avel);
         double[] whl_vec = MecanumIK.mecanumIK(vel_vec, avel);
+        SmartDashboard.putNumberArray("MIKC", whl_vec);
         return whl_vec;
     }
 
@@ -85,7 +93,7 @@ public class Controller {
         double lr_turn = (xbox.getRightX());
         double fb_2 = sfr_curve.getProp(xbox.getRightY());
 
-        double intake = xbox.getLeftTriggerAxis() - this.R_STICK.getRawAxis(2);
+        double intake = xbox.getLeftTriggerAxis() - this.R_STICK.getRawAxis(1);
         double storage = xbox.getLeftTriggerAxis();
 
         double storage_2 = 0;
@@ -139,15 +147,15 @@ public class Controller {
 
         double[] whl_vec = starControl(state);
 
-        double flt = -1 * fb_1 + lr_turn + lr_strafe + whl_vec[0];
-        double frt = -1 * fb_1 - lr_turn - lr_strafe + whl_vec[1];
-        double blt = -1 * fb_1 + lr_turn - lr_strafe + whl_vec[2];
-        double brt = -1 * fb_1 - lr_turn + lr_strafe + whl_vec[3];
+        double flt = -1 * fb_1 + lr_turn + lr_strafe;// + whl_vec[0];
+        double frt = -1 * fb_1 - lr_turn - lr_strafe;// + whl_vec[1];
+        double blt = -1 * fb_1 + lr_turn - lr_strafe;// + whl_vec[2];
+        double brt = -1 * fb_1 - lr_turn + lr_strafe;// + whl_vec[3];
 
-        flt = (Math.min(1, Math.max(-1, flt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        frt = (Math.min(1, Math.max(-1, frt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        blt = (Math.min(1, Math.max(-1, blt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        brt = (Math.min(1, Math.max(-1, brt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        blt = whl_vec[2] + (Math.min(1, Math.max(-1, blt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        brt = whl_vec[3] + (Math.min(1, Math.max(-1, brt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
 
         double fld = flt - state.getFLRadssVal();
         double frd = frt - state.getFRRadssVal();

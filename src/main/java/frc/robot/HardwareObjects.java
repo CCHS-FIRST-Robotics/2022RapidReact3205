@@ -19,7 +19,7 @@ public class HardwareObjects {
     public TalonSRX BRD_MOTOR;
 
     public VictorSPX INTAKE_MOTOR;
-    public VictorSPX STORAGE_1_MOTOR;
+    public TalonSRX STORAGE_1_MOTOR;
 
     public TalonSRX STORAGE_2_MOTOR;
     public TalonSRX SHOOTER_1_MOTOR;
@@ -41,7 +41,7 @@ public class HardwareObjects {
         this.BRD_MOTOR = new WPI_TalonSRX(Constants.BR_TALON_PORT);
 
         this.INTAKE_MOTOR = new WPI_VictorSPX(Constants.INTAKE_TALON_PORT);
-        this.STORAGE_1_MOTOR = new WPI_VictorSPX(Constants.STORAGE_1_TALON_PORT);
+        this.STORAGE_1_MOTOR = new WPI_TalonSRX(Constants.STORAGE_1_TALON_PORT);
 
         this.STORAGE_2_MOTOR = new WPI_TalonSRX(Constants.STORAGE_2_TALON_PORT);
         this.SHOOTER_1_MOTOR = new WPI_TalonSRX(Constants.SHOOTER_1_TALON_PORT);

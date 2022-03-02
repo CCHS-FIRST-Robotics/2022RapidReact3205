@@ -23,19 +23,19 @@ public final class Constants {
     public static final int BL_TALON_PORT = 4;
     public static final int BR_TALON_PORT = 10;
 
-    public static final int INTAKE_TALON_PORT = 6;
-    public static final int STORAGE_1_TALON_PORT = 1;
+    public static final int INTAKE_TALON_PORT = 2;
+    public static final int STORAGE_1_TALON_PORT = 6;
 
     public static final int STORAGE_2_TALON_PORT = 3;
     public static final int SHOOTER_1_TALON_PORT = 5;
-    public static final int SHOOTER_2_TALON_PORT = 6;
+    public static final int SHOOTER_2_TALON_PORT = 1;
 
     public static final int IMU_PORT = 6;
 
     public static final int XBOX_PORT = 0;
 
-    public static final int JOYSTICK_L_PORT = 1;
-    public static final int JOYSTICK_R_PORT = 2;
+    public static final int JOYSTICK_L_PORT = 2;
+    public static final int JOYSTICK_R_PORT = 3;
 
     public static final int S_LIDAR = 0;
 
@@ -111,11 +111,11 @@ public final class Constants {
 
     public static final int TIMEOUT_MS = 50;
 
-    public static final double STORAGE_2_RPM = 400;
+    public static final double STORAGE_2_RPM = 5000;
 
-    public static final double SHOOTER_RATIO = 0.75;
-    public static final double SHOOTER_1_RPM = 3500 / SHOOTER_RATIO;
-    public static final double SHOOTER_2_RPM = 3500 / SHOOTER_RATIO;
+    public static final double SHOOTER_RATIO = 0.6666;
+    public static final double SHOOTER_1_RPM = 500 / SHOOTER_RATIO;
+    public static final double SHOOTER_2_RPM = 500 / SHOOTER_RATIO;
 
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
@@ -162,8 +162,8 @@ public final class Constants {
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.01, 0.05, 0.0005 };
-    public static final double[] C_STRONG_PID = { 0.015, 0.1, 0.0005 };
-    public static final double[] R_STRONG_PID = { 0.015, 0.1, 0.0005 };
+    public static final double[] C_STRONG_PID = { 0.01, 0.15, 0.0005 };
+    public static final double[] R_STRONG_PID = { 0.01, 0.15, 0.0005 };
 
     public static final double INTERGRAL_HALFLIFE_T = 20;
 

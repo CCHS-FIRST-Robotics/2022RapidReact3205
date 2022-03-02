@@ -20,8 +20,8 @@ public class ShooterEncoder extends BaseSensor {
 
     public void processValue(MainState state, HardwareObjects hardware) {
         double storage_2 = hardware.STORAGE_2_MOTOR.getSelectedSensorVelocity(1);
-        double shooter_1 = hardware.SHOOTER_1_MOTOR.getSelectedSensorVelocity(1);
-        double shooter_2 = hardware.SHOOTER_2_MOTOR.getSelectedSensorVelocity(1);
+        double shooter_1 = hardware.SHOOTER_1_MOTOR.getSelectedSensorVelocity(1) * -1;
+        double shooter_2 = hardware.SHOOTER_2_MOTOR.getSelectedSensorVelocity(1) * -1;
 
         double dps2rads = 10 * 2 * Math.PI / 4096;
 

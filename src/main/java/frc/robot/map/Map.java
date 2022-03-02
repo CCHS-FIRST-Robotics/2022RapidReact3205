@@ -41,7 +41,7 @@ public class Map {
         return state;
     }
 
-    public void getVals(Network net) {
+    public void getBalls(Network net) {
         int live_balls = 0;
 
         for (int c = 0; c < Constants.BALL_NUM; c++) {
