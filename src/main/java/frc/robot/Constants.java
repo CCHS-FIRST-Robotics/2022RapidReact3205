@@ -176,4 +176,7 @@ public final class Constants {
 
     // Brownout protection
     public static final double[] VOLT_CONCERN_RANGE = { 7.0, 9.0 };
+
+    // FIRING PARAMETERS
+    public static final double FIRING_DIST = 3;
 }

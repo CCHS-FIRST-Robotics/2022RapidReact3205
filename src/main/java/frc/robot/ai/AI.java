@@ -4,6 +4,7 @@ import frc.robot.state.*;
 import frc.robot.Constants;
 import frc.robot.ai.control_mode.*;
 import frc.robot.commands.*;
+import frc.robot.map.Map;
 
 /**
  * AI finite state machine class, handles switching between various autonomous
@@ -66,8 +67,8 @@ public class AI {
         this.current_state = States.CONTROLLER;
     }
 
-    public void setAutonomousState(MainState state) {
-        this.autonomous.init(state);
+    public void setAutonomousState(MainState state, Map map) {
+        this.autonomous.init(state, map);
         this.current_state = States.AUTONOMOUS;
     }
 }

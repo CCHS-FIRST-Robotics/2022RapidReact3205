@@ -47,9 +47,16 @@ public class Controller {
         this.shooter.idle();
     }
 
+    double stickCurve(double val) {
+        if (Math.abs(val) < 0.07) {
+            val = 0;
+        }
+        return val;
+    }
+
     double[] starControl(MainState state) {
         // left controllers give a polar vec, angle from 0 and mag from 0 to 1
-        double[] stick_vec = { L_STICK.getRawAxis(0), -1 * L_STICK.getRawAxis(1) };
+        double[] stick_vec = { stickCurve(L_STICK.getRawAxis(0)), -1 * stickCurve(L_STICK.getRawAxis(1)) };
         SmartDashboard.putNumber("stick_L1", L_STICK.getRawAxis(1));
         SmartDashboard.putNumber("stick_L0", L_STICK.getRawAxis(0));
         SmartDashboard.putNumber("stick_R1", R_STICK.getRawAxis(1));
@@ -79,7 +86,7 @@ public class Controller {
         max_vel = max_vel * Math.max(Math.abs(Math.cos(rthe)), Math.abs(Math.sin(rthe)));
         double[] vel_vec = SimpleMat.projectHeading(theta, mag * max_vel);
         SmartDashboard.putNumberArray("Vel Vec", vel_vec);
-        
+
         double avel = max_avl * -1 * yaw_val;
         SmartDashboard.putNumber("AVEL", avel);
         double[] whl_vec = MecanumIK.mecanumIK(vel_vec, avel);
@@ -91,9 +98,9 @@ public class Controller {
         double lr_strafe = xbox.getLeftX();
         double fb_1 = xbox.getLeftY();
         double lr_turn = (xbox.getRightX());
-        double fb_2 = sfr_curve.getProp(xbox.getRightY());
+        double fb_2 = sfr_curve.getProp(xbox.getRightY()) - stickCurve(this.R_STICK.getRawAxis(1));
 
-        double intake = xbox.getLeftTriggerAxis() - this.R_STICK.getRawAxis(1);
+        double intake = xbox.getLeftTriggerAxis() - stickCurve(this.R_STICK.getRawAxis(1));
         double storage = xbox.getLeftTriggerAxis();
 
         double storage_2 = 0;

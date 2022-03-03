@@ -16,12 +16,12 @@ public class IntakeHandler {
         this.substate = 0;
     }
 
-    public void intakeStorage() {
+    public void intakeOnly() {
         this.substate = 1;
         this.start_time = System.currentTimeMillis() / 1000;
     }
 
-    public void intakeOnly() {
+    public void intakeStorage() {
         this.substate = 2;
         this.start_time = System.currentTimeMillis() / 1000;
     }
@@ -51,5 +51,12 @@ public class IntakeHandler {
             return new double[] { 0.2, 1 };
         }
         return new double[] { 0, 0 };
+    }
+
+    public boolean exit() {
+        if (this.substate == 2 || this.substate == 3) {
+            return false;
+        }
+        return true;
     }
 }

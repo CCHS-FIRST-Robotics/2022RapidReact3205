@@ -41,6 +41,17 @@ public class Map {
         return state;
     }
 
+    public void softInit(MainState state, double[] start_pos, double start_heading) {
+        state.setPos(start_pos, state.getPosVar());
+        state.setWhlOPos(start_pos, state.getWhlOPosVar());
+
+        state.setHeading(start_heading, state.getHeadingVar());
+        state.setWhlOHeading(start_heading, state.getWhlOHeadingVar());
+
+        state.setVel(new double[] { 0, 0 }, Constants.INIT_VARIANCE);
+        state.setAcc(new double[] { 0, 0 }, Constants.INIT_VARIANCE);
+    }
+
     public void getBalls(Network net) {
         int live_balls = 0;
 

@@ -49,6 +49,9 @@ public class ShooterHandler {
         }
         if (this.state == 2) {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss;
+            if (exit()) {
+                this.state = 0;
+            }
         }
 
         double so2_resp = this.storage_2.update(so2_target - state.getStorage2Val());
@@ -61,6 +64,17 @@ public class ShooterHandler {
         }
         double[] output = { so2_resp, sh1_resp, sh2_resp };
         return output;
+    }
+
+    public boolean exit() {
+        if (state == 0) {
+            return true;
+        }
+        double dt = (System.currentTimeMillis() / 1000) - this.o_time;
+        if (dt > 3) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -128,7 +128,7 @@ public class RobotContainer {
     if (this.s_lidar.shouldUse()) {
       this.s_lidar.processValue(this.main_state, this.hardware);
     }
-    //this.map.getBalls(this.network);
+    // this.map.getBalls(this.network);
 
     this.main_state.predict(Constants.MAIN_DT);
 
@@ -149,7 +149,7 @@ public class RobotContainer {
    * Sets finite state in AI to auton.
    */
   public void setAutonomousState() {
-    this.ai.setAutonomousState(this.main_state);
+    this.ai.setAutonomousState(this.main_state, this.map);
   }
 
 }
