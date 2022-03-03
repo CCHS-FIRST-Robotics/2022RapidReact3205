@@ -2,6 +2,7 @@ package frc.robot.ai;
 
 import frc.robot.state.*;
 import frc.robot.Constants;
+import frc.robot.HardwareObjects;
 import frc.robot.ai.control_mode.*;
 import frc.robot.commands.*;
 import frc.robot.map.Map;
@@ -67,8 +68,8 @@ public class AI {
         this.current_state = States.CONTROLLER;
     }
 
-    public void setAutonomousState(MainState state, Map map) {
-        this.autonomous.init(state, map);
+    public void setAutonomousState(HardwareObjects hardware, MainState state, Map map) {
+        this.autonomous.init(hardware, state, map);
         this.current_state = States.AUTONOMOUS;
     }
 }

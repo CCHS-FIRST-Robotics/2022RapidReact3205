@@ -52,7 +52,7 @@ public class Autonomous {
         this.shooter = new ShooterHandler();
     }
 
-    public void init(MainState state, Map map) {
+    public void init(HardwareObjects hardware, MainState state, Map map) {
         this.current_step = 0;
         this.generator = new SR1_R1();
 
@@ -64,6 +64,9 @@ public class Autonomous {
         this.coord_list = this.generator.vals;
 
         map.softInit(state, this.start_pos, this.start_heading);
+        map.pos.start_pos = this.start_pos;
+        map.pos.heading = this.start_heading;
+        map.initialize(hardware);
         setMethods(state);
     }
 
@@ -132,11 +135,11 @@ public class Autonomous {
                 break;
             case POINT_MID:
                 main_cmd = this.pam.update(state);
-                exit = this.curve.exit(state);
+                exit = this.pam.exit(state);
                 break;
             case FIRE_MID:
                 main_cmd = this.firing_pos.update(state);
-                exit = this.curve.exit(state);
+                exit = this.firing_pos.exit(state);
                 break;
             case INTAKE_ONLY:
                 exit = true;
@@ -158,7 +161,7 @@ public class Autonomous {
         double[] shooter_cmd = this.shooter.update(state);
         main_cmd.intake_pprop = intake_cmd[0];
         main_cmd.storage_1_pprop = intake_cmd[1];
-        main_cmd.storage_2_pprop = shooter_cmd[0];
+        main_cmd.storage_2_pprop = shooter_cmd[0] + intake_cmd[2];
         main_cmd.shooter1_pprop = shooter_cmd[1];
         main_cmd.shooter2_pprop = shooter_cmd[2];
 

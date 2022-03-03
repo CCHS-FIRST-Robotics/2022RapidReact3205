@@ -20,6 +20,12 @@ public class InternalIRBeamSensor extends BaseSensor {
     }
 
     public void processValue(MainState state, HardwareObjects hardware) {
+        if (hardware.beam_1.get()){
+            state.setBeam1(0, 1);
+        }
+        else{
+            state.setBeam1(1, 1);
+        }
         SmartDashboard.putBoolean("IRB/dist", hardware.beam_1.get());
     }
 }

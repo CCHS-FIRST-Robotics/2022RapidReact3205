@@ -37,6 +37,8 @@ public class ShooterHandler {
         double sh1_target = 0;
         double sh2_target = 0;
 
+        double so2_resp = 0;
+
         if (this.state != 0) {
             sh1_target = Constants.SHOOTER_1_RPM * rpm2radss;
             sh2_target = Constants.SHOOTER_2_RPM * rpm2radss;
@@ -52,11 +54,12 @@ public class ShooterHandler {
             if (exit()) {
                 this.state = 0;
             }
+            so2_resp = 1;
         }
 
-        double so2_resp = this.storage_2.update(so2_target - state.getStorage2Val());
-        double sh1_resp = this.shooter_1.update(sh1_target - state.getShooterVal()[0]);
-        double sh2_resp = this.shooter_2.update(sh2_target - state.getShooterVal()[1]);
+        //double so2_resp = this.storage_2.update(so2_target - state.getStorage2Val());
+        double sh1_resp = Math.max(-1, Math.min(1, this.shooter_1.update(sh1_target - state.getShooterVal()[0])));
+        double sh2_resp = Math.max(-1, Math.min(1,this.shooter_2.update(sh2_target - state.getShooterVal()[1])));
 
         if (this.state == 0) {
             double[] output = { 0, 0, 0 };

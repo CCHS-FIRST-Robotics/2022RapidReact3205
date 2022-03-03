@@ -7,6 +7,7 @@ public class MainState {
     Wheel Whl = new Wheel();
     Storage Sto = new Storage();
     Shooter Sho = new Shooter();
+    Beam b = new Beam();
 
     public void predict(double dt) {
         this.Whl.predict(dt, this.Phy.Val.heading, this.Phy.Val.acc, this.Phy.Val.ang_vel);
@@ -365,5 +366,16 @@ public class MainState {
     public void setStorage2(double storage_radss, double var) {
         this.Sho.val.storage_radss = storage_radss;
         this.Sho.var.storage_radss = var;
+    }
+
+    public double getBeam1Val(){
+        return this.b.val.beam_1;
+    }
+    public double getBeam1Var(){
+        return this.b.var.beam_1;
+    }
+    public void setBeam1(double val, double var){
+        this.b.val.beam_1 = val;
+        this.b.var.beam_1 = var;
     }
 }

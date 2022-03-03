@@ -48,7 +48,7 @@ public class Controller {
     }
 
     double stickCurve(double val) {
-        if (Math.abs(val) < 0.07) {
+        if (Math.abs(val) < 0.2) {
             val = 0;
         }
         return val;
@@ -61,7 +61,7 @@ public class Controller {
         SmartDashboard.putNumber("stick_L0", L_STICK.getRawAxis(0));
         SmartDashboard.putNumber("stick_R1", R_STICK.getRawAxis(1));
         SmartDashboard.putNumber("stick_R0", R_STICK.getRawAxis(0));
-        double yaw_val = R_STICK.getRawAxis(0);
+        double yaw_val = stickCurve(R_STICK.getRawAxis(0));
         double raw_theta = SimpleMat.vecsAngle2(new double[] { 0, 1 }, stick_vec);
         double factor = 1;
         if (raw_theta > -1 * Math.PI / 4 && raw_theta < Math.PI / 4) {
@@ -84,10 +84,10 @@ public class Controller {
         double max_avl = max_vel / (Constants.ROBOT_WIDTH / 2);
         double rthe = SimpleMat.angleRectifier(theta + state.getHeadingVal());
         max_vel = max_vel * Math.max(Math.abs(Math.cos(rthe)), Math.abs(Math.sin(rthe)));
-        double[] vel_vec = SimpleMat.projectHeading(theta, mag * max_vel);
+        double[] vel_vec = SimpleMat.projectHeading(theta, mag * max_vel * 0.1);
         SmartDashboard.putNumberArray("Vel Vec", vel_vec);
 
-        double avel = max_avl * -1 * yaw_val;
+        double avel = max_avl * -1 * yaw_val * 0.01;
         SmartDashboard.putNumber("AVEL", avel);
         double[] whl_vec = MecanumIK.mecanumIK(vel_vec, avel);
         SmartDashboard.putNumberArray("MIKC", whl_vec);
@@ -98,9 +98,9 @@ public class Controller {
         double lr_strafe = xbox.getLeftX();
         double fb_1 = xbox.getLeftY();
         double lr_turn = (xbox.getRightX());
-        double fb_2 = sfr_curve.getProp(xbox.getRightY()) - stickCurve(this.R_STICK.getRawAxis(1));
+        double fb_2 = sfr_curve.getProp(xbox.getRightY());
 
-        double intake = xbox.getLeftTriggerAxis() - stickCurve(this.R_STICK.getRawAxis(1));
+        double intake = xbox.getLeftTriggerAxis();// - stickCurve(this.R_STICK.getRawAxis(1));
         double storage = xbox.getLeftTriggerAxis();
 
         double storage_2 = 0;
@@ -139,25 +139,25 @@ public class Controller {
         if (xbox.getYButton()) {
             storage_2 = -1;
         }
-
+        double[] ins_cmd = this.intake.update(state);
         if (this.intake.substate != 0) {
-            double[] ins_cmd = this.intake.update(state);
             intake = ins_cmd[0];
             storage = ins_cmd[1];
+            storage_2 = ins_cmd[2];
         }
         double[] sho_cmd = this.shooter.update(state);
         if (this.shooter.state != 0) {
-            storage_2 = sho_cmd[0];
+            storage_2 = storage_2 + sho_cmd[0];
             shooter_1 = sho_cmd[1];
             shooter_2 = sho_cmd[2];
         }
 
         double[] whl_vec = starControl(state);
 
-        double flt = -1 * fb_1 + lr_turn + lr_strafe;// + whl_vec[0];
-        double frt = -1 * fb_1 - lr_turn - lr_strafe;// + whl_vec[1];
-        double blt = -1 * fb_1 + lr_turn - lr_strafe;// + whl_vec[2];
-        double brt = -1 * fb_1 - lr_turn + lr_strafe;// + whl_vec[3];
+        double flt = -1 * fb_1 + lr_turn + lr_strafe + whl_vec[0];
+        double frt = -1 * fb_1 - lr_turn - lr_strafe + whl_vec[1];
+        double blt = -1 * fb_1 + lr_turn - lr_strafe + whl_vec[2];
+        double brt = -1 * fb_1 - lr_turn + lr_strafe + whl_vec[3];
 
         flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;

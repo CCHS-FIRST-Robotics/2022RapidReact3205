@@ -39,7 +39,7 @@ public final class Constants {
 
     public static final int S_LIDAR = 0;
 
-    public static final int BEAM_1 = 0;
+    public static final int BEAM_1 = 2;
 
     // ==================
     // STATE INITIALIZATION
@@ -113,11 +113,11 @@ public final class Constants {
 
     public static final int TIMEOUT_MS = 50;
 
-    public static final double STORAGE_2_RPM = 5000;
+    public static final double STORAGE_2_RPM = 10000;
 
     public static final double SHOOTER_RATIO = 0.6666;
-    public static final double SHOOTER_1_RPM = 500 / SHOOTER_RATIO;
-    public static final double SHOOTER_2_RPM = 500 / SHOOTER_RATIO;
+    public static final double SHOOTER_1_RPM = 1500 / SHOOTER_RATIO;
+    public static final double SHOOTER_2_RPM = 3500 / SHOOTER_RATIO;
 
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
@@ -164,8 +164,8 @@ public final class Constants {
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.01, 0.05, 0.0005 };
-    public static final double[] C_STRONG_PID = { 0.01, 0.15, 0.0005 };
-    public static final double[] R_STRONG_PID = { 0.01, 0.15, 0.0005 };
+    public static final double[] C_STRONG_PID = { 0.005, 0.05, 0.00 };
+    public static final double[] R_STRONG_PID = { 0.02, 0.2, 0.00};
 
     public static final double INTERGRAL_HALFLIFE_T = 20;
 

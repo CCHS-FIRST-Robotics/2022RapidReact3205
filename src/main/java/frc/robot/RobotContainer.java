@@ -155,7 +155,7 @@ public class RobotContainer {
    * Sets finite state in AI to auton.
    */
   public void setAutonomousState() {
-    this.ai.setAutonomousState(this.main_state, this.map);
+    this.ai.setAutonomousState(this.hardware, this.main_state, this.map);
   }
 
 }
