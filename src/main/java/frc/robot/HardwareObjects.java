@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * Class that contains and initializes for all hardware objects
@@ -31,6 +32,7 @@ public class HardwareObjects {
     public ADXRS450_Gyro AD_GYRO;
     public Accelerometer RR_ACC;
     public Counter S_LIDAR;
+    public DigitalInput beam_1;
 
     /**
      * Constructor for HardwareObjects. Handles creation and initialization.
@@ -79,6 +81,8 @@ public class HardwareObjects {
         this.AD_GYRO.calibrate();
 
         this.RR_ACC = new BuiltInAccelerometer();
+
+        this.beam_1 = new DigitalInput(Constants.BEAM_1);
 
     }
 }

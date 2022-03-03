@@ -39,6 +39,8 @@ public final class Constants {
 
     public static final int S_LIDAR = 0;
 
+    public static final int BEAM_1 = 0;
+
     // ==================
     // STATE INITIALIZATION
     // ==================

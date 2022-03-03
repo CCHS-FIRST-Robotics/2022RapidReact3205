@@ -19,6 +19,7 @@ import frc.robot.sensors.RoboRioAccSensor;
 import frc.robot.sensors.LidarSensor;
 import frc.robot.sensors.StorageLidar;
 import frc.robot.sensors.ShooterEncoder;
+import frc.robot.sensors.InternalIRBeamSensor;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
 import frc.robot.map.Map;
@@ -51,6 +52,7 @@ public class RobotContainer {
   public RoboRioAccSensor rr_acc;
   public LidarSensor lidar;
   public ShooterEncoder shooter_e;
+  public InternalIRBeamSensor beam;
   double log;
 
   /**
@@ -73,6 +75,7 @@ public class RobotContainer {
     this.lidar = new LidarSensor(SYNC_TIME);
     this.s_lidar = new StorageLidar(SYNC_TIME);
     this.shooter_e = new ShooterEncoder(SYNC_TIME);
+    this.beam = new InternalIRBeamSensor(SYNC_TIME);
     reset();
   }
 
@@ -127,6 +130,9 @@ public class RobotContainer {
     }
     if (this.s_lidar.shouldUse()) {
       this.s_lidar.processValue(this.main_state, this.hardware);
+    }
+    if (this.beam.shouldUse()){
+      this.beam.processValue(this.main_state, this.hardware);
     }
     this.map.getBalls(this.network);
 
