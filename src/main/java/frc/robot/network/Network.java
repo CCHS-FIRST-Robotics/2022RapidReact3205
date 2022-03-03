@@ -59,6 +59,8 @@ public class Network {
 
         this.stereo_net.init(inst);
         this.lidar.init(inst);
+
+        this.ball_net.init(inst);
     }
 
     public void writeNTable(MainState state) {

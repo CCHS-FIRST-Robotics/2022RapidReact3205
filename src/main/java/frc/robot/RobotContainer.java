@@ -47,7 +47,7 @@ public class RobotContainer {
   public NAVXAccumSensor navx_accum;
   public StorageLidar s_lidar;
 
-  // public ADGyroSensor ad_gyro;
+  public ADGyroSensor ad_gyro;
   public RoboRioAccSensor rr_acc;
   public LidarSensor lidar;
   public ShooterEncoder shooter_e;
@@ -68,7 +68,7 @@ public class RobotContainer {
     this.network = new Network();
     this.main_state = this.map.initialize(this.hardware);
     this.navx_accum = new NAVXAccumSensor(this.main_state, this.hardware, SYNC_TIME);
-    // this.ad_gyro = new ADGyroSensor(SYNC_TIME);
+    this.ad_gyro = new ADGyroSensor(SYNC_TIME);
     this.rr_acc = new RoboRioAccSensor(SYNC_TIME);
     this.lidar = new LidarSensor(SYNC_TIME);
     this.s_lidar = new StorageLidar(SYNC_TIME);
@@ -89,7 +89,7 @@ public class RobotContainer {
     this.main_state = this.map.initialize(this.hardware);
     this.network.init(SYNC_TIME);
     this.navx_accum.reset(this.main_state, this.hardware);
-    // this.ad_gyro.reset(this.hardware);
+    this.ad_gyro.reset(this.hardware);
     this.rr_acc.reset(this.hardware);
     this.lidar.reset();
     this.s_lidar.reset(this.hardware);
@@ -116,9 +116,9 @@ public class RobotContainer {
     if (this.shooter_e.shouldUse()) {
       this.shooter_e.processValue(this.main_state, this.hardware);
     }
-    // if (this.ad_gyro.shouldUse()) {
-    // this.ad_gyro.processValue(this.main_state, this.hardware);
-    // }
+    if (this.ad_gyro.shouldUse()) {
+      this.ad_gyro.processValue(this.main_state, this.hardware);
+    }
     if (this.rr_acc.shouldUse()) {
       this.rr_acc.processValue(this.main_state, this.hardware);
     }
@@ -128,7 +128,7 @@ public class RobotContainer {
     if (this.s_lidar.shouldUse()) {
       this.s_lidar.processValue(this.main_state, this.hardware);
     }
-    // this.map.getBalls(this.network);
+    this.map.getBalls(this.network);
 
     this.main_state.predict(Constants.MAIN_DT);
 

@@ -51,8 +51,8 @@ public class NAVXAccumSensor extends BaseSensor {
         double pos_var = Constants.IMU_ACC_VAR * Math.pow(dt + 1, 2);
         double vel_var = Constants.IMU_ACC_VAR * (dt + 1);
 
-        double[] ld = { hardware.NAVX.getDisplacementX(), hardware.NAVX.getDisplacementY() };
-        double[] lv = { hardware.NAVX.getVelocityX(), hardware.NAVX.getVelocityY() };
+        double[] ld = { hardware.NAVX.getDisplacementX(), hardware.NAVX.getDisplacementY() * -1 };
+        double[] lv = { hardware.NAVX.getVelocityX(), hardware.NAVX.getVelocityY() * -1 };
 
         double[] est_pos = SimpleMat.add(this.pos, SimpleMat.rot2d(ld, this.heading));
         double[] est_vel = SimpleMat.rot2d(lv, this.heading);

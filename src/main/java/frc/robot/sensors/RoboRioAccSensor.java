@@ -30,7 +30,7 @@ public class RoboRioAccSensor extends BaseSensor {
     }
 
     public void processValue(MainState state, HardwareObjects hardware) {
-        double[] acc_vec = { hardware.RR_ACC.getX(), hardware.RR_ACC.getY() };
+        double[] acc_vec = { hardware.RR_ACC.getX(), hardware.RR_ACC.getY() * -1 };
         acc_vec = SimpleMat.scaleVec(acc_vec, Constants.GRAV_ACC);
         acc_vec = SimpleMat.add(acc_vec, this.zero);
 
@@ -39,7 +39,7 @@ public class RoboRioAccSensor extends BaseSensor {
         acc_vec = SimpleMat.rot2d(acc_vec, state.getHeadingVal());
         double var = Constants.IMU_ACC_VAR * 2;
         double[] a2 = state.kalman2Update(state.getAccVal(), state.getAccVar(), acc_vec, var);
-        double[] new_acc = { a2[0], a2[1] * -1 };
+        double[] new_acc = { a2[0], a2[1] };
         state.setAcc(new_acc, a2[2]);
     }
 }
