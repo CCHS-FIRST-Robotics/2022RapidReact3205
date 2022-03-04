@@ -142,15 +142,19 @@ public class Autonomous {
                 exit = this.firing_pos.exit(state);
                 break;
             case INTAKE_ONLY:
+                this.intake.intakeOnly();
                 exit = true;
                 break;
             case INTAKE_STORE:
+                this.intake.intakeStorage();
                 exit = this.intake.exit();
                 break;
             case INTAKE_IDLE:
+                this.intake.idle();
                 exit = true;
                 break;
             case SHOOTER_FIRE:
+                this.shooter.initFiring();
                 exit = shooter.exit();
                 break;
         }
@@ -159,6 +163,8 @@ public class Autonomous {
         }
         double[] intake_cmd = this.intake.update(state);
         double[] shooter_cmd = this.shooter.update(state);
+        SmartDashboard.putNumberArray("Auton/intake_cmd", intake_cmd);
+        SmartDashboard.putNumberArray("Auton/shooter_cmd", intake_cmd);
         main_cmd.intake_pprop = intake_cmd[0];
         main_cmd.storage_1_pprop = intake_cmd[1];
         main_cmd.storage_2_pprop = shooter_cmd[0] + intake_cmd[2];

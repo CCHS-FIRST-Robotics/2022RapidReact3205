@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Travel {
 
-    PID fl;
-    PID fr;
-    PID bl;
-    PID br;
+    MPID fl;
+    MPID fr;
+    MPID bl;
+    MPID br;
 
     double v_max;
     double a_max;

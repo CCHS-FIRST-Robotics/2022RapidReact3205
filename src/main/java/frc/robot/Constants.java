@@ -166,6 +166,7 @@ public final class Constants {
     public static final double[] C_BASE_PID = { 0.01, 0.05, 0.0005 };
     public static final double[] C_STRONG_PID = { 0.005, 0.05, 0.00 };
     public static final double[] R_STRONG_PID = { 0.02, 0.2, 0.00};
+    public static final double C_ACC_LIM = 2;
 
     public static final double INTERGRAL_HALFLIFE_T = 20;
 
