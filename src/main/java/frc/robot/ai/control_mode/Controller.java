@@ -154,10 +154,10 @@ public class Controller {
 
         double[] whl_vec = starControl(state);
 
-        double flt = -1 * fb_1 + lr_turn + lr_strafe + whl_vec[0];
-        double frt = -1 * fb_1 - lr_turn - lr_strafe + whl_vec[1];
-        double blt = -1 * fb_1 + lr_turn - lr_strafe + whl_vec[2];
-        double brt = -1 * fb_1 - lr_turn + lr_strafe + whl_vec[3];
+        double flt = -1 * fb_1 + lr_turn + lr_strafe;// + whl_vec[0];
+        double frt = -1 * fb_1 - lr_turn - lr_strafe;// + whl_vec[1];
+        double blt = -1 * fb_1 + lr_turn - lr_strafe;// + whl_vec[2];
+        double brt = -1 * fb_1 - lr_turn + lr_strafe;// + whl_vec[3];
 
         flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
