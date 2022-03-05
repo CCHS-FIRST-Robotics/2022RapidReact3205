@@ -89,26 +89,33 @@ public class Autonomous {
                 this.curve = new CurveFwdTravel(this.coord_list.get(this.current_step),
                         this.ang_list.get(this.current_step), 1);
                 this.curve.init(state);
+                SmartDashboard.putString("Auton/func", "CURVE");
                 break;
             case POINT_MID:
                 this.pam = new PointAtMiddle(state, 1);
                 this.pam.init(state);
+                SmartDashboard.putString("Auton/func", "PAM");
                 break;
             case FIRE_MID:
                 this.firing_pos = new FiringPosition(state, 1);
                 this.firing_pos.init(state);
+                SmartDashboard.putString("Auton/func", "FIRE MID");
                 break;
             case INTAKE_ONLY:
                 this.intake.intakeOnly();
+                SmartDashboard.putString("Auton/func", "INTAKE_ONLY");
                 break;
             case INTAKE_STORE:
                 this.intake.intakeStorage();
+                SmartDashboard.putString("Auton/func", "INTAKE_STORE");
                 break;
             case INTAKE_IDLE:
                 this.intake.idle();
+                SmartDashboard.putString("Auton/func", "INTAKE_IDLE");
                 break;
             case SHOOTER_FIRE:
                 this.shooter.initFiring();
+                SmartDashboard.putString("Auton/func", "SHOOTER_FIRE");
                 break;
         }
     }
@@ -123,39 +130,49 @@ public class Autonomous {
             case TRAVEL:
                 main_cmd = this.travel.update(state);
                 exit = this.travel.exit(state);
-                SmartDashboard.putNumber("Auton mcmd", main_cmd.bl_pprop);
+                SmartDashboard.putString("Auton/func_exe", "TRAVEL");
+                SmartDashboard.putNumber("Auton/travel cmd", main_cmd.fl_pprop);
+                SmartDashboard.putNumberArray("Auton/travel point", this.travel.tpos);
                 break;
             case ROTATE:
                 main_cmd = this.rotate.update(state);
                 exit = this.rotate.exit(state);
+                SmartDashboard.putString("Auton/func_exe", "ROTATE");
                 break;
             case CURVE:
                 main_cmd = this.curve.update(state);
                 exit = this.curve.exit(state);
+                SmartDashboard.putString("Auton/func_exe", "CURVE");
                 break;
             case POINT_MID:
                 main_cmd = this.pam.update(state);
                 exit = this.pam.exit(state);
+                SmartDashboard.putString("Auton/func_exe", "POINT_MID");
                 break;
             case FIRE_MID:
                 main_cmd = this.firing_pos.update(state);
                 exit = this.firing_pos.exit(state);
+                SmartDashboard.putString("Auton/func_exe", "FIRE_MID");
                 break;
             case INTAKE_ONLY:
                 this.intake.intakeOnly();
                 exit = true;
+                SmartDashboard.putString("Auton/func_exe", "INTAKE_ONLY");
                 break;
             case INTAKE_STORE:
                 this.intake.intakeStorage();
-                exit = this.intake.exit();
+                exit = true;
+                SmartDashboard.putString("Auton/func_exe", "INTAKE_STORE");
                 break;
             case INTAKE_IDLE:
                 this.intake.idle();
                 exit = true;
+                SmartDashboard.putString("Auton/func_exe", "INTAKE_IDLE");
                 break;
             case SHOOTER_FIRE:
                 this.shooter.initFiring();
                 exit = shooter.exit();
+                SmartDashboard.putString("Auton/func_exe", "SHOOTER_FIRE");
                 break;
         }
         if (exit) {
@@ -165,6 +182,7 @@ public class Autonomous {
         double[] shooter_cmd = this.shooter.update(state);
         SmartDashboard.putNumberArray("Auton/intake_cmd", intake_cmd);
         SmartDashboard.putNumberArray("Auton/shooter_cmd", intake_cmd);
+        SmartDashboard.putNumber("Auton/step", this.current_step);
         main_cmd.intake_pprop = intake_cmd[0];
         main_cmd.storage_1_pprop = intake_cmd[1];
         main_cmd.storage_2_pprop = shooter_cmd[0] + intake_cmd[2];

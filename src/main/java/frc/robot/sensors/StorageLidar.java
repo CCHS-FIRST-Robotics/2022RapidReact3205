@@ -28,6 +28,8 @@ public class StorageLidar extends BaseSensor {
         }
         state.setSLIDAR(dist, state.getSLIDARVar());
         SmartDashboard.putNumber("S_LIDAR/dist", dist);
-        SmartDashboard.putNumber("S_LIDAR/get", hardware.S_LIDAR.getDistance());
+        SmartDashboard.putNumber("S_LIDAR/getPeriod", hardware.S_LIDAR.getPeriod());
+        SmartDashboard.putNumber("S_LIDAR/get", hardware.S_LIDAR.get());
+        SmartDashboard.putNumber("S_LIDAR/getRate", hardware.S_LIDAR.getRate());
     }
 }

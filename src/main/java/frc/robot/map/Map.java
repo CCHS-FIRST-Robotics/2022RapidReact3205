@@ -31,6 +31,9 @@ public class Map {
         hardware.NAVX.zeroYaw();
         hardware.NAVX.setAngleAdjustment(this.pos.heading);
 
+        hardware.IMU.configFactoryDefault();
+        hardware.IMU.setFusedHeading(this.pos.heading, Constants.TIMEOUT_MS);
+
         MainState state = new MainState();
         state.setPos(this.pos.start_pos, state.getPosVar());
         state.setWhlOPos(this.pos.start_pos, state.getWhlOPosVar());

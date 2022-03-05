@@ -2,7 +2,7 @@ package frc.robot.helper;
 
 import frc.robot.Constants;
 
-public class MotorPID {
+public class MPID {
     double integral = 0;
     double previous;
     double previous_time;
@@ -14,7 +14,7 @@ public class MotorPID {
     double k_d = 0.01;
     double decay = Math.exp(Math.log(0.5) / (Constants.INTERGRAL_HALFLIFE_T / Constants.MAIN_DT));
 
-    public MotorPID(double s_p, double s_i, double s_d) {
+    public MPID(double s_p, double s_i, double s_d) {
         this.k_p = s_p;
         this.k_i = s_i;
         this.k_d = s_d;

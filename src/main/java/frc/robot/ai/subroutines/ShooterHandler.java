@@ -45,9 +45,10 @@ public class ShooterHandler {
         }
         if (this.state == 1) {
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
-            if (dt > 0.5) {
+            if (dt > 1) {
                 this.state = 2;
             }
+            so2_target = 0;
         }
         if (this.state == 2) {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss;
@@ -57,7 +58,7 @@ public class ShooterHandler {
             so2_resp = 1;
         }
 
-        //double so2_resp = this.storage_2.update(so2_target - state.getStorage2Val());
+        //so2_resp = this.storage_2.update(so2_target - state.getStorage2Val());
         double sh1_resp = Math.max(-1, Math.min(1, this.shooter_1.update(sh1_target - state.getShooterVal()[0])));
         double sh2_resp = Math.max(-1, Math.min(1,this.shooter_2.update(sh2_target - state.getShooterVal()[1])));
 

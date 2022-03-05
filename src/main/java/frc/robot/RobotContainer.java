@@ -20,6 +20,7 @@ import frc.robot.sensors.LidarSensor;
 import frc.robot.sensors.StorageLidar;
 import frc.robot.sensors.ShooterEncoder;
 import frc.robot.sensors.InternalIRBeamSensor;
+import frc.robot.sensors.IMUSensor;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
 import frc.robot.map.Map;
@@ -53,6 +54,7 @@ public class RobotContainer {
   public LidarSensor lidar;
   public ShooterEncoder shooter_e;
   public InternalIRBeamSensor beam;
+  public IMUSensor imu;
   double log;
 
   /**
@@ -76,6 +78,7 @@ public class RobotContainer {
     this.s_lidar = new StorageLidar(SYNC_TIME);
     this.shooter_e = new ShooterEncoder(SYNC_TIME);
     this.beam = new InternalIRBeamSensor(SYNC_TIME);
+    this.imu = new IMUSensor(SYNC_TIME);
     reset();
   }
 
@@ -132,6 +135,9 @@ public class RobotContainer {
       this.s_lidar.processValue(this.main_state, this.hardware);
     }
     if (this.beam.shouldUse()){
+      this.beam.processValue(this.main_state, this.hardware);
+    }
+    if (this.imu.shouldUse(hardware)){
       this.beam.processValue(this.main_state, this.hardware);
     }
     this.map.getBalls(this.network);

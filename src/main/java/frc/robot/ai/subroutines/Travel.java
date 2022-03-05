@@ -20,7 +20,7 @@ public class Travel {
 
     double angvel_max;
 
-    double[] tpos = { 0, 0 };
+    public double[] tpos = { 0, 0 };
     double thead = 0;
 
     double[] ipos = { 0, 0 };
