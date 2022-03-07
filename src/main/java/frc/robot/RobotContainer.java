@@ -99,6 +99,7 @@ public class RobotContainer {
     this.rr_acc.reset(this.hardware);
     this.lidar.reset();
     this.s_lidar.reset(this.hardware);
+    this.hardware.resetMotors();
   }
 
   /**
@@ -134,10 +135,10 @@ public class RobotContainer {
     if (this.s_lidar.shouldUse()) {
       this.s_lidar.processValue(this.main_state, this.hardware);
     }
-    if (this.beam.shouldUse()){
+    if (this.beam.shouldUse()) {
       this.beam.processValue(this.main_state, this.hardware);
     }
-    if (this.imu.shouldUse(hardware)){
+    if (this.imu.shouldUse(hardware)) {
       this.beam.processValue(this.main_state, this.hardware);
     }
     this.map.getBalls(this.network);

@@ -98,7 +98,7 @@ public final class Constants {
     // ==================
     // TIME CONSTANTS
     // ==================
-    public static final double MAIN_DT = 0.01;
+    public static final double MAIN_DT = 0.02;
 
     // ==================
     // MOTOR CONSTANTS

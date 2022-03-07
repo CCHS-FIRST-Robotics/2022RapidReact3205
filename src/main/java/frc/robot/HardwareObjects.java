@@ -62,6 +62,10 @@ public class HardwareObjects {
 
         this.INTAKE_MOTOR.configFactoryDefault();
         this.STORAGE_1_MOTOR.configFactoryDefault();
+
+        this.STORAGE_2_MOTOR.configFactoryDefault();
+        this.SHOOTER_1_MOTOR.configFactoryDefault();
+        this.SHOOTER_2_MOTOR.configFactoryDefault();
         // IMU.configFactoryDefault();
         // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
@@ -88,5 +92,19 @@ public class HardwareObjects {
         IMU.configFactoryDefault();
         IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
+    }
+
+    public void resetMotors() {
+        this.FLD_MOTOR.configFactoryDefault();
+        this.FRD_MOTOR.configFactoryDefault();
+        this.BLD_MOTOR.configFactoryDefault();
+        this.BRD_MOTOR.configFactoryDefault();
+
+        this.INTAKE_MOTOR.configFactoryDefault();
+        this.STORAGE_1_MOTOR.configFactoryDefault();
+
+        this.STORAGE_2_MOTOR.configFactoryDefault();
+        this.SHOOTER_1_MOTOR.configFactoryDefault();
+        this.SHOOTER_2_MOTOR.configFactoryDefault();
     }
 }

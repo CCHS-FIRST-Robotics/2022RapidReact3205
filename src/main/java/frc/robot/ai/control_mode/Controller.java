@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
 import frc.robot.state.MainState;
 import frc.robot.ai.subroutines.*;
@@ -95,63 +96,75 @@ public class Controller {
     }
 
     public Command getCommands(MainState state) {
-        double lr_strafe = xbox.getLeftX();
-        double fb_1 = xbox.getLeftY();
-        double lr_turn = (xbox.getRightX());
-        double fb_2 = sfr_curve.getProp(xbox.getRightY());
-
-        double intake = xbox.getLeftTriggerAxis();// - stickCurve(this.R_STICK.getRawAxis(1));
-        double storage = xbox.getLeftTriggerAxis();
-
+        double lr_strafe = 0;
+        double fb_1 = 0;
+        double lr_turn = 0;
+        double fb_2 = 0;
+        double intake = 0;
+        double storage = 0;
         double storage_2 = 0;
+        double shooter_1 = 0;
+        double shooter_2 = 0;
 
-        double shooter_1 = xbox.getRightTriggerAxis();
-        double shooter_2 = xbox.getRightTriggerAxis();
+        if (DriverStation.isTeleop()) {
 
-        if (xbox.getLeftBumper() && this.intake.substate == 0) {
-            intake = intake * -1;
-            storage = storage * -1;
-        }
-        if (xbox.getRightBumper()) {
-            storage_2 = 1;
-        }
-        if (xbox.getAButtonReleased()) {
-            if (this.intake.substate == 0) {
-                this.intake.intakeStorage();
-            } else {
-                this.intake.idle();
+            lr_strafe = xbox.getLeftX();
+            fb_1 = xbox.getLeftY();
+            lr_turn = (xbox.getRightX());
+            fb_2 = sfr_curve.getProp(xbox.getRightY());
+
+            intake = xbox.getLeftTriggerAxis();// - stickCurve(this.R_STICK.getRawAxis(1));
+            storage = xbox.getLeftTriggerAxis();
+
+            storage_2 = 0;
+
+            shooter_1 = xbox.getRightTriggerAxis();
+            shooter_2 = xbox.getRightTriggerAxis();
+
+            if (xbox.getLeftBumper() && this.intake.substate == 0) {
+                intake = intake * -1;
+                storage = storage * -1;
+            }
+            if (xbox.getRightBumper()) {
+                storage_2 = 1;
+            }
+            if (xbox.getAButtonReleased()) {
+                if (this.intake.substate == 0) {
+                    this.intake.intakeStorage();
+                } else {
+                    this.intake.idle();
+                }
+            }
+            if (xbox.getBButtonReleased()) {
+                if (this.intake.substate == 0) {
+                    this.intake.intakeStorage();
+                } else {
+                    this.intake.idle();
+                }
+            }
+            if (xbox.getXButtonReleased()) {
+                if (this.shooter.state == 0) {
+                    this.shooter.initFiring();
+                } else {
+                    this.shooter.idle();
+                }
+            }
+            if (xbox.getYButton()) {
+                storage_2 = -1;
+            }
+            double[] ins_cmd = this.intake.update(state);
+            if (this.intake.substate != 0) {
+                intake = ins_cmd[0];
+                storage = ins_cmd[1];
+                storage_2 = ins_cmd[2];
+            }
+            double[] sho_cmd = this.shooter.update(state);
+            if (this.shooter.state != 0) {
+                storage_2 = storage_2 + sho_cmd[0];
+                shooter_1 = sho_cmd[1];
+                shooter_2 = sho_cmd[2];
             }
         }
-        if (xbox.getBButtonReleased()) {
-            if (this.intake.substate == 0) {
-                this.intake.intakeStorage();
-            } else {
-                this.intake.idle();
-            }
-        }
-        if (xbox.getXButtonReleased()) {
-            if (this.shooter.state == 0) {
-                this.shooter.initFiring();
-            } else {
-                this.shooter.idle();
-            }
-        }
-        if (xbox.getYButton()) {
-            storage_2 = -1;
-        }
-        double[] ins_cmd = this.intake.update(state);
-        if (this.intake.substate != 0) {
-            intake = ins_cmd[0];
-            storage = ins_cmd[1];
-            storage_2 = ins_cmd[2];
-        }
-        double[] sho_cmd = this.shooter.update(state);
-        if (this.shooter.state != 0) {
-            storage_2 = storage_2 + sho_cmd[0];
-            shooter_1 = sho_cmd[1];
-            shooter_2 = sho_cmd[2];
-        }
-
         double[] whl_vec = starControl(state);
 
         double flt = -1 * fb_1 + lr_turn + lr_strafe;// + whl_vec[0];
