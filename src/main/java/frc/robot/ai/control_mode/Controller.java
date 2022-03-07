@@ -108,13 +108,13 @@ public class Controller {
 
         if (DriverStation.isTeleop()) {
 
-            lr_strafe = xbox.getLeftX();
+            lr_strafe = xbox.getLeftX() * 0.8;
             fb_1 = xbox.getLeftY();
             lr_turn = (xbox.getRightX());
             fb_2 = sfr_curve.getProp(xbox.getRightY());
 
-            intake = xbox.getLeftTriggerAxis();// - stickCurve(this.R_STICK.getRawAxis(1));
-            storage = xbox.getLeftTriggerAxis();
+            intake = xbox.getLeftTriggerAxis() * 0.4;// - stickCurve(this.R_STICK.getRawAxis(1));
+            storage = xbox.getLeftTriggerAxis() * 0.4;
 
             storage_2 = 0;
 

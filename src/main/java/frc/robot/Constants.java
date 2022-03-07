@@ -170,7 +170,7 @@ public final class Constants {
     public static final double[] R_STRONG_PID = { 0.1, 0.0, 0.01 };
     public static final double C_ACC_LIM = 4;
 
-    public static final double INTERGRAL_HALFLIFE_T = 8;
+    public static final double INTERGRAL_HALFLIFE_T = 2;
 
     public static final double INTEGRAL_HALFLIFE_T_S = 1;
 

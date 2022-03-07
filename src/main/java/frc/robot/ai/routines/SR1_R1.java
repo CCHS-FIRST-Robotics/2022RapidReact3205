@@ -11,7 +11,7 @@ public class SR1_R1 {
 
     public SR1_R1() {
         this.start_point[0] = 0.661;
-        this.start_point[1] = 2;
+        this.start_point[1] = 3;
         this.start_heading = 0;
 
         this.met_list.add(Methods.INTAKE_ONLY);

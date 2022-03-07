@@ -53,7 +53,7 @@ public class Autonomous {
     }
 
     public void init(HardwareObjects hardware, MainState state, Map map) {
-        this.current_step = 0;
+        this.current_step = -1;
         this.generator = new SR1_R1();
 
         this.start_pos = this.generator.start_point;
@@ -67,6 +67,7 @@ public class Autonomous {
         map.pos.start_pos = this.start_pos;
         map.pos.heading = this.start_heading;
         map.initialize(hardware);
+        this.current_step = 0;
         setMethods(state);
     }
 
@@ -75,7 +76,7 @@ public class Autonomous {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
                         this.coord_list.get(this.current_step).get(0)[1] };
-                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 1);
+                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.4);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
@@ -87,7 +88,7 @@ public class Autonomous {
                 break;
             case CURVE:
                 this.curve = new CurveFwdTravel(this.coord_list.get(this.current_step),
-                        this.ang_list.get(this.current_step), 1);
+                        this.ang_list.get(this.current_step), 0.4);
                 this.curve.init(state);
                 SmartDashboard.putString("Auton/func", "CURVE");
                 break;
@@ -97,7 +98,7 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "PAM");
                 break;
             case FIRE_MID:
-                this.firing_pos = new FiringPosition(state, 1);
+                this.firing_pos = new FiringPosition(state, 0.2);
                 this.firing_pos.init(state);
                 SmartDashboard.putString("Auton/func", "FIRE MID");
                 break;
@@ -121,6 +122,9 @@ public class Autonomous {
     }
 
     public Command getCommands(MainState state) {
+        if (this.current_step == -1){
+            return new Command(Constants.DEFAULT_CMD);
+        }
         if (this.current_step + 1 > this.cmd_list.size()) {
             return new Command(Constants.DEFAULT_CMD);
         }
@@ -155,13 +159,11 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func_exe", "FIRE_MID");
                 break;
             case INTAKE_ONLY:
-                this.intake.intakeOnly();
                 exit = true;
                 SmartDashboard.putString("Auton/func_exe", "INTAKE_ONLY");
                 break;
             case INTAKE_STORE:
-                this.intake.intakeStorage();
-                exit = true;
+                exit = intake.exit();
                 SmartDashboard.putString("Auton/func_exe", "INTAKE_STORE");
                 break;
             case INTAKE_IDLE:
@@ -170,18 +172,19 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func_exe", "INTAKE_IDLE");
                 break;
             case SHOOTER_FIRE:
-                this.shooter.initFiring();
                 exit = shooter.exit();
                 SmartDashboard.putString("Auton/func_exe", "SHOOTER_FIRE");
                 break;
         }
         if (exit) {
             this.current_step++;
+            setMethods(state);
         }
         double[] intake_cmd = this.intake.update(state);
         double[] shooter_cmd = this.shooter.update(state);
         SmartDashboard.putNumberArray("Auton/intake_cmd", intake_cmd);
         SmartDashboard.putNumberArray("Auton/shooter_cmd", intake_cmd);
+        SmartDashboard.putNumber("Auton/FL",main_cmd.fr_pprop);
         SmartDashboard.putNumber("Auton/step", this.current_step);
         main_cmd.intake_pprop = intake_cmd[0];
         main_cmd.storage_1_pprop = intake_cmd[1];
@@ -191,8 +194,6 @@ public class Autonomous {
 
         if (this.current_step + 1 > this.cmd_list.size()) {
             return new Command(Constants.DEFAULT_CMD);
-        } else {
-            setMethods(state);
         }
         return main_cmd;
     }

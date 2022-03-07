@@ -3,15 +3,15 @@ package frc.robot.helper;
 import frc.robot.Constants;
 
 public class MPID {
-    double integral = 0;
+    public double integral = 0;
     double previous;
     double previous_time;
 
     double prev_response = 0;
 
-    double k_p = 0.1;
-    double k_i = 0.01;
-    double k_d = 0.01;
+    public double k_p = 0.0;
+    public double k_i = 0.0;
+    public double k_d = 0.0;
     double decay = Math.exp(Math.log(0.5) / (Constants.INTERGRAL_HALFLIFE_T / Constants.MAIN_DT));
 
     public MPID(double s_p, double s_i, double s_d) {

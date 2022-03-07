@@ -24,10 +24,6 @@ public class Map {
 
     public MainState initialize(HardwareObjects hardware) {
         hardware.NAVX.reset();
-        hardware.NAVX.calibrate();
-        while (hardware.NAVX.isCalibrating()) {
-
-        }
         hardware.NAVX.zeroYaw();
         hardware.NAVX.setAngleAdjustment(this.pos.heading);
 

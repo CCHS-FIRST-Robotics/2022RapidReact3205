@@ -25,6 +25,13 @@ public class Travel {
 
     double[] ipos = { 0, 0 };
 
+    public void initPID(){
+        this.fl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+    }
+
     double getAdist(MainState state) {
         double theta = this.thead - state.getHeadingVal();
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
@@ -64,10 +71,12 @@ public class Travel {
 
         double target_ang_vel = 2 * (target_v / tdist) * Math.sin(theta / 2);
         double[] local_vel = SimpleMat.rot2d(direction_vec, -1 * state.getHeadingVal());
+        local_vel = SimpleMat.unitVec(local_vel);
         local_vel = SimpleMat.scaleVec(local_vel, target_v);
 
         double[] whl_array = MecanumIK.mecanumIK(local_vel, target_ang_vel);
 
+        
         double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
         double frr = this.fr.update(whl_array[1] - state.getFRRadssVal());
         double blr = this.bl.update(whl_array[2] - state.getBLRadssVal());
@@ -77,6 +86,11 @@ public class Travel {
         SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
         SmartDashboard.putNumber("Travel/theta", theta);
         SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
+        SmartDashboard.putNumberArray("Travel/local_vel", local_vel);
+        SmartDashboard.putNumber("Travel/flr", flr);
+        SmartDashboard.putNumber("Travel/flr_actual", state.getFLRadssVal());
+        SmartDashboard.putNumber("Travel/flr Integral", fl.integral);
+        SmartDashboard.putNumber("Travel/flr P", fl.k_p);
 
         // return new Command(0, 0, 0, 0);
         double[] ocmd = { flr, frr, blr, brr, 0, 0 };
