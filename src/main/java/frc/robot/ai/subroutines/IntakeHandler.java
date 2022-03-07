@@ -32,13 +32,13 @@ public class IntakeHandler {
             return new double[] { 0, 0, 0.1 };
         }
         if (this.substate == 1) {
-            if (state.getSLIDARVal() < 0.3) {
+            if (c_time - start_time > 2) {
                 this.substate = 0;
             }
             return new double[] { 1, 0.3, 0.1 };
         }
         if (this.substate == 2) {
-            if ( state.getBeam1Val() == 1) {
+            if (state.getBeam1Val() == 1) {
                 this.substate = 3;
                 this.storage_time = System.currentTimeMillis() / 1000;
             }

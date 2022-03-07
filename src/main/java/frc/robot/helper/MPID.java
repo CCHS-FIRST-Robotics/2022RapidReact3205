@@ -19,7 +19,7 @@ public class MPID {
         this.k_i = s_i;
         this.k_d = s_d;
 
-        this.decay = Math.exp(Math.log(0.5) / (Constants.INTERGRAL_HALFLIFE_T / Constants.MAIN_DT));
+        this.decay = Math.exp(Math.log(0.5) / (Constants.INTEGRAL_HALFLIFE_T_S / Constants.MAIN_DT));
         reset();
     }
 
@@ -50,10 +50,9 @@ public class MPID {
         response = Math.min(1, Math.max(-1, response));
 
         double rd = response - prev_response;
-        if (rd > Constants.C_ACC_LIM * dt){
+        if (rd > Constants.C_ACC_LIM * dt) {
             rd = Constants.C_ACC_LIM * dt;
-        }
-        else if (rd < -1 * Constants.C_ACC_LIM * dt){
+        } else if (rd < -1 * Constants.C_ACC_LIM * dt) {
             rd = -1 * Constants.C_ACC_LIM * dt;
         }
         response = prev_response + rd;

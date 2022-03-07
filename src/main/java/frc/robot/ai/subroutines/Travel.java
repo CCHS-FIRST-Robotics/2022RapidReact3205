@@ -52,6 +52,8 @@ public class Travel {
 
         double current_vel = SimpleMat.dot(direction_vec, state.getVelVal());
         double target_v = this.v_contr.update(current_vel, adist);
+        SmartDashboard.putNumber("Travel/target_v", target_v);
+        SmartDashboard.putNumber("Travel/adist", adist);
         if (override_adist) {
             target_v = this.v_contr.update(current_vel, nadist);
         }
