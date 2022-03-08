@@ -10,4 +10,5 @@ public enum Methods {
     INTAKE_STORE,
     INTAKE_IDLE,
     SHOOTER_FIRE,
+    SHOOTER_DOUBLE
 }

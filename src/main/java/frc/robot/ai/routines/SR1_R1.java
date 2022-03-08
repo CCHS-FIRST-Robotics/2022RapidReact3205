@@ -46,19 +46,9 @@ public class SR1_R1 {
         this.vals.add(empty_3);
         this.angsl.add(0.0);
 
-        this.met_list.add(Methods.SHOOTER_FIRE);
+        this.met_list.add(Methods.SHOOTER_DOUBLE);
         ArrayList<double[]> empty_4 = new ArrayList<double[]>();
         this.vals.add(empty_4);
-        this.angsl.add(0.0);
-
-        this.met_list.add(Methods.INTAKE_STORE);
-        ArrayList<double[]> empty_5 = new ArrayList<double[]>();
-        this.vals.add(empty_5);
-        this.angsl.add(0.0);
-
-        this.met_list.add(Methods.SHOOTER_FIRE);
-        ArrayList<double[]> empty_6 = new ArrayList<double[]>();
-        this.vals.add(empty_6);
         this.angsl.add(0.0);
 
     }

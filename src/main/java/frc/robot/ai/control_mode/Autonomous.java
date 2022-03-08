@@ -118,11 +118,15 @@ public class Autonomous {
                 this.shooter.initFiring();
                 SmartDashboard.putString("Auton/func", "SHOOTER_FIRE");
                 break;
+            case SHOOTER_DOUBLE:
+                this.shooter.initDoubleFiring();
+                SmartDashboard.putString("Auton/func", "SHOOTER_DOUBLE");
+                break;
         }
     }
 
     public Command getCommands(MainState state) {
-        if (this.current_step == -1){
+        if (this.current_step == -1) {
             return new Command(Constants.DEFAULT_CMD);
         }
         if (this.current_step + 1 > this.cmd_list.size()) {
@@ -175,6 +179,9 @@ public class Autonomous {
                 exit = shooter.exit();
                 SmartDashboard.putString("Auton/func_exe", "SHOOTER_FIRE");
                 break;
+            case SHOOTER_DOUBLE:
+                exit = shooter.exit();
+                SmartDashboard.putString("Auton/func_exe", "SHOOTER_DOUBLE");
         }
         if (exit) {
             this.current_step++;
@@ -184,10 +191,10 @@ public class Autonomous {
         double[] shooter_cmd = this.shooter.update(state);
         SmartDashboard.putNumberArray("Auton/intake_cmd", intake_cmd);
         SmartDashboard.putNumberArray("Auton/shooter_cmd", intake_cmd);
-        SmartDashboard.putNumber("Auton/FL",main_cmd.fr_pprop);
+        SmartDashboard.putNumber("Auton/FL", main_cmd.fr_pprop);
         SmartDashboard.putNumber("Auton/step", this.current_step);
-        main_cmd.intake_pprop = intake_cmd[0];
-        main_cmd.storage_1_pprop = intake_cmd[1];
+        main_cmd.intake_pprop = intake_cmd[0] + shooter_cmd[2];
+        main_cmd.storage_1_pprop = intake_cmd[1] + shooter_cmd[2];
         main_cmd.storage_2_pprop = shooter_cmd[0] + intake_cmd[2];
         main_cmd.shooter1_pprop = shooter_cmd[1];
         main_cmd.shooter2_pprop = shooter_cmd[2];

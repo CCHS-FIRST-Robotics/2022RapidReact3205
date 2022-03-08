@@ -32,7 +32,7 @@ public class IntakeHandler {
             return new double[] { 0, 0, 0.1 };
         }
         if (this.substate == 1) {
-            if (c_time - start_time > 2) {
+            if (c_time - start_time > 5 || state.getBeam0Val() == 1) {
                 this.substate = 0;
             }
             return new double[] { 1, 0.4, 0.1 };

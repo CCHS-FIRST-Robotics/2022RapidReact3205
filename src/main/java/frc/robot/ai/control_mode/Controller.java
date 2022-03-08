@@ -135,11 +135,18 @@ public class Controller {
                     this.intake.idle();
                 }
             }
-            if (xbox.getBButtonReleased()) {
+            if (xbox.getLeftStickButtonReleased()) {
                 if (this.intake.substate == 0) {
                     this.intake.intakeStorage();
                 } else {
                     this.intake.idle();
+                }
+            }
+            if (xbox.getBButtonReleased()) {
+                if (this.shooter.state == 0) {
+                    this.shooter.initDoubleFiring();
+                } else {
+                    this.shooter.idle();
                 }
             }
             if (xbox.getXButtonReleased()) {
@@ -153,17 +160,12 @@ public class Controller {
                 storage_2 = -1;
             }
             double[] ins_cmd = this.intake.update(state);
-            if (this.intake.substate != 0) {
-                intake = ins_cmd[0];
-                storage = ins_cmd[1];
-                storage_2 = ins_cmd[2];
-            }
             double[] sho_cmd = this.shooter.update(state);
-            if (this.shooter.state != 0) {
-                storage_2 = storage_2 + sho_cmd[0];
-                shooter_1 = sho_cmd[1];
-                shooter_2 = sho_cmd[2];
-            }
+            intake = ins_cmd[0] + sho_cmd[4];
+            storage = ins_cmd[1] + sho_cmd[4];
+            storage_2 = ins_cmd[2] + sho_cmd[0];
+            shooter_1 = sho_cmd[1];
+            shooter_2 = sho_cmd[2];
         }
         double[] whl_vec = starControl(state);
 

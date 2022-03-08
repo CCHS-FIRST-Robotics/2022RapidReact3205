@@ -32,6 +32,7 @@ public class HardwareObjects {
     public ADXRS450_Gyro AD_GYRO;
     public Accelerometer RR_ACC;
     public Counter S_LIDAR;
+    public DigitalInput beam_0;
     public DigitalInput beam_1;
 
     /**
@@ -86,6 +87,7 @@ public class HardwareObjects {
 
         this.RR_ACC = new BuiltInAccelerometer();
 
+        this.beam_0 = new DigitalInput(Constants.BEAM_0);
         this.beam_1 = new DigitalInput(Constants.BEAM_1);
 
         this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);

@@ -50,6 +50,7 @@ public class AI {
                 break;
             case DISABLED:
                 main_command = new Command(Constants.DEFAULT_CMD);
+                break;
         }
         return main_command;
     }

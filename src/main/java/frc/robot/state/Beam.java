@@ -10,6 +10,9 @@ public class Beam {
     }
 
     class Values {
+
+        public double beam_0 = 0;
+
         public double beam_1 = 0;
 
         public Values() {
@@ -18,6 +21,7 @@ public class Beam {
     }
 
     class Variances {
+        public double beam_0 = 0;
         public double beam_1 = 1;
     }
 }

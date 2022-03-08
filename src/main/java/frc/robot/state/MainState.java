@@ -368,13 +368,28 @@ public class MainState {
         this.Sho.var.storage_radss = var;
     }
 
-    public double getBeam1Val(){
+    public double getBeam0Val() {
+        return this.b.val.beam_0;
+    }
+
+    public double getBeam0Var() {
+        return this.b.var.beam_0;
+    }
+
+    public void setBeam0(double val, double var) {
+        this.b.val.beam_0 = val;
+        this.b.var.beam_0 = var;
+    }
+
+    public double getBeam1Val() {
         return this.b.val.beam_1;
     }
-    public double getBeam1Var(){
+
+    public double getBeam1Var() {
         return this.b.var.beam_1;
     }
-    public void setBeam1(double val, double var){
+
+    public void setBeam1(double val, double var) {
         this.b.val.beam_1 = val;
         this.b.var.beam_1 = var;
     }
