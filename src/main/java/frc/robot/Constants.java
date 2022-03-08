@@ -167,8 +167,8 @@ public final class Constants {
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.01, 0.07, 0.0 };
-    public static final double[] C_STRONG_PID = { 0.002, 0.002, 0.02 };
-    public static final double[] R_STRONG_PID = { 0.1, 0.0, 0.01 };
+    public static final double[] C_STRONG_PID = { 0.002, 0.002, 0.03 };
+    public static final double[] R_STRONG_PID = { 0.2, 0.0, 0.01 };
     public static final double C_ACC_LIM = 4;
 
     public static final double INTERGRAL_HALFLIFE_T = 2;

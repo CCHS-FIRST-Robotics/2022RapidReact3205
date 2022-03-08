@@ -161,11 +161,18 @@ public class Controller {
             }
             double[] ins_cmd = this.intake.update(state);
             double[] sho_cmd = this.shooter.update(state);
-            intake = ins_cmd[0] + sho_cmd[4];
-            storage = ins_cmd[1] + sho_cmd[4];
-            storage_2 = ins_cmd[2] + sho_cmd[0];
-            shooter_1 = sho_cmd[1];
-            shooter_2 = sho_cmd[2];
+            if (this.intake.substate != 0){
+                intake = ins_cmd[0];
+                storage = ins_cmd[1];
+                storage_2 = ins_cmd[2] + sho_cmd[0];
+            }
+            if (this.shooter.state != 0){
+                intake = ins_cmd[0] + sho_cmd[3];
+                storage = ins_cmd[1] + sho_cmd[3];
+                storage_2 = ins_cmd[2] + sho_cmd[0];
+                shooter_1 = sho_cmd[1];
+                shooter_2 = sho_cmd[2];
+            }
         }
         double[] whl_vec = starControl(state);
 

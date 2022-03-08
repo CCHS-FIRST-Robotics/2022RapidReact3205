@@ -46,10 +46,10 @@ public class CommandHandler {
                     / (Constants.VOLT_CONCERN_RANGE[1] - Constants.VOLT_CONCERN_RANGE[0]);
         }
 
-        command.fl_pprop = command.fl_pprop;// * concern_const;
-        command.fr_pprop = command.fr_pprop;// * concern_const;
-        command.bl_pprop = command.bl_pprop;// * concern_const;
-        command.br_pprop = command.br_pprop;// * concern_const;
+        command.fl_pprop = command.fl_pprop * concern_const;
+        command.fr_pprop = command.fr_pprop * concern_const;
+        command.bl_pprop = command.bl_pprop * concern_const;
+        command.br_pprop = command.br_pprop * concern_const;
 
         if (Math.abs(command.storage_2_pprop) < 0.1){
             command.storage_2_pprop = 0.05;

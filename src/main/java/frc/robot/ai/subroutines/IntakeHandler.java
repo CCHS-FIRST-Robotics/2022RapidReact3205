@@ -42,7 +42,7 @@ public class IntakeHandler {
                 this.substate = 3;
                 this.storage_time = System.currentTimeMillis() / 1000;
             }
-            return new double[] { 0.5, 0.5, 0.2 };
+            return new double[] { 0.5, 0.5, 0.5 };
         }
         if (this.substate == 3) {
             if (c_time - this.storage_time > 0.00) {

@@ -72,12 +72,13 @@ public class ShooterHandler {
             double dt = ct - this.o_time;
             if (dt > 1) {
                 this.state = 4;
-                d_time = (System.currentTimeMillis() / 1000) - this.o_time;
+                d_time = (System.currentTimeMillis() / 1000);
             }
             so2_target = 0;
         }
         if (this.state == 4) {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss;
+            so2_resp = 1;
             if (ct - d_time > 0.5) {
                 this.state = 5;
             }
@@ -87,7 +88,8 @@ public class ShooterHandler {
             if (exit()) {
                 this.state = 0;
             }
-            intake_resp = 0.5;
+            intake_resp = 1;
+            so2_resp = 1;
         }
 
         // so2_resp = this.storage_2.update(so2_target - state.getStorage2Val());

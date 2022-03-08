@@ -93,7 +93,7 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "CURVE");
                 break;
             case POINT_MID:
-                this.pam = new PointAtMiddle(state, 1);
+                this.pam = new PointAtMiddle(state, 0.2);
                 this.pam.init(state);
                 SmartDashboard.putString("Auton/func", "PAM");
                 break;
@@ -130,6 +130,7 @@ public class Autonomous {
             return new Command(Constants.DEFAULT_CMD);
         }
         if (this.current_step + 1 > this.cmd_list.size()) {
+            this.current_step = -1;
             return new Command(Constants.DEFAULT_CMD);
         }
         Command main_cmd = new Command(Constants.DEFAULT_CMD);
@@ -185,6 +186,9 @@ public class Autonomous {
         }
         if (exit) {
             this.current_step++;
+            if (this.current_step + 1 > this.cmd_list.size()) {
+                return new Command(Constants.DEFAULT_CMD);
+            }
             setMethods(state);
         }
         double[] intake_cmd = this.intake.update(state);
@@ -193,15 +197,11 @@ public class Autonomous {
         SmartDashboard.putNumberArray("Auton/shooter_cmd", intake_cmd);
         SmartDashboard.putNumber("Auton/FL", main_cmd.fr_pprop);
         SmartDashboard.putNumber("Auton/step", this.current_step);
-        main_cmd.intake_pprop = intake_cmd[0] + shooter_cmd[2];
-        main_cmd.storage_1_pprop = intake_cmd[1] + shooter_cmd[2];
+        main_cmd.intake_pprop = intake_cmd[0] + shooter_cmd[3];
+        main_cmd.storage_1_pprop = intake_cmd[1] + shooter_cmd[3];
         main_cmd.storage_2_pprop = shooter_cmd[0] + intake_cmd[2];
         main_cmd.shooter1_pprop = shooter_cmd[1];
         main_cmd.shooter2_pprop = shooter_cmd[2];
-
-        if (this.current_step + 1 > this.cmd_list.size()) {
-            return new Command(Constants.DEFAULT_CMD);
-        }
         return main_cmd;
     }
 }

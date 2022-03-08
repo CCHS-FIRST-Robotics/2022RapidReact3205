@@ -53,9 +53,6 @@ public class AI {
                 main_command = new Command(Constants.DEFAULT_CMD);
                 break;
         }
-        if (DriverStation.isDisabled()) {
-            main_command = new Command(Constants.DEFAULT_CMD);
-        }
         return main_command;
     }
 

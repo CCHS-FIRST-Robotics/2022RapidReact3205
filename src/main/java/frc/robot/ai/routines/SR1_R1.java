@@ -30,12 +30,6 @@ public class SR1_R1 {
         this.vals.add(empty_1);
         this.angsl.add(0.0);
 
-        this.met_list.add(Methods.TRAVEL);
-        ArrayList<double[]> travel0 = new ArrayList<double[]>();
-        travel0.add(new double[] { 1.2, 3.4 });
-        this.vals.add(travel0);
-        this.angsl.add(-0.3);
-
         this.met_list.add(Methods.POINT_MID);
         ArrayList<double[]> empty_2 = new ArrayList<double[]>();
         this.vals.add(empty_2);
