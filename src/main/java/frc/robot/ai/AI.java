@@ -6,6 +6,7 @@ import frc.robot.HardwareObjects;
 import frc.robot.ai.control_mode.*;
 import frc.robot.commands.*;
 import frc.robot.map.Map;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * AI finite state machine class, handles switching between various autonomous
@@ -51,6 +52,9 @@ public class AI {
             case DISABLED:
                 main_command = new Command(Constants.DEFAULT_CMD);
                 break;
+        }
+        if (DriverStation.isDisabled()) {
+            main_command = new Command(Constants.DEFAULT_CMD);
         }
         return main_command;
     }
