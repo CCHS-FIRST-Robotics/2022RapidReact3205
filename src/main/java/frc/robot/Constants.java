@@ -39,7 +39,7 @@ public final class Constants {
 
     public static final int S_LIDAR = 0;
 
-    public static final int BEAM_0 = 6;
+    public static final int BEAM_0 = 5;
     public static final int BEAM_1 = 4;
 
     // ==================
@@ -166,9 +166,9 @@ public final class Constants {
 
     // Controller Tunings
     public static final double C_BASE_GAIN = 0.05;
-    public static final double[] C_BASE_PID = { 0.01, 0.07, 0.0 };
-    public static final double[] C_STRONG_PID = { 0.002, 0.002, 0.03 };
-    public static final double[] R_STRONG_PID = { 0.2, 0.0, 0.01 };
+    public static final double[] C_BASE_PID = { 0.001, 0.07, 0.0 };
+    public static final double[] C_STRONG_PID = { 0.0002, 0.0015, 0.0 };
+    public static final double[] R_STRONG_PID = { 0.2, 0.0, 0.0 };
     public static final double C_ACC_LIM = 4;
 
     public static final double INTERGRAL_HALFLIFE_T = 2;

@@ -100,6 +100,7 @@ public class IMUSensor extends BaseSensor {
         double[] projected_acc = SimpleMat.scaleVec(h_unit, SimpleMat.dot(h_unit, xy_acc));
         acc[0] = 0.5 * projected_acc[0] + 0.5 * xy_acc[0];
         acc[1] = 0.5 * projected_acc[1] + 0.5 * xy_acc[1];
+        //Forward is -x, back is x
         if (SimpleMat.mag(acc) < 0.2) {
             acc[0] = 0;
             acc[1] = 0;
@@ -126,17 +127,17 @@ public class IMUSensor extends BaseSensor {
 
         hardware.IMU.getYawPitchRoll(ypr_deg);
 
-        SmartDashboard.putNumber("x dps", xyz_dps[0]);
-        SmartDashboard.putNumber("y dps", xyz_dps[1]);
-        SmartDashboard.putNumber("z dps", xyz_dps[2]);
+        SmartDashboard.putNumber("pidgeon/x dps", xyz_dps[0]);
+        SmartDashboard.putNumber("pidgeon/y dps", xyz_dps[1]);
+        SmartDashboard.putNumber("pidgeon/z dps", xyz_dps[2]);
 
-        SmartDashboard.putNumber("x acc", xyz_acc[0]);
-        SmartDashboard.putNumber("y acc", xyz_acc[1]);
-        SmartDashboard.putNumber("z acc", xyz_acc[2]);
+        SmartDashboard.putNumber("pidgeon/x acc", xyz_acc[0]);
+        SmartDashboard.putNumber("pidgeon/y acc", xyz_acc[1]);
+        SmartDashboard.putNumber("pidgeon/z acc", xyz_acc[2]);
 
-        SmartDashboard.putNumber("y deg", ypr_deg[0]);
-        SmartDashboard.putNumber("p deg", ypr_deg[1]);
-        SmartDashboard.putNumber("r deg", ypr_deg[2]);
+        SmartDashboard.putNumber("pidgeon/y deg", ypr_deg[0]);
+        SmartDashboard.putNumber("pidgeon/p deg", ypr_deg[1]);
+        SmartDashboard.putNumber("pidgeon/r deg", ypr_deg[2]);
         // 16384 = 1g
 
         double r_pitch = ypr_deg[2] * 2 * Math.PI / 360;
@@ -180,7 +181,7 @@ public class IMUSensor extends BaseSensor {
                 Constants.IMU_ACC_VAR);
 
         double[] new_acc = { kxacc[0], kyacc[1] };
-        state.setAcc(new_acc, kxacc[1]);
+        //state.setAcc(new_acc, kxacc[1]);
 
         updateHeadingVar();
     }

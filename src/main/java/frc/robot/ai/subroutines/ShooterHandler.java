@@ -56,7 +56,7 @@ public class ShooterHandler {
         }
         if (this.state == 1) {
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
-            if (dt > 1) {
+            if (dt > 2) {
                 this.state = 2;
             }
             so2_target = 0;

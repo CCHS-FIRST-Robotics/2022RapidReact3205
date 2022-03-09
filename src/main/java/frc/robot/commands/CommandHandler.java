@@ -52,7 +52,7 @@ public class CommandHandler {
         command.br_pprop = command.br_pprop * concern_const;
 
         if (Math.abs(command.storage_2_pprop) < 0.1){
-            command.storage_2_pprop = 0.05;
+            command.storage_2_pprop = -0.03;
         }
 
         // Schedule hardware commands using command

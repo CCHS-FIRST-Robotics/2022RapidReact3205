@@ -139,7 +139,7 @@ public class RobotContainer {
       this.beam.processValue(this.main_state, this.hardware);
     }
     if (this.imu.shouldUse(hardware)) {
-      this.beam.processValue(this.main_state, this.hardware);
+      this.imu.processValue(this.main_state, this.hardware);
     }
     this.map.getBalls(this.network);
 
