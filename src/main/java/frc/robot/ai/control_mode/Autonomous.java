@@ -25,7 +25,7 @@ public class Autonomous {
     // 3.14 },
     // { 0.7, -0.7, -0.75 * 3.14 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 
-    SR1_R1 generator;
+    TestTravel generator;
 
     double[] start_pos;
     double start_heading;
@@ -54,7 +54,7 @@ public class Autonomous {
 
     public void init(HardwareObjects hardware, MainState state, Map map) {
         this.current_step = -1;
-        this.generator = new SR1_R1();
+        this.generator = new TestTravel();
 
         this.start_pos = this.generator.start_point;
         this.start_heading = this.generator.start_heading;
