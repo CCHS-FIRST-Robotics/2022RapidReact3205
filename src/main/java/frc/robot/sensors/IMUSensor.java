@@ -64,7 +64,7 @@ public class IMUSensor extends BaseSensor {
      * 
      * @param hardware Robot hardware objects.
      */
-    public void reset(HardwareObjects hardware) {
+    public void reset(double angle, HardwareObjects hardware) {
         short[] xyz_acc = new short[3];
         hardware.IMU.getBiasedAccelerometer(xyz_acc);
         double x_acc = (double) xyz_acc[0] * -9.81 / 16384;
@@ -78,7 +78,7 @@ public class IMUSensor extends BaseSensor {
 
         this.yz_mag_zero = SimpleMat.mag(this.xyz_acc_zero) - 9.8;
 
-        hardware.IMU.setFusedHeading(0);
+        hardware.IMU.setFusedHeading(angle);
     }
 
     /**
@@ -100,7 +100,7 @@ public class IMUSensor extends BaseSensor {
         double[] projected_acc = SimpleMat.scaleVec(h_unit, SimpleMat.dot(h_unit, xy_acc));
         acc[0] = 0.5 * projected_acc[0] + 0.5 * xy_acc[0];
         acc[1] = 0.5 * projected_acc[1] + 0.5 * xy_acc[1];
-        //Forward is -x, back is x
+        // Forward is -x, back is x 90 deg clockwise
         if (SimpleMat.mag(acc) < 0.2) {
             acc[0] = 0;
             acc[1] = 0;
@@ -149,9 +149,9 @@ public class IMUSensor extends BaseSensor {
         double zt_acc = (double) xyz_acc[2] * -9.81 / 16384;
         double y_acc = yt_acc * Math.cos(r_pitch) + zt_acc * Math.sin(r_pitch);
 
-        double[] xy_acc = { x_acc, y_acc };
+        double[] xy_acc = { y_acc, x_acc * -1 };
         xy_acc = SimpleMat.rot2d(xy_acc, state.getHeadingVal() - Constants.PIDGEON_OFFSET);
-        double[] global_acc = projectAcc(state, xy_acc);
+        double[] global_acc = xy_acc;
 
         this.log_acc[0] = x_acc;
         this.log_acc[1] = y_acc;
@@ -181,7 +181,7 @@ public class IMUSensor extends BaseSensor {
                 Constants.IMU_ACC_VAR);
 
         double[] new_acc = { kxacc[0], kyacc[1] };
-        //state.setAcc(new_acc, kxacc[1]);
+        state.setAcc(new_acc, kxacc[1]);
 
         updateHeadingVar();
     }
