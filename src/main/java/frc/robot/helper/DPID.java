@@ -67,6 +67,9 @@ public class DPID {
             response = this.prev_response;
         }
 
+        // apply resp filter
+        response = response * Constants.RESP_FILTER + this.prev_response * (1 - Constants.RESP_FILTER);
+
         this.prev_response = response;
 
         return response;
