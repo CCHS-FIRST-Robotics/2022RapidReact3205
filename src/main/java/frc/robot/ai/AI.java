@@ -41,13 +41,13 @@ public class AI {
      * @param state main robot state
      * @return hardware command
      */
-    public Command getCommand(MainState state) {
+    public Command getCommand(MainState state, Map map, double CST) {
         switch (this.current_state) {
             case CONTROLLER:
-                main_command = this.controller_state.getCommands(state);
+                main_command = this.controller_state.getCommands(state, CST);
                 break;
             case AUTONOMOUS:
-                main_command = this.autonomous.getCommands(state);
+                main_command = this.autonomous.getCommands(state, map);
                 break;
             case DISABLED:
                 main_command = new Command(Constants.DEFAULT_CMD);

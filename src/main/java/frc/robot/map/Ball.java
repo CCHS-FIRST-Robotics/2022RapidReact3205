@@ -5,7 +5,7 @@ import frc.robot.network.Network;
 
 public class Ball {
     public double[] ball_pos = { 0, 0, 0 };
-    double[] ball_vel = { 0, 0, 0 };
+    public double[] ball_vel = { 0, 0, 0 };
     public int state = 0;
     public int aerial = 0;
     public int color = 0;

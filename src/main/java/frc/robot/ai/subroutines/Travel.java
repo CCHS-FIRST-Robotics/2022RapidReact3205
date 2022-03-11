@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Travel {
 
-    MPID fl;
-    MPID fr;
-    MPID bl;
-    MPID br;
+    DPID fl;
+    DPID fr;
+    DPID bl;
+    DPID br;
 
     double v_max;
     double a_max;
@@ -25,11 +25,11 @@ public class Travel {
 
     double[] ipos = { 0, 0 };
 
-    public void initPID(){
-        this.fl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.fr = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.bl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.br = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+    public void initPID() {
+        this.fl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
     }
 
     double getAdist(MainState state) {
@@ -76,7 +76,6 @@ public class Travel {
 
         double[] whl_array = MecanumIK.mecanumIK(local_vel, target_ang_vel);
 
-        
         double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
         double frr = this.fr.update(whl_array[1] - state.getFRRadssVal());
         double blr = this.bl.update(whl_array[2] - state.getBLRadssVal());

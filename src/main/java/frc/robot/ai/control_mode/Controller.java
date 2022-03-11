@@ -27,19 +27,19 @@ public class Controller {
     Curve sfr_curve;
     Curve sfl_curve;
 
-    MPID fl_pid;
-    MPID fr_pid;
-    MPID bl_pid;
-    MPID br_pid;
+    DPID fl_pid;
+    DPID fr_pid;
+    DPID bl_pid;
+    DPID br_pid;
 
     public Controller() {
         this.sfr_curve = new Curve(Constants.SLOW_CURVE[0], Constants.SLOW_CURVE[1], Constants.SLOW_CURVE[2]);
         this.sfl_curve = new Curve(Constants.SLOW_CURVE[0], Constants.SLOW_CURVE[1], Constants.SLOW_CURVE[2]);
 
-        this.fl_pid = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.fr_pid = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.bl_pid = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.br_pid = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fl_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
 
         this.intake = new IntakeHandler();
         this.intake.idle();
@@ -95,7 +95,7 @@ public class Controller {
         return whl_vec;
     }
 
-    public Command getCommands(MainState state) {
+    public Command getCommands(MainState state, double CST) {
         double lr_strafe = 0;
         double fb_1 = 0;
         double lr_turn = 0;
@@ -105,6 +105,10 @@ public class Controller {
         double storage_2 = 0;
         double shooter_1 = 0;
         double shooter_2 = 0;
+
+        if (System.currentTimeMillis() / 1000 < CST + 0.5) {
+            return new Command(Constants.DEFAULT_CMD);
+        }
 
         if (DriverStation.isTeleop()) {
 
@@ -161,12 +165,12 @@ public class Controller {
             }
             double[] ins_cmd = this.intake.update(state);
             double[] sho_cmd = this.shooter.update(state);
-            if (this.intake.substate != 0){
+            if (this.intake.substate != 0) {
                 intake = ins_cmd[0];
                 storage = ins_cmd[1];
                 storage_2 = ins_cmd[2] + sho_cmd[0];
             }
-            if (this.shooter.state != 0){
+            if (this.shooter.state != 0) {
                 intake = ins_cmd[0] + sho_cmd[3];
                 storage = ins_cmd[1] + sho_cmd[3];
                 storage_2 = ins_cmd[2] + sho_cmd[0];

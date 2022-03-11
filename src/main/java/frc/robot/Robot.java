@@ -102,6 +102,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     this.robotContainer.setControllerState();
+    this.robotContainer.controller_start_time = System.currentTimeMillis() / 1000;
   }
 
   /** This function is called periodically during operator control. */
@@ -117,6 +118,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
+    this.robotContainer.controller_start_time = System.currentTimeMillis() / 1000;
   }
 
   /** This function is called once when test mode is enabled. */

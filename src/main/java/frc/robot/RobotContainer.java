@@ -34,6 +34,7 @@ import static frc.robot.Constants.*;
  * @author Ludwig Tay
  */
 public class RobotContainer {
+  public double controller_start_time = System.currentTimeMillis() / 1000;
   public Map map = new Map();
   public MainState main_state = new MainState();
   // public SomeSensor some_sensor = new SomeSensor();
@@ -106,7 +107,7 @@ public class RobotContainer {
    * mainLoop that executes state update, predict, ai and command scheduling.
    */
   public void mainLoop() {
-    this.main_command = this.ai.getCommand(this.main_state);
+    this.main_command = this.ai.getCommand(this.main_state, this.map, this.controller_start_time);
 
     UpdateState.updateState(this.main_state, this.main_command);
     this.command_handler.scheduleCommands(this.main_command, this.hardware);

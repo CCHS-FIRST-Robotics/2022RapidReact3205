@@ -41,6 +41,7 @@ public class Autonomous {
     CurveFwdTravel curve;
     PointAtMiddle pam;
     FiringPosition firing_pos;
+    BallChase ball_chase;
 
     // General Hardware methods
     IntakeHandler intake;
@@ -122,10 +123,14 @@ public class Autonomous {
                 this.shooter.initDoubleFiring();
                 SmartDashboard.putString("Auton/func", "SHOOTER_DOUBLE");
                 break;
+            case BALL_CHASE:
+                this.ball_chase = new BallChase(0.4, 0);
+                SmartDashboard.putString("Auton/func", "BALL CHASE");
+                break;
         }
     }
 
-    public Command getCommands(MainState state) {
+    public Command getCommands(MainState state, Map map) {
         if (this.current_step == -1) {
             return new Command(Constants.DEFAULT_CMD);
         }
@@ -183,6 +188,13 @@ public class Autonomous {
             case SHOOTER_DOUBLE:
                 exit = shooter.exit();
                 SmartDashboard.putString("Auton/func_exe", "SHOOTER_DOUBLE");
+                break;
+            case BALL_CHASE:
+                main_cmd = this.ball_chase.update(state, map);
+                main_cmd = new Command(Constants.DEFAULT_CMD);
+                exit = this.ball_chase.exit(state, map);
+                SmartDashboard.putString("Auton/func_exe", "BALL CHASE");
+                break;
         }
         if (exit) {
             this.current_step++;

@@ -38,6 +38,9 @@ public class MPID {
         if (dt == 0) {
             dt = 0.0001;
         }
+        if (dt > Constants.MAX_DT) {
+            dt = Constants.MAX_DT;
+        }
         double deriv = (delta - this.previous) / dt;
 
         this.integral = this.integral * this.decay + delta * dt;

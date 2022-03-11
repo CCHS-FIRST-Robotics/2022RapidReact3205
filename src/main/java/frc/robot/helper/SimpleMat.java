@@ -144,12 +144,22 @@ public class SimpleMat {
      * @return theta angle in radians
      */
     public static double vec2theta(double[] a) {
-        double[] unit = unitVec(a);
-        double theta = Math.acos(unit[1]);
-        if (unit[0] > 0) {
-            theta = Math.PI * 2 - theta;
+
+        double mag = mag(a);
+
+        if (mag == 0)
+            return 0;
+
+        double theta = Math.acos(a[0] / mag) - Math.PI / 2;
+
+        if (a[1] < 0) {
+
+            theta = Math.PI - theta;
+
         }
-        return theta;
+
+        return angleRectifier(theta);
+
     }
 
     /**
@@ -216,7 +226,7 @@ public class SimpleMat {
         return Math.min(1, Math.max(-1, a));
     }
 
-    public static double globalAngle(double[] vec){
-        return vecsAngle2(SimpleMat.unitVec(vec), new double[] {0,1}) * -1;
+    public static double globalAngle(double[] vec) {
+        return vecsAngle2(SimpleMat.unitVec(vec), new double[] { 0, 1 }) * -1;
     }
 }

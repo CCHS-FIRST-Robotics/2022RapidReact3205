@@ -116,7 +116,7 @@ public final class Constants {
 
     public static final int TIMEOUT_MS = 50;
 
-    public static final double STORAGE_2_RPM = 800;
+    public static final double STORAGE_2_RPM = 400;
 
     public static final double SHOOTER_RATIO = 0.6666;
     public static final double SHOOTER_1_RPM = 2500 / SHOOTER_RATIO;
@@ -165,10 +165,11 @@ public final class Constants {
     public static final double[] FORWARD_TUNING = { 0.3, 0.05, 0.4 };
 
     // Controller Tunings
+    public static final double MAX_DT = 0.05;
     public static final double C_BASE_GAIN = 0.05;
-    public static final double[] C_BASE_PID = { 0.001, 0.07, 0.0 };
-    public static final double[] C_STRONG_PID = { 0.0002, 0.0015, 0.0 };
-    public static final double[] R_STRONG_PID = { 0.2, 0.0, 0.0 };
+    public static final double[] C_BASE_PID = { 0.01, 0.04, 0.01 };
+    public static final double[] C_STRONG_PID = { 0.001, 0.0015, 0.0 };
+    public static final double[] R_STRONG_PID = { 0.01, 0.005, 0.01 };
     public static final double C_ACC_LIM = 4;
 
     public static final double INTERGRAL_HALFLIFE_T = 2;
@@ -178,6 +179,10 @@ public final class Constants {
     public static final double[] SLOW_CURVE = { 0.2, 0.4, 5 };
 
     public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+    public static final double DEADBAND = 0.05;
+    public static final double MAX_M_SP_ACC = 0.7 * Constants.MOTOR_MAX_TORQUE / Constants.WHEEL_MOI;
+    public static final double DERIV_FILTER = 0.3;
 
     // Ball
     public static final int BALL_NUM = 40;
