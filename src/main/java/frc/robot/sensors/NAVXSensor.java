@@ -17,7 +17,12 @@ public class NAVXSensor extends BaseSensor {
         this.SYNC_TIME = sync_time;
     }
 
-    public boolean shouldUse() {
+    public boolean shouldUse(HardwareObjects hardware) {
+        if(hardware.NAVX.isConnected() == false)
+            return false;
+        if(hardware.NAVX.isCalibrating() == true)
+            return false;
+
         return true;
     }
 

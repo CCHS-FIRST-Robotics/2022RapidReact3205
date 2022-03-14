@@ -11,7 +11,9 @@ public class ADGyroSensor extends BaseSensor {
         this.SYNC_TIME = SYNC_TIME;
     }
 
-    public boolean shouldUse() {
+    public boolean shouldUse(HardwareObjects hardware) {
+        if(hardware.AD_GYRO.isConnected() == false)
+            return false;
         return true;
     }
 
