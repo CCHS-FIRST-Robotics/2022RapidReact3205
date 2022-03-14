@@ -57,12 +57,11 @@ public class Controller {
 
     double[] starControl(MainState state) {
         // left controllers give a polar vec, angle from 0 and mag from 0 to 1
-        double[] stick_vec = { stickCurve(L_STICK.getRawAxis(0)), -1 * stickCurve(L_STICK.getRawAxis(1)) };
-        SmartDashboard.putNumber("stick_L1", L_STICK.getRawAxis(1));
-        SmartDashboard.putNumber("stick_L0", L_STICK.getRawAxis(0));
-        SmartDashboard.putNumber("stick_R1", R_STICK.getRawAxis(1));
-        SmartDashboard.putNumber("stick_R0", R_STICK.getRawAxis(0));
-        double yaw_val = stickCurve(R_STICK.getRawAxis(0));
+        double lstick_x = xbox.getLeftX();
+        double lstick_y = xbox.getLeftY();
+        double rstick_x = xbox.getRightX();
+        double[] stick_vec = { lstick_x, -1 * lstick_y };
+        double yaw_val = rstick_x;
         double raw_theta = SimpleMat.vecsAngle2(new double[] { 0, 1 }, stick_vec);
         double factor = 1;
         if (raw_theta > -1 * Math.PI / 4 && raw_theta < Math.PI / 4) {
@@ -84,8 +83,8 @@ public class Controller {
         double max_vel = Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         double max_avl = max_vel / (Constants.ROBOT_WIDTH / 2);
         double rthe = SimpleMat.angleRectifier(theta + state.getHeadingVal());
-        max_vel = max_vel * Math.max(Math.abs(Math.cos(rthe)), Math.abs(Math.sin(rthe)));
-        double[] vel_vec = SimpleMat.projectHeading(theta, mag * max_vel * 0.1);
+        max_vel = max_vel * Math.max(Math.abs(Math.cos(theta)), Math.abs(Math.sin(theta)));
+        double[] vel_vec = SimpleMat.projectHeading(rthe, mag * max_vel * 0.1);
         SmartDashboard.putNumberArray("Vel Vec", vel_vec);
 
         double avel = max_avl * -1 * yaw_val * 0.01;
@@ -176,10 +175,14 @@ public class Controller {
         }
         double[] whl_vec = starControl(state);
 
-        double flt = -1 * fb_1 + lr_turn + lr_strafe;// + whl_vec[0];
-        double frt = -1 * fb_1 - lr_turn - lr_strafe;// + whl_vec[1];
-        double blt = -1 * fb_1 + lr_turn - lr_strafe;// + whl_vec[2];
-        double brt = -1 * fb_1 - lr_turn + lr_strafe;// + whl_vec[3];
+        //double flt = -1 * fb_1 + lr_turn + lr_strafe; + whl_vec[0];
+        //double frt = -1 * fb_1 - lr_turn - lr_strafe; + whl_vec[1];
+        //double blt = -1 * fb_1 + lr_turn - lr_strafe; + whl_vec[2];
+        //double brt = -1 * fb_1 - lr_turn + lr_strafe; + whl_vec[3];
+        double flt = whl_vec[0];
+        double frt = whl_vec[1];
+        double blt = whl_vec[2];
+        double brt = whl_vec[3];
 
         flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
