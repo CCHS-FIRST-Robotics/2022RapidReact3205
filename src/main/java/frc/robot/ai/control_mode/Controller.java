@@ -82,7 +82,7 @@ public class Controller {
 
         double max_vel = Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         double max_avl = max_vel / (Constants.ROBOT_WIDTH / 2);
-        double rthe = SimpleMat.angleRectifier(theta + state.getHeadingVal());
+        double rthe = SimpleMat.angleRectifier(theta);
         max_vel = max_vel * Math.max(Math.abs(Math.cos(theta)), Math.abs(Math.sin(theta)));
         double[] vel_vec = SimpleMat.projectHeading(rthe, mag * max_vel * 0.1);
         SmartDashboard.putNumberArray("Vel Vec", vel_vec);
