@@ -20,11 +20,13 @@ public class Network {
     public StereoNet stereo_net;
     public Lidar lidar;
     public BallNet ball_net;
+    public Limelight lime;
 
     public Network() {
         this.stereo_net = new StereoNet();
         this.lidar = new Lidar();
         this.ball_net = new BallNet();
+        this.lime = new Limelight();
     }
 
     public void init(double init_time) {
@@ -59,8 +61,8 @@ public class Network {
 
         this.stereo_net.init(inst);
         this.lidar.init(inst);
-
         this.ball_net.init(inst);
+        this.lime.init(inst);
     }
 
     public void writeNTable(MainState state) {

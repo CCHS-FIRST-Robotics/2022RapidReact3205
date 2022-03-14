@@ -4,9 +4,11 @@ import frc.robot.Constants;
 import frc.robot.HardwareObjects;
 import frc.robot.ai.subroutines.*;
 import frc.robot.commands.*;
+import frc.robot.helper.*;
 import frc.robot.state.MainState;
 import frc.robot.ai.routines.*;
 import frc.robot.map.Map;
+import frc.robot.network.Network;
 
 import java.util.ArrayList;
 
@@ -53,7 +55,7 @@ public class Autonomous {
         this.shooter = new ShooterHandler();
     }
 
-    public void init(HardwareObjects hardware, MainState state, Map map) {
+    public void init(HardwareObjects hardware, MainState state, Map map, Network net) {
         this.current_step = -1;
         this.generator = new TestTravel();
 
@@ -64,6 +66,11 @@ public class Autonomous {
         this.ang_list = this.generator.angsl;
         this.coord_list = this.generator.vals;
 
+        map.softInit(state, this.start_pos, this.start_heading);
+        // Attempt Limelight localization
+        if (net.lime.getValid()) {
+            this.start_pos = LimeHelper.getPos(state, net);
+        }
         map.softInit(state, this.start_pos, this.start_heading);
         map.pos.start_pos = this.start_pos;
         map.pos.heading = this.start_heading;

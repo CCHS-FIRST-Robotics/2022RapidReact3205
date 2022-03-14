@@ -6,6 +6,7 @@ import frc.robot.HardwareObjects;
 import frc.robot.ai.control_mode.*;
 import frc.robot.commands.*;
 import frc.robot.map.Map;
+import frc.robot.network.Network;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
@@ -70,8 +71,8 @@ public class AI {
         this.current_state = States.CONTROLLER;
     }
 
-    public void setAutonomousState(HardwareObjects hardware, MainState state, Map map) {
-        this.autonomous.init(hardware, state, map);
+    public void setAutonomousState(HardwareObjects hardware, MainState state, Map map, Network net) {
+        this.autonomous.init(hardware, state, map, net);
         this.current_state = States.AUTONOMOUS;
     }
 }
