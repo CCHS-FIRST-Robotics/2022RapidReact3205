@@ -21,6 +21,7 @@ import frc.robot.sensors.StorageLidar;
 import frc.robot.sensors.ShooterEncoder;
 import frc.robot.sensors.InternalIRBeamSensor;
 import frc.robot.sensors.IMUSensor;
+import frc.robot.sensors.Limelight;
 import frc.robot.HardwareObjects;
 import frc.robot.network.*;
 import frc.robot.map.Map;
@@ -56,6 +57,7 @@ public class RobotContainer {
   public ShooterEncoder shooter_e;
   public InternalIRBeamSensor beam;
   public IMUSensor imu;
+  public Limelight lime;
   double log;
 
   /**
@@ -80,6 +82,7 @@ public class RobotContainer {
     this.shooter_e = new ShooterEncoder(SYNC_TIME);
     this.beam = new InternalIRBeamSensor(SYNC_TIME);
     this.imu = new IMUSensor(SYNC_TIME);
+    this.lime = new Limelight(SYNC_TIME);
     reset();
   }
 
@@ -142,6 +145,9 @@ public class RobotContainer {
     if (this.imu.shouldUse(hardware)) {
       this.imu.processValue(this.main_state, this.hardware);
     }
+    if (this.lime.shouldUse(this.network)) {
+      this.lime.processValue(this.main_state, this.network);
+    }
     this.map.getBalls(this.network);
 
     this.main_state.predict(Constants.MAIN_DT);
@@ -163,7 +169,7 @@ public class RobotContainer {
    * Sets finite state in AI to auton.
    */
   public void setAutonomousState() {
-    this.ai.setAutonomousState(this.hardware, this.main_state, this.map);
+    this.ai.setAutonomousState(this.hardware, this.main_state, this.map, this.network);
   }
 
 }

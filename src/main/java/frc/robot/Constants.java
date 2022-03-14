@@ -193,4 +193,11 @@ public final class Constants {
 
     // FIRING PARAMETERS
     public static final double FIRING_DIST = 2.25105;
+
+    // Limelight Parameters
+    public static final double LIME_POS_VAR = 0.5 * 0.5;
+    public static final double LIME_RING_HEIGHT = 2.64;
+    public static final double LIME_RING_RAD = 0.61;
+    public static final double LIME_ELEV_ANG = 58.3 - 10; // in degs
+    public static final double[] LIME_LPOS = { 0.2, 0.3 }; // Y, Z
 }
