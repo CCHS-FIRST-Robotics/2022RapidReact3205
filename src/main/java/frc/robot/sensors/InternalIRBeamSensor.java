@@ -16,6 +16,8 @@ public class InternalIRBeamSensor extends BaseSensor {
     }
 
     public boolean shouldUse() {
+        //not much can be done to check its working
+        //testing can be done by printing values and placing objects to interupt the beam
         return true;
     }
 

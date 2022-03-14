@@ -14,6 +14,7 @@ public class RoboRioAccSensor extends BaseSensor {
     }
 
     public boolean shouldUse() {
+        //not much that can be done here, but could check if in range
         return true;
     }
 
