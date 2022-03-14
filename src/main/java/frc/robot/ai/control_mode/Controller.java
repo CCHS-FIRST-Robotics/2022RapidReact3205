@@ -106,10 +106,6 @@ public class Controller {
         double shooter_1 = 0;
         double shooter_2 = 0;
 
-        if (System.currentTimeMillis() / 1000 < CST + 0.5) {
-            return new Command(Constants.DEFAULT_CMD);
-        }
-
         if (DriverStation.isTeleop()) {
 
             lr_strafe = xbox.getLeftX() * 0.8;
@@ -118,7 +114,7 @@ public class Controller {
             fb_2 = sfr_curve.getProp(xbox.getRightY());
 
             intake = xbox.getLeftTriggerAxis() * 0.4;// - stickCurve(this.R_STICK.getRawAxis(1));
-            storage = xbox.getLeftTriggerAxis() * 0.4;
+            storage = xbox.getLeftTriggerAxis() * 0.7;
 
             storage_2 = 0;
 

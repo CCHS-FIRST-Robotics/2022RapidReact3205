@@ -30,6 +30,8 @@ public class DPID {
 
     public void reset() {
         this.integral = 0;
+        this.prev_response = 0;
+        this.previous = 0;
         this.previous_time = (double) System.currentTimeMillis() / 1000;
     }
 
@@ -44,13 +46,6 @@ public class DPID {
         }
         if (dt > Constants.MAX_DT) {
             dt = Constants.MAX_DT;
-        }
-
-        double d2 = (delta - this.previous) / dt;
-        if (d2 > Constants.MAX_M_SP_ACC) {
-            delta = this.previous + Constants.MAX_M_SP_ACC;
-        } else {
-            delta = this.previous + Constants.MAX_M_SP_ACC;
         }
 
         double deriv = (delta - this.previous) / dt;

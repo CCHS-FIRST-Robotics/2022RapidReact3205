@@ -116,11 +116,11 @@ public final class Constants {
 
     public static final int TIMEOUT_MS = 50;
 
-    public static final double STORAGE_2_RPM = 400;
+    public static final double STORAGE_2_RPM = 1000;
 
     public static final double SHOOTER_RATIO = 0.6666;
-    public static final double SHOOTER_1_RPM = 2500 / SHOOTER_RATIO;
-    public static final double SHOOTER_2_RPM = 2500 / SHOOTER_RATIO;
+    public static final double SHOOTER_1_RPM = 2200 / SHOOTER_RATIO;
+    public static final double SHOOTER_2_RPM = 2200 / SHOOTER_RATIO;
 
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
@@ -167,9 +167,9 @@ public final class Constants {
     // Controller Tunings
     public static final double MAX_DT = 0.05;
     public static final double C_BASE_GAIN = 0.05;
-    public static final double[] C_BASE_PID = { 0.01, 0.04, 0.01 };
-    public static final double[] C_STRONG_PID = { 0.001, 0.0015, 0.0 };
-    public static final double[] R_STRONG_PID = { 0.01, 0.005, 0.01 };
+    public static final double[] C_BASE_PID = { 0.004, 0.06, 0.0003 };
+    public static final double[] C_STRONG_PID = { 0.003, 0.003, 0.0 };
+    public static final double[] R_STRONG_PID = { 0.004, 0.04, 0.0005 };
     public static final double C_ACC_LIM = 4;
 
     public static final double INTERGRAL_HALFLIFE_T = 2;
@@ -192,5 +192,5 @@ public final class Constants {
     public static final double[] VOLT_CONCERN_RANGE = { 7.0, 9.0 };
 
     // FIRING PARAMETERS
-    public static final double FIRING_DIST = 3;
+    public static final double FIRING_DIST = 2.25105;
 }

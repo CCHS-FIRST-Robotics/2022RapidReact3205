@@ -55,6 +55,8 @@ public class ShooterHandler {
             sh2_target = Constants.SHOOTER_2_RPM * rpm2radss;
         }
         if (this.state == 1) {
+            this.storage_2 = new DPID(Constants.R_STRONG_PID[0], Constants.R_STRONG_PID[1], Constants.R_STRONG_PID[2]);
+            storage_2.reset();
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
             if (dt > 2) {
                 this.state = 2;
@@ -62,34 +64,40 @@ public class ShooterHandler {
             so2_target = 0;
         }
         if (this.state == 2) {
-            so2_target = Constants.STORAGE_2_RPM * rpm2radss;
+            so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
+                this.storage_2.reset();
             }
         }
         if (this.state == 3) {
+            this.storage_2 = new DPID(Constants.R_STRONG_PID[0], Constants.R_STRONG_PID[1], Constants.R_STRONG_PID[2]);
+            storage_2.reset();
             double dt = ct - this.o_time;
-            if (dt > 1) {
+            if (dt > 1.5) {
                 this.state = 4;
                 d_time = (System.currentTimeMillis() / 1000);
             }
             so2_target = 0;
         }
         if (this.state == 4) {
-            so2_target = Constants.STORAGE_2_RPM * rpm2radss;
+            so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (ct - d_time > 0.5) {
                 this.state = 5;
             }
         }
         if (this.state == 5) {
-            so2_target = Constants.STORAGE_2_RPM * rpm2radss;
+            so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
+                storage_2.reset();
             }
             intake_resp = 1;
+            sh1_target = 1 * Constants.SHOOTER_1_RPM * rpm2radss;
+            sh2_target = 1 * Constants.SHOOTER_2_RPM * rpm2radss;
         }
 
-        so2_resp = this.storage_2.update(so2_target - state.getStorage2Val());
+        so2_resp = this.storage_2.update(so2_target);
         double sh1_resp = Math.max(-1, Math.min(1, this.shooter_1.update(sh1_target - state.getShooterVal()[0])));
         double sh2_resp = Math.max(-1, Math.min(1, this.shooter_2.update(sh2_target - state.getShooterVal()[1])));
         SmartDashboard.putNumber("Shooter/state", this.state);

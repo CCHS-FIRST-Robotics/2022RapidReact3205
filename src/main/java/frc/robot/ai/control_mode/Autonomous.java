@@ -25,7 +25,7 @@ public class Autonomous {
     // 3.14 },
     // { 0.7, -0.7, -0.75 * 3.14 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 
-    TestTravel generator;
+    SR1_R1 generator;
 
     double[] start_pos;
     double start_heading;
@@ -55,7 +55,7 @@ public class Autonomous {
 
     public void init(HardwareObjects hardware, MainState state, Map map) {
         this.current_step = -1;
-        this.generator = new TestTravel();
+        this.generator = new SR1_R1();
 
         this.start_pos = this.generator.start_point;
         this.start_heading = this.generator.start_heading;
@@ -77,7 +77,7 @@ public class Autonomous {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
                         this.coord_list.get(this.current_step).get(0)[1] };
-                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.4);
+                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.5);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
@@ -89,7 +89,7 @@ public class Autonomous {
                 break;
             case CURVE:
                 this.curve = new CurveFwdTravel(this.coord_list.get(this.current_step),
-                        this.ang_list.get(this.current_step), 0.4);
+                        this.ang_list.get(this.current_step), 0.5);
                 this.curve.init(state);
                 SmartDashboard.putString("Auton/func", "CURVE");
                 break;
@@ -186,6 +186,7 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func_exe", "SHOOTER_FIRE");
                 break;
             case SHOOTER_DOUBLE:
+                main_cmd = new Command(Constants.DEFAULT_CMD);
                 exit = shooter.exit();
                 SmartDashboard.putString("Auton/func_exe", "SHOOTER_DOUBLE");
                 break;

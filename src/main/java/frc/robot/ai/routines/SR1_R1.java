@@ -10,8 +10,8 @@ public class SR1_R1 {
     public ArrayList<Methods> met_list = new ArrayList<Methods>();
 
     public SR1_R1() {
-        this.start_point[0] = 0.661;
-        this.start_point[1] = 3;
+        this.start_point[0] = 1.243;
+        this.start_point[1] = 1.94;
         this.start_heading = 0;
 
         this.met_list.add(Methods.INTAKE_ONLY);
@@ -20,14 +20,21 @@ public class SR1_R1 {
         this.angsl.add(0.0);
 
         this.met_list.add(Methods.TRAVEL);
+        ArrayList<double[]> pickup0_1 = new ArrayList<double[]>();
+        pickup0_1.add(new double[] { 1.68, 1.5 });
+        this.vals.add(pickup0_1);
+        this.angsl.add(0.0);
+
+        this.met_list.add(Methods.TRAVEL);
         ArrayList<double[]> pickup0 = new ArrayList<double[]>();
-        pickup0.add(new double[] { 0.661, 3.9 });
+        pickup0.add(new double[] { 1.68, 2.5 });
         this.vals.add(pickup0);
         this.angsl.add(0.0);
 
-        this.met_list.add(Methods.INTAKE_IDLE);
-        ArrayList<double[]> empty_1 = new ArrayList<double[]>();
-        this.vals.add(empty_1);
+        this.met_list.add(Methods.TRAVEL);
+        ArrayList<double[]> pickup0_5 = new ArrayList<double[]>();
+        pickup0_5.add(new double[] { 1.661, 3.4 });
+        this.vals.add(pickup0_5);
         this.angsl.add(0.0);
 
         this.met_list.add(Methods.POINT_MID);
@@ -38,6 +45,11 @@ public class SR1_R1 {
         this.met_list.add(Methods.FIRE_MID);
         ArrayList<double[]> empty_3 = new ArrayList<double[]>();
         this.vals.add(empty_3);
+        this.angsl.add(0.0);
+
+        this.met_list.add(Methods.FIRE_MID);
+        ArrayList<double[]> empty_3_5 = new ArrayList<double[]>();
+        this.vals.add(empty_3_5);
         this.angsl.add(0.0);
 
         this.met_list.add(Methods.SHOOTER_DOUBLE);
