@@ -26,6 +26,15 @@ public class IntakeHandler {
         this.start_time = System.currentTimeMillis() / 1000;
     }
 
+    public void autoIntake(MainState state) {
+        if (state.getBeam1Val() == 0) {
+            this.substate = 2;
+        } else {
+            this.substate = 1;
+        }
+        this.start_time = System.currentTimeMillis() / 1000;
+    }
+
     public double[] update(MainState state) {
         double c_time = System.currentTimeMillis() / 1000;
         if (this.substate == 0) {

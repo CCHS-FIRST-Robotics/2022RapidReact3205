@@ -27,7 +27,7 @@ public class Autonomous {
     // 3.14 },
     // { 0.7, -0.7, -0.75 * 3.14 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 
-    SR1_R1 generator;
+    Auto15_2 generator;
 
     double[] start_pos;
     double start_heading;
@@ -44,6 +44,8 @@ public class Autonomous {
     PointAtMiddle pam;
     FiringPosition firing_pos;
     BallChase ball_chase;
+    double wait_t = 0;
+    double end_time = 0;
 
     // General Hardware methods
     IntakeHandler intake;
@@ -57,7 +59,7 @@ public class Autonomous {
 
     public void init(HardwareObjects hardware, MainState state, Map map, Network net) {
         this.current_step = -1;
-        this.generator = new SR1_R1();
+        this.generator = new Auto15_2();
 
         this.start_pos = this.generator.start_point;
         this.start_heading = this.generator.start_heading;
@@ -76,10 +78,10 @@ public class Autonomous {
         map.pos.heading = this.start_heading;
         map.initialize(hardware);
         this.current_step = 0;
-        setMethods(state);
+        setMethods(state, map);
     }
 
-    public void setMethods(MainState state) {
+    public void setMethods(MainState state, Map map) {
         switch (this.cmd_list.get(this.current_step)) {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
@@ -131,8 +133,24 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "SHOOTER_DOUBLE");
                 break;
             case BALL_CHASE:
-                this.ball_chase = new BallChase(0.4, 0);
+                this.ball_chase = new BallChase(state, map, -1, 0.3);
                 SmartDashboard.putString("Auton/func", "BALL CHASE");
+                break;
+            case DROP_INTAKE:
+                double[] drop = SimpleMat.subtract(state.getPosVal(),
+                        SimpleMat.projectHeading(state.getHeadingVal(), 0.3));
+                this.travel = new SimpleTravel(drop, state.getHeadingVal(), .5);
+                this.travel.init(state);
+                SmartDashboard.putString("Auton/func", "DROP");
+                break;
+            case INTAKE_STATIC:
+                this.intake.autoIntake(state);
+                SmartDashboard.putString("Auton/func", "INTAKE_STATIC");
+                break;
+            case WAIT:
+                this.end_time = this.ang_list.get(this.current_step);
+                this.wait_t = System.currentTimeMillis() / 1000;
+                SmartDashboard.putString("Auton/func", "WAIT");
                 break;
         }
     }
@@ -203,13 +221,25 @@ public class Autonomous {
                 exit = this.ball_chase.exit(state, map);
                 SmartDashboard.putString("Auton/func_exe", "BALL CHASE");
                 break;
+            case DROP_INTAKE:
+                main_cmd = this.travel.update(state);
+                exit = this.travel.exit(state);
+                break;
+            case INTAKE_STATIC:
+                exit = this.intake.exit();
+                break;
+            case WAIT:
+                if (System.currentTimeMillis() / 1000 - this.wait_t > this.end_time) {
+                    exit = true;
+                }
+                break;
         }
         if (exit) {
             this.current_step++;
             if (this.current_step + 1 > this.cmd_list.size()) {
                 return new Command(Constants.DEFAULT_CMD);
             }
-            setMethods(state);
+            setMethods(state, map);
         }
         double[] intake_cmd = this.intake.update(state);
         double[] shooter_cmd = this.shooter.update(state);

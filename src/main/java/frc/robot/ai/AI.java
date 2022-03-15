@@ -45,7 +45,7 @@ public class AI {
     public Command getCommand(MainState state, Map map, double CST) {
         switch (this.current_state) {
             case CONTROLLER:
-                main_command = this.controller_state.getCommands(state, CST);
+                main_command = this.controller_state.getCommands(state, map, CST);
                 break;
             case AUTONOMOUS:
                 main_command = this.autonomous.getCommands(state, map);

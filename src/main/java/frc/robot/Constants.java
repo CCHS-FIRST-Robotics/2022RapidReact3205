@@ -33,6 +33,7 @@ public final class Constants {
     public static final int IMU_PORT = 6;
 
     public static final int XBOX_PORT = 0;
+    public static final int XBOX2_PORT = 2;
 
     public static final int JOYSTICK_L_PORT = 2;
     public static final int JOYSTICK_R_PORT = 3;
@@ -160,9 +161,10 @@ public final class Constants {
     // Standard PID Tunings
     public static final double[] DRIVE_WHL_TUNING = { 0.1, 0.1, 0.1 };
 
-    public static final double[] TURN_TUNING = { 0.2, 0.1, 0.05 };
+    public static final double[] TURN_TUNING = { 3, 30, 0.2 };
 
     public static final double[] FORWARD_TUNING = { 0.3, 0.05, 0.4 };
+
 
     // Controller Tunings
     public static final double MAX_DT = 0.05;
@@ -200,4 +202,7 @@ public final class Constants {
     public static final double LIME_RING_RAD = 0.61;
     public static final double LIME_ELEV_ANG = 58.3 - 10; // in degs
     public static final double[] LIME_LPOS = { 0.2, 0.3 }; // Y, Z
+
+    // IMPORTANT
+    public static final int TEAM = 0; // 0 = red, 1 = blue
 }

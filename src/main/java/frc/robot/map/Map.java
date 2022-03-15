@@ -56,7 +56,13 @@ public class Map {
 
         for (int c = 0; c < Constants.BALL_NUM; c++) {
             this.balls[c].ball_pos = net.ball_net.getPosVals(c);
+            this.balls[c].pos[0] = this.balls[c].ball_pos[0];
+            this.balls[c].pos[1] = this.balls[c].ball_pos[1];
+
             this.balls[c].ball_vel = net.ball_net.getVelVals(c);
+            this.balls[c].vel[0] = this.balls[c].ball_vel[0];
+            this.balls[c].vel[1] = this.balls[c].ball_vel[1];
+
             double[] g_state = net.ball_net.getGStateVals(c);
             this.balls[c].state = (int) (g_state[0] + 0.01);
             this.balls[c].color = (int) (g_state[1] + 0.01);

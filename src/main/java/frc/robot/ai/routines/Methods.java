@@ -11,5 +11,8 @@ public enum Methods {
     INTAKE_IDLE,
     SHOOTER_FIRE,
     SHOOTER_DOUBLE,
-    BALL_CHASE
+    BALL_CHASE,
+    DROP_INTAKE,
+    INTAKE_STATIC,
+    WAIT
 }

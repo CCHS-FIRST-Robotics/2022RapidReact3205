@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -12,17 +13,25 @@ import frc.robot.Constants;
 import frc.robot.state.MainState;
 import frc.robot.ai.subroutines.*;
 import frc.robot.helper.*;
+import frc.robot.map.*;
 import java.lang.Math;
 
 import frc.robot.commands.Command;
 
 public class Controller {
     XboxController xbox = new XboxController(Constants.XBOX_PORT);
-    GenericHID L_STICK = new GenericHID(Constants.JOYSTICK_L_PORT);
-    GenericHID R_STICK = new GenericHID(Constants.JOYSTICK_R_PORT);
+    XboxController e_xbox = new XboxController(Constants.XBOX2_PORT);
 
     IntakeHandler intake;
     ShooterHandler shooter;
+
+    PointAtMiddle pam;
+    FiringPosition arty;
+    BallChase chase;
+
+    int pam_s = 0;
+    int arty_s = 0;
+    int chase_s = 0;
 
     Curve sfr_curve;
     Curve sfl_curve;
@@ -31,6 +40,8 @@ public class Controller {
     DPID fr_pid;
     DPID bl_pid;
     DPID br_pid;
+
+    double start_time = System.currentTimeMillis() / 1000;
 
     public Controller() {
         this.sfr_curve = new Curve(Constants.SLOW_CURVE[0], Constants.SLOW_CURVE[1], Constants.SLOW_CURVE[2]);
@@ -94,7 +105,7 @@ public class Controller {
         return whl_vec;
     }
 
-    public Command getCommands(MainState state, double CST) {
+    public Command getCommands(MainState state, Map map, double CST) {
         double lr_strafe = 0;
         double fb_1 = 0;
         double lr_turn = 0;
@@ -105,27 +116,32 @@ public class Controller {
         double shooter_1 = 0;
         double shooter_2 = 0;
 
+        double[] pam_cmd = { 0, 0, 0, 0 };
+        double[] arty_cmd = { 0, 0, 0, 0 };
+        double[] chase_cmd = { 0, 0, 0, 0 };
+
         if (DriverStation.isTeleop()) {
 
-            lr_strafe = xbox.getLeftX() * 0.8;
-            fb_1 = xbox.getLeftY();
-            lr_turn = (xbox.getRightX());
-            fb_2 = sfr_curve.getProp(xbox.getRightY());
+            lr_turn = e_xbox.getLeftX() * 0.8;
+            fb_1 = e_xbox.getLeftY();
 
-            intake = xbox.getLeftTriggerAxis() * 0.4;// - stickCurve(this.R_STICK.getRawAxis(1));
-            storage = xbox.getLeftTriggerAxis() * 0.7;
+            intake = xbox.getRightY() * 0.4;
+            storage = xbox.getRightY() * 0.7;
 
-            storage_2 = 0;
+            intake = intake + e_xbox.getRightX();
+            storage = storage - e_xbox.getRightY();
 
-            shooter_1 = xbox.getRightTriggerAxis();
-            shooter_2 = xbox.getRightTriggerAxis();
+            storage_2 = xbox.getRightTriggerAxis() - xbox.getLeftTriggerAxis();
 
-            if (xbox.getLeftBumper() && this.intake.substate == 0) {
-                intake = intake * -1;
-                storage = storage * -1;
-            }
+            shooter_1 = e_xbox.getRightTriggerAxis();
+            shooter_2 = e_xbox.getRightTriggerAxis();
+
             if (xbox.getRightBumper()) {
-                storage_2 = 1;
+                if (this.intake.substate == 0) {
+                    this.intake.autoIntake(state);
+                } else {
+                    this.intake.idle();
+                }
             }
             if (xbox.getAButtonReleased()) {
                 if (this.intake.substate == 0) {
@@ -134,14 +150,14 @@ public class Controller {
                     this.intake.idle();
                 }
             }
-            if (xbox.getLeftStickButtonReleased()) {
+            if (xbox.getBButtonReleased()) {
                 if (this.intake.substate == 0) {
                     this.intake.intakeStorage();
                 } else {
                     this.intake.idle();
                 }
             }
-            if (xbox.getBButtonReleased()) {
+            if (xbox.getYButtonReleased()) {
                 if (this.shooter.state == 0) {
                     this.shooter.initDoubleFiring();
                 } else {
@@ -155,9 +171,73 @@ public class Controller {
                     this.shooter.idle();
                 }
             }
-            if (xbox.getYButton()) {
-                storage_2 = -1;
+
+            if (xbox.getLeftStickButtonReleased()) {
+                if (this.arty_s == 0) {
+                    this.arty = new FiringPosition(state, 0.3);
+                    this.arty_s = 1;
+
+                    this.pam_s = 0;
+                    this.chase_s = 0;
+                } else {
+                    this.arty_s = 0;
+                }
             }
+            if (xbox.getRightStickButtonReleased()) {
+                if (this.pam_s == 0) {
+                    this.pam = new PointAtMiddle(state, 0.2);
+                    this.pam_s = 1;
+
+                    this.arty_s = 0;
+                    this.chase_s = 0;
+                } else {
+                    this.pam_s = 0;
+                }
+            }
+            if (xbox.getLeftBumper()) {
+                if (this.chase_s == 0) {
+                    this.intake.autoIntake(state);
+                    this.chase = new BallChase(state, map, -1, 0.3);
+                    this.chase_s = 1;
+
+                    this.arty_s = 0;
+                    this.pam_s = 0;
+                } else {
+                    this.intake.idle();
+                    this.chase_s = 0;
+                }
+            }
+            if (this.pam_s == 1) {
+                Command tp_cmd = this.pam.update(state);
+                pam_cmd[0] = tp_cmd.fl_pprop;
+                pam_cmd[1] = tp_cmd.fr_pprop;
+                pam_cmd[2] = tp_cmd.bl_pprop;
+                pam_cmd[3] = tp_cmd.br_pprop;
+                if (this.pam.exit(state)) {
+                    this.pam_s = 0;
+                }
+            }
+            if (this.arty_s == 1) {
+                Command ta_cmd = this.arty.update(state);
+                arty_cmd[0] = ta_cmd.fl_pprop;
+                arty_cmd[1] = ta_cmd.fr_pprop;
+                arty_cmd[2] = ta_cmd.bl_pprop;
+                arty_cmd[3] = ta_cmd.br_pprop;
+                if (this.arty.exit(state)) {
+                    this.arty_s = 0;
+                }
+            }
+            if (this.chase_s == 1) {
+                Command tc_cmd = this.arty.update(state);
+                chase_cmd[0] = tc_cmd.fl_pprop;
+                chase_cmd[1] = tc_cmd.fr_pprop;
+                chase_cmd[2] = tc_cmd.bl_pprop;
+                chase_cmd[3] = tc_cmd.br_pprop;
+                if (this.chase.exit(state, map)) {
+                    this.chase_s = 0;
+                }
+            }
+
             double[] ins_cmd = this.intake.update(state);
             double[] sho_cmd = this.shooter.update(state);
             if (this.intake.substate != 0) {
@@ -172,32 +252,38 @@ public class Controller {
                 shooter_1 = sho_cmd[1];
                 shooter_2 = sho_cmd[2];
             }
+
         }
         double[] whl_vec = starControl(state);
 
-        //double flt = -1 * fb_1 + lr_turn + lr_strafe; + whl_vec[0];
-        //double frt = -1 * fb_1 - lr_turn - lr_strafe; + whl_vec[1];
-        //double blt = -1 * fb_1 + lr_turn - lr_strafe; + whl_vec[2];
-        //double brt = -1 * fb_1 - lr_turn + lr_strafe; + whl_vec[3];
-        double flt = whl_vec[0];
-        double frt = whl_vec[1];
-        double blt = whl_vec[2];
-        double brt = whl_vec[3];
+        double flt = -1 * fb_1 + lr_turn;
+        double frt = -1 * fb_1 - lr_turn;
+        double blt = -1 * fb_1 + lr_turn;
+        double brt = -1 * fb_1 - lr_turn;
+        // double flt = whl_vec[0];
+        // double frt = whl_vec[1];
+        // double blt = whl_vec[2];
+        // double brt = whl_vec[3];
 
-        flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        blt = whl_vec[2] + (Math.min(1, Math.max(-1, blt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        brt = whl_vec[3] + (Math.min(1, Math.max(-1, brt)) - fb_2) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        blt = whl_vec[2] + (Math.min(1, Math.max(-1, blt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        brt = whl_vec[3] + (Math.min(1, Math.max(-1, brt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
 
         double fld = flt - state.getFLRadssVal();
         double frd = frt - state.getFRRadssVal();
         double bld = blt - state.getBLRadssVal();
         double brd = brt - state.getBRRadssVal();
 
-        double flr = this.fl_pid.update(fld);
-        double frr = this.fr_pid.update(frd);
-        double blr = this.bl_pid.update(bld);
-        double brr = this.br_pid.update(brd);
+        double flr = this.fl_pid.update(fld) + pam_cmd[0] + arty_cmd[0] + chase_cmd[0];
+        double frr = this.fr_pid.update(frd) + pam_cmd[1] + arty_cmd[1] + chase_cmd[1];
+        double blr = this.bl_pid.update(bld) + pam_cmd[2] + arty_cmd[2] + chase_cmd[2];
+        double brr = this.br_pid.update(brd) + pam_cmd[3] + arty_cmd[3] + chase_cmd[3];
+
+        double dt = (System.currentTimeMillis() / 1000) - start_time;
+        if (Math.sin(dt * 3.14) > 1) {
+            e_xbox.setRumble(RumbleType.kLeftRumble, 0.5);
+        }
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2 };
         Command command = new Command(ocmd);

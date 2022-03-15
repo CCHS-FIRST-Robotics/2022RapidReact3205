@@ -45,7 +45,7 @@ public class Travel {
     }
 
     public Command trajectory(MainState state, boolean override_adist, double nadist) {
-        double theta = this.thead - state.getHeadingVal();
+        double theta = SimpleMat.angleRectifier(this.thead - state.getHeadingVal());
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
         double adist;
         if (theta == 0) {
