@@ -8,6 +8,8 @@ import frc.robot.state.MainState;
 import java.util.Random;
 
 public class Network {
+    NetworkTableInstance inst;
+
     NetworkTableEntry start_time;
     NetworkTableEntry emit_time;
 
@@ -30,7 +32,7 @@ public class Network {
     }
 
     public void init(double init_time) {
-        NetworkTableInstance inst = NetworkTableInstance.getDefault();
+        inst = NetworkTableInstance.getDefault();
         NetworkTable sync = inst.getTable("Sync");
 
         this.start_time = sync.getEntry("start_time");
@@ -39,24 +41,24 @@ public class Network {
         this.emit_time = sync.getEntry("emit_time");
         this.emit_time.setDouble((double) System.currentTimeMillis() / 1000);
 
-        NetworkTable state = inst.getTable("State");
+        NetworkTable tab = inst.getTable("State");
 
-        this.x_pos = state.getEntry("x_pos");
+        this.x_pos = tab.getEntry("x_pos");
         this.x_pos.setDouble(0);
 
-        this.y_pos = state.getEntry("y_pos");
+        this.y_pos = tab.getEntry("y_pos");
         this.y_pos.setDouble(0);
 
-        this.heading = state.getEntry("heading");
+        this.heading = tab.getEntry("heading");
         this.heading.setDouble(0);
 
-        this.x_vel = state.getEntry("x_vel");
+        this.x_vel = tab.getEntry("x_vel");
         this.x_vel.setDouble(0);
 
-        this.y_vel = state.getEntry("y_vel");
+        this.y_vel = tab.getEntry("y_vel");
         this.y_vel.setDouble(0);
 
-        this.a_vel = state.getEntry("a_vel");
+        this.a_vel = tab.getEntry("a_vel");
         this.a_vel.setDouble(0);
 
         this.stereo_net.init(inst);
@@ -78,6 +80,6 @@ public class Network {
         this.y_vel.setDouble(state.getVelVal()[1]);
 
         this.a_vel.setDouble(state.getAngVelVal());
-
+        this.inst.flush();
     }
 }
