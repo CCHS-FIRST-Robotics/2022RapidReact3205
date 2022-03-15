@@ -136,6 +136,10 @@ public class Controller {
 
             shooter_1 = e_xbox.getRightTriggerAxis();
             shooter_2 = e_xbox.getRightTriggerAxis();
+            if (e_xbox.getRightBumper()) {
+                shooter_1 = -1 * shooter_1;
+                shooter_2 = -1 * shooter_2;
+            }
 
             if (xbox.getRightBumper()) {
                 if (this.intake.substate == 0) {
@@ -195,7 +199,7 @@ public class Controller {
                     this.pam_s = 0;
                 }
             }
-            if (xbox.getLeftBumper()) {
+            if (xbox.getLeftBumperReleased()) {
                 if (this.chase_s == 0) {
                     this.intake.autoIntake(state);
                     this.chase = new BallChase(state, map, -1, 0.3);
