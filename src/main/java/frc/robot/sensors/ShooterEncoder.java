@@ -23,6 +23,10 @@ public class ShooterEncoder extends BaseSensor {
         double shooter_1 = hardware.SHOOTER_1_MOTOR.getSelectedSensorVelocity(1) * -1;
         double shooter_2 = hardware.SHOOTER_2_MOTOR.getSelectedSensorVelocity(1) * -1;
 
+        SmartDashboard.putNumber("ShooterEncoder/storage raw", storage_2);
+        SmartDashboard.putNumber("ShooterEncoder/shooter 1 raw", shooter_1);
+        SmartDashboard.putNumber("ShooterEncoder/shooter 2 raw", shooter_2);
+
         double dps2rads = 10 * 2 * Math.PI / 4096;
 
         storage_2 = storage_2 * dps2rads;

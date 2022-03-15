@@ -2,14 +2,14 @@ package frc.robot.ai.routines;
 
 import java.util.ArrayList;
 
-public class SR1_R1 {
+public class SR1_R1_DEP {
     public double[] start_point = { 0, 0 };
     public double start_heading;
     public ArrayList<ArrayList<double[]>> vals = new ArrayList<ArrayList<double[]>>();
     public ArrayList<Double> angsl = new ArrayList<Double>();
     public ArrayList<Methods> met_list = new ArrayList<Methods>();
 
-    public SR1_R1() {
+    public SR1_R1_DEP() {
         this.start_point[0] = 1.243;
         this.start_point[1] = 1.94;
         this.start_heading = 0;

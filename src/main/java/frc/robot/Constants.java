@@ -38,10 +38,10 @@ public final class Constants {
     public static final int JOYSTICK_L_PORT = 2;
     public static final int JOYSTICK_R_PORT = 3;
 
-    public static final int S_LIDAR = 0;
+    public static final int S_LIDAR = 7;
 
     public static final int BEAM_0 = 5;
-    public static final int BEAM_1 = 4;
+    public static final int BEAM_1 = 0;
 
     // ==================
     // STATE INITIALIZATION
@@ -100,7 +100,7 @@ public final class Constants {
     // ==================
     // TIME CONSTANTS
     // ==================
-    public static final double MAIN_DT = 0.02;
+    public static final double MAIN_DT = 0.04;
 
     // ==================
     // MOTOR CONSTANTS
@@ -200,7 +200,8 @@ public final class Constants {
     public static final double LIME_POS_VAR = 0.5 * 0.5;
     public static final double LIME_RING_HEIGHT = 2.64;
     public static final double LIME_RING_RAD = 0.61;
-    public static final double LIME_ELEV_ANG = 58.3 - 10; // in degs
+    public static final double LIME_ELEV_ANG = 45;
+    //58.3 - 10; // in degs
     public static final double[] LIME_LPOS = { 0.2, 0.3 }; // Y, Z
 
     // IMPORTANT

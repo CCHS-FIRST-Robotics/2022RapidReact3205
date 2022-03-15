@@ -233,7 +233,7 @@ public class Controller {
                 }
             }
             if (this.chase_s == 1) {
-                Command tc_cmd = this.arty.update(state);
+                Command tc_cmd = this.chase.update(state, map);
                 chase_cmd[0] = tc_cmd.fl_pprop;
                 chase_cmd[1] = tc_cmd.fr_pprop;
                 chase_cmd[2] = tc_cmd.bl_pprop;
@@ -261,15 +261,15 @@ public class Controller {
         }
         double[] whl_vec = starControl(state);
 
-        double flt = -1 * fb_1 + lr_turn;
-        double frt = -1 * fb_1 - lr_turn;
-        double blt = -1 * fb_1 + lr_turn;
-        double brt = -1 * fb_1 - lr_turn;
+        double flt = -1 * fb_1 + lr_turn + whl_vec[0];
+        double frt = -1 * fb_1 - lr_turn + whl_vec[1];
+        double blt = -1 * fb_1 + lr_turn + whl_vec[2];
+        double brt = -1 * fb_1 - lr_turn + whl_vec[3];
         // double flt = whl_vec[0];
         // double frt = whl_vec[1];
         // double blt = whl_vec[2];
         // double brt = whl_vec[3];
-
+        SmartDashboard.putNumberArray("Controller/whl_vec", whl_vec);
         flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         blt = whl_vec[2] + (Math.min(1, Math.max(-1, blt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
@@ -286,7 +286,8 @@ public class Controller {
         double brr = this.br_pid.update(brd) + pam_cmd[3] + arty_cmd[3] + chase_cmd[3];
 
         double dt = (System.currentTimeMillis() / 1000) - start_time;
-        if (Math.sin(dt * 3.14) > 1) {
+        SmartDashboard.putNumber("Controller/rumble period", Math.sin(dt * 3.14));
+        if (Math.sin(dt * 3.14) > 0.0) {
             e_xbox.setRumble(RumbleType.kLeftRumble, 0.5);
         }
 
