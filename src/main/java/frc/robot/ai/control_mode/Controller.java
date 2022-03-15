@@ -3,6 +3,7 @@ package frc.robot.ai.control_mode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.*;
@@ -284,6 +285,12 @@ public class Controller {
         if (Math.sin(dt * 3.14) > 1) {
             e_xbox.setRumble(RumbleType.kLeftRumble, 0.5);
         }
+
+        // rumble based on voltage , 1 at 7 and 0 at 11
+        double voltage = RobotController.getBatteryVoltage();
+        double rmb = 1 - ((voltage - 7) / 4);
+        rmb = Math.min(Math.max(0, rmb), 1);
+        xbox.setRumble(RumbleType.kRightRumble, rmb);
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2 };
         Command command = new Command(ocmd);

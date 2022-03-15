@@ -207,6 +207,8 @@ public class Kinematics {
             this.vel = this.vel + this.acc * dt;
             this.heading = this.heading + this.ang_vel * dt + 0.5 * this.ang_acc * dt * dt;
             this.ang_vel = this.ang_vel + this.ang_acc * dt;
+
+            SmartDashboard.putNumber("Kinematics/pos var", this.pos);
         }
     }
 }
