@@ -298,9 +298,8 @@ public class Controller {
 
         double dt = (System.currentTimeMillis() / 1000) - start_time;
         SmartDashboard.putNumber("Controller/rumble period", Math.sin(dt * 3.14));
-        if (Math.sin(dt * 3.14) > 0.0) {
-            e_xbox.setRumble(RumbleType.kLeftRumble, 0.5);
-        }
+        
+        e_xbox.setRumble(RumbleType.kLeftRumble, 0.1);
 
         // rumble based on voltage , 1 at 7 and 0 at 11
         double voltage = RobotController.getBatteryVoltage();

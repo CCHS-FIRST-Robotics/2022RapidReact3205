@@ -72,7 +72,7 @@ public class FiringPosition extends Travel {
 
         double vel_mag = SimpleMat.mag(state.getVelVal()) + SimpleMat.mag(state.getAccVal()) * Constants.MAIN_DT;
         double avel_mag = Math.abs(state.getAngVelVal()) + Math.abs(state.getAngAccVal()) * Constants.MAIN_DT;
-        if (vel_mag < 0.01 && avel_mag < 0.01 && tdist < 0.15) {
+        if (vel_mag < 0.01 && avel_mag < 0.01 && tdist < 0.25) {
             return true;
         }
         return false;

@@ -44,7 +44,7 @@ public final class Constants {
     public static final int S_LIDAR = 7;
 
     public static final int BEAM_0 = 5;
-    public static final int BEAM_0_5 = 7;
+    public static final int BEAM_0_5 = 3;
     public static final int BEAM_1 = 0;
 
     // ==================
@@ -204,9 +204,9 @@ public final class Constants {
     public static final double LIME_POS_VAR = 0.5 * 0.5;
     public static final double LIME_RING_HEIGHT = 2.64;
     public static final double LIME_RING_RAD = 0.61;
-    public static final double LIME_ELEV_ANG = 45;
+    public static final double LIME_ELEV_ANG = 43;
     //58.3 - 10; // in degs
-    public static final double[] LIME_LPOS = { 0.2, 0.3 }; // Y, Z
+    public static final double[] LIME_LPOS = { 0.2413, 0.6858 }; // Y, Z
 
     // IMPORTANT
     public static final int TEAM = 0; // 0 = red, 1 = blue

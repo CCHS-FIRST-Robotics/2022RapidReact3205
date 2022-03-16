@@ -86,7 +86,7 @@ public class Autonomous {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
                         this.coord_list.get(this.current_step).get(0)[1] };
-                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.5);
+                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.35);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
@@ -98,7 +98,7 @@ public class Autonomous {
                 break;
             case CURVE:
                 this.curve = new CurveFwdTravel(this.coord_list.get(this.current_step),
-                        this.ang_list.get(this.current_step), 0.5);
+                        this.ang_list.get(this.current_step), 0.4);
                 this.curve.init(state);
                 SmartDashboard.putString("Auton/func", "CURVE");
                 break;
