@@ -42,6 +42,7 @@ public class BallChase {
     }
 
     public Command update(MainState state, Map map) {
+        SmartDashboard.putNumber("BallChase/ball index", ball_index);
         if (this.ball_index == -1) {
             return new Command(Constants.DEFAULT_CMD);
         }
@@ -66,12 +67,14 @@ public class BallChase {
         double blr = this.bl.update(whl_array[2] - state.getBLRadssVal());
         double brr = this.br.update(whl_array[3] - state.getBRRadssVal());
 
+        SmartDashboard.putNumber("BallChase/Vel Mag", vel_mag);
         SmartDashboard.putNumberArray("BallChase/Whl Radss", vel);
         SmartDashboard.putNumberArray("BallChase/Ball pos", ball.pos);
         SmartDashboard.putNumberArray("BallChase/Ball npos", new_pos);
         SmartDashboard.putNumberArray("BallChase/Ball vell", ball.vel);
         // return new Command(0, 0, 0, 0);
         double[] ocmd = { flr, frr, blr, brr, 0, 0 };
+        SmartDashboard.putNumberArray("BallChase/OCMD", ocmd);
         return new Command(ocmd);
     }
 

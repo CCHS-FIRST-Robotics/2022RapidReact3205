@@ -90,19 +90,18 @@ public class Controller {
         double theta = raw_theta; // relative to the field
         double mag = SimpleMat.mag(stick_vec) * factor;
 
-        double r2o2 = Math.sqrt(2) / 2;
-
         double max_vel = Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         double max_avl = max_vel / (Constants.ROBOT_WIDTH / 2);
         double rthe = SimpleMat.angleRectifier(theta);
         max_vel = max_vel * Math.max(Math.abs(Math.cos(theta)), Math.abs(Math.sin(theta)));
-        double[] vel_vec = SimpleMat.projectHeading(rthe, mag * max_vel * 0.1);
-        SmartDashboard.putNumberArray("Vel Vec", vel_vec);
+        double[] vel_vec = SimpleMat.projectHeading(rthe, mag * max_vel);
+        SmartDashboard.putNumberArray("Controller/Vel Vec", vel_vec);
+        SmartDashboard.putNumber("Controller/mag", mag);
 
-        double avel = max_avl * -1 * yaw_val * 0.01;
-        SmartDashboard.putNumber("AVEL", avel);
+        double avel = max_avl * -1 * yaw_val;
+        SmartDashboard.putNumber("Controller/AVEL", avel);
         double[] whl_vec = MecanumIK.mecanumIK(vel_vec, avel);
-        SmartDashboard.putNumberArray("MIKC", whl_vec);
+        SmartDashboard.putNumberArray("Controller/MIKC", whl_vec);
         return whl_vec;
     }
 
@@ -238,8 +237,10 @@ public class Controller {
                 chase_cmd[1] = tc_cmd.fr_pprop;
                 chase_cmd[2] = tc_cmd.bl_pprop;
                 chase_cmd[3] = tc_cmd.br_pprop;
-                if (this.chase.exit(state, map)) {
-                    this.chase_s = 0;
+                boolean chase_exit = this.chase.exit(state, map);
+                SmartDashboard.putBoolean("BallChase/chase exit", chase_exit);
+                if (chase_exit) {
+                    this.chase_s = this.chase_s;
                 }
             }
 
@@ -261,10 +262,10 @@ public class Controller {
         }
         double[] whl_vec = starControl(state);
 
-        double flt = -1 * fb_1 + lr_turn + whl_vec[0];
-        double frt = -1 * fb_1 - lr_turn + whl_vec[1];
-        double blt = -1 * fb_1 + lr_turn + whl_vec[2];
-        double brt = -1 * fb_1 - lr_turn + whl_vec[3];
+        double flt = -1 * fb_1 + lr_turn;// + whl_vec[0];
+        double frt = -1 * fb_1 - lr_turn;// + whl_vec[1];
+        double blt = -1 * fb_1 + lr_turn;// + whl_vec[2];
+        double brt = -1 * fb_1 - lr_turn;// + whl_vec[3];
         // double flt = whl_vec[0];
         // double frt = whl_vec[1];
         // double blt = whl_vec[2];
