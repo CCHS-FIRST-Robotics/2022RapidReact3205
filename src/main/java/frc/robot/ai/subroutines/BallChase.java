@@ -73,7 +73,7 @@ public class BallChase {
         SmartDashboard.putNumberArray("BallChase/Ball npos", new_pos);
         SmartDashboard.putNumberArray("BallChase/Ball vell", ball.vel);
         // return new Command(0, 0, 0, 0);
-        double[] ocmd = { flr, frr, blr, brr, 0, 0 };
+        double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };
         SmartDashboard.putNumberArray("BallChase/OCMD", ocmd);
         return new Command(ocmd);
     }

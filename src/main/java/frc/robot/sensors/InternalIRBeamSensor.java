@@ -12,7 +12,6 @@ public class InternalIRBeamSensor extends BaseSensor {
     }
 
     public void reset(HardwareObjects hardware) {
-        hardware.S_LIDAR.reset();
     }
 
     public boolean shouldUse() {
@@ -32,7 +31,13 @@ public class InternalIRBeamSensor extends BaseSensor {
         } else {
             state.setBeam0(1, 1);
         }
+        if (hardware.beam_0_5.get()) {
+            state.setBeam0_5(0, 1);
+        } else {
+            state.setBeam0_5(1, 1);
+        }
         SmartDashboard.putBoolean("IRB/beam 0", hardware.beam_0.get());
         SmartDashboard.putBoolean("IRB/beam 1", hardware.beam_1.get());
+        SmartDashboard.putBoolean("IRB/beam 0.5", hardware.beam_0_5.get());
     }
 }

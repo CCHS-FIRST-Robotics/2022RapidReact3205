@@ -27,12 +27,16 @@ public class HardwareObjects {
     public TalonSRX SHOOTER_1_MOTOR;
     public TalonSRX SHOOTER_2_MOTOR;
 
+    public TalonSRX HANG_L_MOTOR;
+    public VictorSPX HANG_R_MOTOR;
+
     public PigeonIMU IMU;
     public AHRS NAVX;
     public ADXRS450_Gyro AD_GYRO;
     public Accelerometer RR_ACC;
     public Counter S_LIDAR;
     public DigitalInput beam_0;
+    public DigitalInput beam_0_5;
     public DigitalInput beam_1;
 
     /**
@@ -51,6 +55,9 @@ public class HardwareObjects {
         this.SHOOTER_1_MOTOR = new WPI_TalonSRX(Constants.SHOOTER_1_TALON_PORT);
         this.SHOOTER_2_MOTOR = new WPI_TalonSRX(Constants.SHOOTER_2_TALON_PORT);
 
+        this.HANG_L_MOTOR = new WPI_TalonSRX(Constants.HANG_L_TALON_PORT);
+        this.HANG_R_MOTOR = new WPI_VictorSPX(Constants.HANG_R_VICTOR_PORT);
+
         this.S_LIDAR = new Counter(Constants.S_LIDAR);
 
         this.NAVX = new AHRS();
@@ -67,6 +74,9 @@ public class HardwareObjects {
         this.STORAGE_2_MOTOR.configFactoryDefault();
         this.SHOOTER_1_MOTOR.configFactoryDefault();
         this.SHOOTER_2_MOTOR.configFactoryDefault();
+
+        this.HANG_L_MOTOR.configFactoryDefault();
+        this.HANG_R_MOTOR.configFactoryDefault();
         // IMU.configFactoryDefault();
         // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
@@ -88,6 +98,7 @@ public class HardwareObjects {
         this.RR_ACC = new BuiltInAccelerometer();
 
         this.beam_0 = new DigitalInput(Constants.BEAM_0);
+        this.beam_0_5 = new DigitalInput(Constants.BEAM_0_5);
         this.beam_1 = new DigitalInput(Constants.BEAM_1);
 
         this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);

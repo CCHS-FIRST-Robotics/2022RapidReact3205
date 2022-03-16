@@ -7,9 +7,13 @@ public class Command {
     public double br_pprop = 0;
     public double intake_pprop = 0;
     public double storage_1_pprop = 0;
+
     public double storage_2_pprop = 0;
     public double shooter1_pprop = 0;
     public double shooter2_pprop = 0;
+
+    public double hang_l_pprop = 0;
+    public double hang_r_pprop = 0;
 
     public Command(double[] values) {
         this.fl_pprop = values[0];
@@ -24,10 +28,14 @@ public class Command {
             this.storage_2_pprop = values[6];
             this.shooter1_pprop = values[7];
             this.shooter2_pprop = values[8];
+            this.hang_l_pprop = values[9];
+            this.hang_r_pprop = values[10];
         } else {
             this.storage_2_pprop = 0;
             this.shooter1_pprop = 0;
             this.shooter2_pprop = 0;
+            this.hang_l_pprop = 0;
+            this.hang_r_pprop = 0;
         }
     }
 }

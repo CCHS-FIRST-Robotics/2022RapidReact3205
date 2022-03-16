@@ -102,7 +102,7 @@ public class TurnToPoint {
 
         SmartDashboard.putNumber("turn/flr", flr);
 
-        double[] ocmd = { flr, frr, blr, brr, 0, 0 };
+        double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };
         return new Command(ocmd);
     }
 

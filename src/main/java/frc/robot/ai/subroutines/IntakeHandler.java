@@ -27,7 +27,7 @@ public class IntakeHandler {
     }
 
     public void autoIntake(MainState state) {
-        if (state.getBeam1Val() == 0) {
+        if (state.getBeam0_5Val() == 0) {
             this.substate = 2;
         } else {
             this.substate = 1;

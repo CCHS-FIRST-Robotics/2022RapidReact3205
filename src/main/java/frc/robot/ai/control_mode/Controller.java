@@ -115,6 +115,9 @@ public class Controller {
         double storage_2 = 0;
         double shooter_1 = 0;
         double shooter_2 = 0;
+        
+        double hang_l = 0;
+        double hang_r = 0;
 
         double[] pam_cmd = { 0, 0, 0, 0 };
         double[] arty_cmd = { 0, 0, 0, 0 };
@@ -138,6 +141,13 @@ public class Controller {
             if (e_xbox.getRightBumper()) {
                 shooter_1 = -1 * shooter_1;
                 shooter_2 = -1 * shooter_2;
+            }
+
+            hang_l = e_xbox.getLeftTriggerAxis();
+            hang_r = e_xbox.getRightTriggerAxis();
+            if (e_xbox.getLeftBumper()){
+                hang_l = -1* hang_l;
+                hang_r = -1*hang_r;
             }
 
             if (xbox.getRightBumper()) {
@@ -298,7 +308,7 @@ public class Controller {
         rmb = Math.min(Math.max(0, rmb), 1);
         xbox.setRumble(RumbleType.kRightRumble, rmb);
 
-        double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2 };
+        double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r };
         Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;

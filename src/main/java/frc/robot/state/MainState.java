@@ -380,7 +380,19 @@ public class MainState {
         this.b.val.beam_0 = val;
         this.b.var.beam_0 = var;
     }
+    public double getBeam0_5Val() {
+        return this.b.val.beam_0_5;
+    }
 
+    public double getBeam0_5Var() {
+        return this.b.var.beam_0_5;
+    }
+
+    public void setBeam0_5(double val, double var) {
+        this.b.val.beam_0_5 = val;
+        this.b.var.beam_0_5 = var;
+    }
+    
     public double getBeam1Val() {
         return this.b.val.beam_1;
     }
