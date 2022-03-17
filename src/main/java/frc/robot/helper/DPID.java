@@ -35,6 +35,58 @@ public class DPID {
         this.previous_time = (double) System.currentTimeMillis() / 1000;
     }
 
+    public double updateRaw(double t_radss, double c_radss) {
+        // if its moving a way from the origin, limits to delta
+        // otherwise boost gain and int but cap at 0
+        double current_time = (double) System.currentTimeMillis() / 1000;
+        double dt = current_time - this.previous_time;
+
+        if (dt == 0) {
+            dt = 0.0001;
+        }
+        if (dt > Constants.MAX_DT) {
+            dt = Constants.MAX_DT;
+        }
+
+        double[] temp_tunings = { k_p, k_i, k_d };
+        if (Math.abs(t_radss) < Math.abs(c_radss)) {
+            temp_tunings[0] = temp_tunings[0] * 1.5 * 2;
+            temp_tunings[1] = temp_tunings[1] * 1.5;
+            temp_tunings[2] = temp_tunings[2];
+        }
+        double delta = t_radss - c_radss;
+
+        double deriv = (delta - this.previous) / dt;
+        this.hist_deriv = deriv * Constants.DERIV_FILTER + this.hist_deriv * (1 - Constants.DERIV_FILTER);
+
+        this.integral = this.integral * this.decay + delta * dt;
+
+        double response = k_p * delta + k_i * this.integral + k_d * hist_deriv;
+
+        this.previous = delta;
+        this.previous_time = current_time;
+
+        if (Math.abs(response - this.prev_response) < Constants.DEADBAND) {
+            response = this.prev_response;
+        }
+
+        // apply resp filter
+        response = response * Constants.RESP_FILTER + this.prev_response * (1 - Constants.RESP_FILTER);
+
+        if (Math.abs(t_radss) < Math.abs(c_radss)) {
+            // if flip directions in response
+            if (response > 0 && this.prev_response < 0) {
+                response = 0;
+            }
+            if (response < 0 && this.prev_response > 0) {
+                response = 0;
+            }
+        }
+        this.prev_response = response;
+
+        return response;
+    }
+
     public double update(double delta) {
         // Recompute delta so it isn't changing too rapidly
 

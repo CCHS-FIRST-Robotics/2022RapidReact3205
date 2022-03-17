@@ -118,10 +118,10 @@ public class Controller2 {
 
         double[] o_out = { 0, 0, 0, 0 };
 
-        o_out[0] = this.fl_pid.update(whl_vec[0] - state.getFLRadssVal());
-        o_out[1] = this.fl_pid.update(whl_vec[1] - state.getFRRadssVal());
-        o_out[2] = this.fl_pid.update(whl_vec[2] - state.getBLRadssVal());
-        o_out[3] = this.fl_pid.update(whl_vec[3] - state.getBRRadssVal());
+        o_out[0] = this.fl_pid.updateRaw(whl_vec[0], state.getFLRadssVal());
+        o_out[1] = this.fl_pid.updateRaw(whl_vec[1], state.getFRRadssVal());
+        o_out[2] = this.fl_pid.updateRaw(whl_vec[2], state.getBLRadssVal());
+        o_out[3] = this.fl_pid.updateRaw(whl_vec[3], state.getBRRadssVal());
         return o_out;
     }
 
