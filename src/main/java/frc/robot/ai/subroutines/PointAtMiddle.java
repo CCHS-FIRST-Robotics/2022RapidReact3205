@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PointAtMiddle {
 
-    MPID fl;
-    MPID fr;
-    MPID bl;
-    MPID br;
+    DPID fl;
+    DPID fr;
+    DPID bl;
+    DPID br;
 
     PID turn;
 
@@ -42,10 +42,10 @@ public class PointAtMiddle {
         SmartDashboard.putNumber("turn/angmax", this.angvel_max);
         this.velcontr = new FwdController(this.angvel_max, this.angacc_max);
 
-        this.fl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.fr = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.bl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.br = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
 
         this.turn = new PID(5, 50, 0.2);
     }
@@ -95,14 +95,14 @@ public class PointAtMiddle {
         SmartDashboard.putNumber("turn/aacc_max", this.angacc_max);
         SmartDashboard.putNumberArray("turn/whl arr", whl_array);
 
-        double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
-        double frr = this.fr.update(whl_array[1] - state.getFRRadssVal());
-        double blr = this.bl.update(whl_array[2] - state.getBLRadssVal());
-        double brr = this.br.update(whl_array[3] - state.getBRRadssVal());
+        double flr = this.fl.updateRaw(whl_array[0], state.getFLRadssVal());
+        double frr = this.fr.updateRaw(whl_array[1], state.getFRRadssVal());
+        double blr = this.bl.updateRaw(whl_array[2], state.getBLRadssVal());
+        double brr = this.br.updateRaw(whl_array[3], state.getBRRadssVal());
 
         SmartDashboard.putNumber("turn/flr", flr);
 
-        double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0 ,0  };
+        double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };
         return new Command(ocmd);
     }
 

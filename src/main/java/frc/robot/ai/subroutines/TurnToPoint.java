@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnToPoint {
 
-    MPID fl;
-    MPID fr;
-    MPID bl;
-    MPID br;
+    DPID fl;
+    DPID fr;
+    DPID bl;
+    DPID br;
 
     PID turn;
 
@@ -42,10 +42,10 @@ public class TurnToPoint {
         SmartDashboard.putNumber("turn/angmax", this.angvel_max);
         this.velcontr = new FwdController(this.angvel_max, this.angacc_max);
 
-        this.fl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.fr = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.bl = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.br = new MPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
 
         this.turn = new PID(5, 50, 0.2);
     }
@@ -81,9 +81,9 @@ public class TurnToPoint {
 
     public Command update(MainState state) {
         double dtheta = getTheta(state);
-        //double target_avel = this.velcontr.update(state.getAngVelVal(), dtheta);
+        // double target_avel = this.velcontr.update(state.getAngVelVal(), dtheta);
         double target_avel = Math.max(Math.min(this.turn.update(dtheta),
-        this.angvel_max), this.angvel_max * -1);
+                this.angvel_max), this.angvel_max * -1);
 
         SmartDashboard.putNumber("turn/dtheta", dtheta);
 
@@ -95,10 +95,10 @@ public class TurnToPoint {
         SmartDashboard.putNumber("turn/aacc_max", this.angacc_max);
         SmartDashboard.putNumberArray("turn/whl arr", whl_array);
 
-        double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
-        double frr = this.fr.update(whl_array[1] - state.getFRRadssVal());
-        double blr = this.bl.update(whl_array[2] - state.getBLRadssVal());
-        double brr = this.br.update(whl_array[3] - state.getBRRadssVal());
+        double flr = this.fl.updateRaw(whl_array[0], state.getFLRadssVal());
+        double frr = this.fr.updateRaw(whl_array[1], state.getFRRadssVal());
+        double blr = this.bl.updateRaw(whl_array[2], state.getBLRadssVal());
+        double brr = this.br.updateRaw(whl_array[3], state.getBRRadssVal());
 
         SmartDashboard.putNumber("turn/flr", flr);
 

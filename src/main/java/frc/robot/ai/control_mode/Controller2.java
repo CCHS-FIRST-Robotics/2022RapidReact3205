@@ -258,6 +258,19 @@ public class Controller2 {
         xbox.setRumble(RumbleType.kRightRumble, rmb);
     }
 
+    public void hangingHandler() {
+        hangl = 0;
+        hangr = 0;
+        if (e_xbox.getAButton()) {
+            hangl = 1;
+            hangr = 1;
+        }
+        if (e_xbox.getBButton()) {
+            hangl = -1;
+            hangr = -1;
+        }
+    }
+
     public Command getCommands(MainState state, Map map, double CST) {
 
         this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.25 - e_xbox.getLeftTriggerAxis() * 0.25
@@ -292,6 +305,7 @@ public class Controller2 {
             shooter_1 = shooter_1 + sho_cmd[1];
             shooter_2 = shooter_2 + sho_cmd[2];
         }
+        hangingHandler();
         rumbleHandler();
         double[] ocmd = { flr, frr, blr, brr, in, storage, storage_2, shooter_1, shooter_2, hangl, hangr };
         Command command = new Command(ocmd);

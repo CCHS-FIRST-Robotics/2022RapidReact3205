@@ -85,10 +85,10 @@ public class Travel {
 
         double[] whl_array = MecanumIK.mecanumIK(local_vel, target_ang_vel);
 
-        double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
-        double frr = this.fr.update(whl_array[1] - state.getFRRadssVal());
-        double blr = this.bl.update(whl_array[2] - state.getBLRadssVal());
-        double brr = this.br.update(whl_array[3] - state.getBRRadssVal());
+        double flr = this.fl.updateRaw(whl_array[0], state.getFLRadssVal());
+        double frr = this.fr.updateRaw(whl_array[1], state.getFRRadssVal());
+        double blr = this.bl.updateRaw(whl_array[2], state.getBLRadssVal());
+        double brr = this.br.updateRaw(whl_array[3], state.getBRRadssVal());
 
         SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
         SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
