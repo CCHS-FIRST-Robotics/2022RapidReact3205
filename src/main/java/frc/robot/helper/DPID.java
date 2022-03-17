@@ -49,10 +49,25 @@ public class DPID {
         }
 
         double[] temp_tunings = { k_p, k_i, k_d };
-        if (Math.abs(t_radss) < Math.abs(c_radss)) {
-            temp_tunings[0] = temp_tunings[0] * 1.5 * 2;
-            temp_tunings[1] = temp_tunings[1] * 1.5;
-            temp_tunings[2] = temp_tunings[2];
+
+        boolean up = false;
+        if (c_radss > 0) {
+            if (t_radss > c_radss) {
+                up = true;
+            } else {
+                up = false;
+            }
+        } else {
+            if (t_radss < c_radss) {
+                up = true;
+            } else {
+                up = false;
+            }
+        }
+        if (up != true && Math.abs(t_radss - c_radss) > 0.2) {
+            temp_tunings[0] = k_p * 2 * 1.5;
+            temp_tunings[1] = k_i * 1.5;
+            temp_tunings[2] = k_d * 1.5;
         }
         double delta = t_radss - c_radss;
 
@@ -73,7 +88,7 @@ public class DPID {
         // apply resp filter
         response = response * Constants.RESP_FILTER + this.prev_response * (1 - Constants.RESP_FILTER);
 
-        if (Math.abs(t_radss) < Math.abs(c_radss)) {
+        if (up != true) {
             // if flip directions in response
             if (response > 0 && this.prev_response < 0) {
                 response = 0;
