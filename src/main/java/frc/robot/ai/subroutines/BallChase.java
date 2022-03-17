@@ -28,7 +28,7 @@ public class BallChase {
         }
         this.vel_mag = 1 * max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI
                 / 60;
-        this.ang_vel_max = 0.2 * max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 4 * Math.PI
+        this.ang_vel_max = 0.05 * max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 4 * Math.PI
                 / (60 * Constants.ROBOT_WIDTH);
         initPID();
     }
