@@ -78,7 +78,7 @@ public class IMUSensor extends BaseSensor {
 
         this.yz_mag_zero = SimpleMat.mag(this.xyz_acc_zero) - 9.8;
 
-        hardware.IMU.setFusedHeading(angle);
+        hardware.IMU.setFusedHeading(angle * 360 / (2 * Math.PI));
     }
 
     /**

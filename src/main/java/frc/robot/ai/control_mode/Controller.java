@@ -211,7 +211,7 @@ public class Controller {
             if (xbox.getLeftBumperReleased()) {
                 if (this.chase_s == 0) {
                     this.intake.autoIntake(state);
-                    this.chase = new BallChase(state, map, -1, 0.3);
+                    this.chase = new BallChase(state, map, -1, 0.6);
                     this.chase_s = 1;
 
                     this.arty_s = 0;

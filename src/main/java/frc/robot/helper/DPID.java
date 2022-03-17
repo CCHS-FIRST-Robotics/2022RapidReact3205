@@ -65,9 +65,9 @@ public class DPID {
             }
         }
         if (up != true && Math.abs(t_radss - c_radss) > 0.2) {
-            temp_tunings[0] = k_p * 2 * 1.5;
-            temp_tunings[1] = k_i * 1.5;
-            temp_tunings[2] = k_d * 1.5;
+            temp_tunings[0] = k_p * 1.1;
+            temp_tunings[1] = k_i * 1.1;
+            temp_tunings[2] = k_d * 1.1;
         }
         double delta = t_radss - c_radss;
 

@@ -50,7 +50,8 @@ public class BallChase {
         double[] diff = SimpleMat.subtract(ball.pos, state.getPosVal());
         double dist = SimpleMat.mag(diff);
         double time = dist / this.vel_mag;
-        double[] new_pos = SimpleMat.add(ball.pos, SimpleMat.scaleVec(ball.vel, time));
+        //double[] new_pos = SimpleMat.add(ball.pos, SimpleMat.scaleVec(ball.vel, time));
+        double[] new_pos = ball.pos;
         double[] ndiff = SimpleMat.subtract(new_pos, state.getPosVal());
         ndiff = SimpleMat.unitVec(ndiff);
 
@@ -58,8 +59,7 @@ public class BallChase {
         double pwr_cmd = SimpleMat.vecsAngle2(unit_h_vec, ndiff);
 
         double[] vel = SimpleMat.scaleVec(ndiff, this.vel_mag);
-        double target_avel = Math.max(Math.min(this.turn.update(pwr_cmd),
-                this.ang_vel_max), this.ang_vel_max * -1);
+        double target_avel = pwr_cmd/time;
 
         double[] whl_array = MecanumIK.mecanumIK(vel, target_avel);
         double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
@@ -69,6 +69,7 @@ public class BallChase {
 
         SmartDashboard.putNumber("BallChase/Vel Mag", vel_mag);
         SmartDashboard.putNumberArray("BallChase/Whl Radss", vel);
+        SmartDashboard.putNumber("BallChase/target avel", target_avel);
         SmartDashboard.putNumberArray("BallChase/Ball pos", ball.pos);
         SmartDashboard.putNumberArray("BallChase/Ball npos", new_pos);
         SmartDashboard.putNumberArray("BallChase/Ball vell", ball.vel);

@@ -63,17 +63,20 @@ public class Autonomous {
 
         this.start_pos = this.generator.start_point;
         this.start_heading = this.generator.start_heading;
+        SmartDashboard.putNumber("Autonomous/start_heading", start_heading);
 
         this.cmd_list = this.generator.met_list;
         this.ang_list = this.generator.angsl;
         this.coord_list = this.generator.vals;
 
-        map.softInit(state, this.start_pos, this.start_heading);
+        map.softInit(hardware, state, this.start_pos, this.start_heading);
+
+        SmartDashboard.putNumber("Autonomous/act head", state.getHeadingVal());
         // Attempt Limelight localization
         if (net.lime.getValid()) {
             this.start_pos = LimeHelper.getPos(state, net);
         }
-        map.softInit(state, this.start_pos, this.start_heading);
+        map.softInit(hardware, state, this.start_pos, this.start_heading);
         map.pos.start_pos = this.start_pos;
         map.pos.heading = this.start_heading;
         map.initialize(hardware);

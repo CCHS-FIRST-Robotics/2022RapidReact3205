@@ -1,5 +1,6 @@
 package frc.robot.helper;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.map.*;
 import frc.robot.state.MainState;
@@ -17,6 +18,7 @@ public class GetBall {
                 double ang = Math
                         .acos(SimpleMat.dot(SimpleMat.unitVec(diff),
                                 SimpleMat.projectHeading(state.getHeadingVal(), 1)));
+                SmartDashboard.putNumber("GetBall/ang", ang);
                 if (ang < 1) {
                     if (dist < min_dist) {
                         min_dist = dist;

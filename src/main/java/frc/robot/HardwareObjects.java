@@ -99,6 +99,7 @@ public class HardwareObjects {
 
         this.beam_0 = new DigitalInput(Constants.BEAM_0);
         this.beam_0_5 = new DigitalInput(Constants.BEAM_0_5);
+        this.beam_1 = new DigitalInput(Constants.BEAM_1);
         this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
         IMU.configFactoryDefault();
         IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);

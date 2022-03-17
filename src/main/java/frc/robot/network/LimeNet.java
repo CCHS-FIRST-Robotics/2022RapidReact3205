@@ -18,19 +18,13 @@ public class LimeNet {
     }
 
     public void setReadState() {
-        this.led_mode.setNumber(2);
-        this.cam_mode.setNumber(0);
-        this.pipeline.setNumber(0);
     }
 
     public void init(NetworkTableInstance inst) {
-        NetworkTable limelight = inst.getTable("Stereo");
+        NetworkTable limelight = inst.getTable("limelight");
         this.tx = limelight.getEntry("tx");
         this.ty = limelight.getEntry("ty");
         this.tv = limelight.getEntry("tv");
-        this.led_mode = limelight.getEntry("ledMode");
-        this.cam_mode = limelight.getEntry("camMode");
-        this.pipeline = limelight.getEntry("pipeline");
     }
 
     public boolean getValid() {

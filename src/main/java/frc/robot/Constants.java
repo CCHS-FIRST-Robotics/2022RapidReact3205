@@ -45,7 +45,7 @@ public final class Constants {
 
     public static final int BEAM_0 = 5;
     public static final int BEAM_0_5 = 3;
-    public static final int BEAM_1 = 0;
+    public static final int BEAM_1 = 4;
 
     // ==================
     // STATE INITIALIZATION
@@ -187,8 +187,8 @@ public final class Constants {
 
     public static final double DEADBAND = 0.05;
     public static final double MAX_M_SP_ACC = 0.7 * Constants.MOTOR_MAX_TORQUE / Constants.WHEEL_MOI;
-    public static final double DERIV_FILTER = 0.3;
-    public static final double RESP_FILTER = 0.7;
+    public static final double DERIV_FILTER = 0.2;
+    public static final double RESP_FILTER = 0.6;
 
     // Ball
     public static final int BALL_NUM = 40;

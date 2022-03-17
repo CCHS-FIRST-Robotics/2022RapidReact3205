@@ -12,8 +12,8 @@ public class Auto15_2 {
     public ArrayList<Methods> met_list = new ArrayList<Methods>();
 
     public Auto15_2() {
-        double[] start = SR1_R1.START;
-        double[] ball = SR1_R1.BALL;
+        double[] start = SB1_B1.START;
+        double[] ball = SB1_B1.BALL;
 
         this.start_point[0] = start[0];
         this.start_point[1] = start[1];

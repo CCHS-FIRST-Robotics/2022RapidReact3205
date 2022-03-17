@@ -20,7 +20,7 @@ public class AI {
     }
 
     public States current_state = States.CONTROLLER;
-    public Controller2 controller_state = new Controller2();
+    public Controller controller_state = new Controller();
     public Command main_command = new Command(Constants.DEFAULT_CMD);
     // public AutonomousTestDrive autonomousTestDrive = new AutonomousTestDrive();
     // public AutonomousTravel autonomous;
@@ -31,7 +31,7 @@ public class AI {
      */
     public AI() {
         this.current_state = States.CONTROLLER;
-        this.controller_state = new Controller2();
+        this.controller_state = new Controller();
         this.main_command = new Command(Constants.DEFAULT_CMD);
         this.autonomous = new Autonomous();
     }

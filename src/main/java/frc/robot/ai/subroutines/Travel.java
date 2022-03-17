@@ -36,6 +36,8 @@ public class Travel {
         double[] point_vec = SimpleMat.projectHeading(this.thead, 1);
         double[] unit_h_vec = SimpleMat.projectHeading(main_state.getHeadingVal(), 1);
         double pwr_cmd = SimpleMat.vecsAngle2(unit_h_vec, point_vec);
+        SmartDashboard.putNumberArray("Travel/point_vec", point_vec);
+        SmartDashboard.putNumberArray("Travel/unit_h_vec", unit_h_vec);
         return pwr_cmd;
     }
 
@@ -54,7 +56,7 @@ public class Travel {
     public Command trajectory(MainState state, boolean override_adist, double nadist) {
 
         double theta = getTheta(state);
-        // double theta = SimpleMat.angleRectifier(this.thead - state.getHeadingVal());
+        //double theta = (this.thead - state.getHeadingVal());
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
         double adist;
         if (theta == 0) {
@@ -93,6 +95,8 @@ public class Travel {
         SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
         SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
         SmartDashboard.putNumber("Travel/theta", theta);
+        SmartDashboard.putNumber("Travel/thead", thead);
+        SmartDashboard.putNumber("Travel/chead", state.getHeadingVal());
         SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
         SmartDashboard.putNumberArray("Travel/local_vel", local_vel);
         SmartDashboard.putNumber("Travel/flr", flr);
