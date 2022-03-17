@@ -169,7 +169,6 @@ public final class Constants {
 
     public static final double[] FORWARD_TUNING = { 0.3, 0.05, 0.4 };
 
-
     // Controller Tunings
     public static final double MAX_DT = 0.05;
     public static final double C_BASE_GAIN = 0.05;
@@ -205,7 +204,7 @@ public final class Constants {
     public static final double LIME_RING_HEIGHT = 2.64;
     public static final double LIME_RING_RAD = 0.61;
     public static final double LIME_ELEV_ANG = 43;
-    //58.3 - 10; // in degs
+    // 58.3 - 10; // in degs
     public static final double[] LIME_LPOS = { 0.2413, 0.6858 }; // Y, Z
 
     // IMPORTANT

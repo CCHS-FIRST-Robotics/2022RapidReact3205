@@ -99,22 +99,15 @@ public class HardwareObjects {
 
         this.beam_0 = new DigitalInput(Constants.BEAM_0);
         this.beam_0_5 = new DigitalInput(Constants.BEAM_0_5);
-        this.beam_1 = new DigitalInput(Constants.BEAM_1);
+        tthis.IMU = new PigeonIMU(this.ST
 
-        this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
-        IMU.configFactoryDefault();
-        IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+    IMU.setFusededing(0.0, Constants.
 
-    }
+    
 
-    public void resetMotors() {
-        this.FLD_MOTOR.configFactoryDefault();
-        this.FRD_MOTOR.configFactoryDefault();
-        this.BLD_MOTOR.configFactoryDefault();
-        this.BRD_MOTOR.configFactoryDefault();
+    this.FLD_MOO.configFactoryDefault();this.FRD_MOTO.onfigFactoryDefault();this.BLD_MOO.configFactoryDefault();
 
-        this.INTAKE_MOTOR.configFactoryDefault();
-        this.STORAGE_1_MOTOR.configFactoryDefault();
+    this.INTAKE_MOTOR.configFacthis.STORAGE_1_MOTOR.conigFactoryDefault();
 
         this.STORAGE_2_MOTOR.configFactoryDefault();
         this.SHOOTER_1_MOTOR.configFactoryDefault();

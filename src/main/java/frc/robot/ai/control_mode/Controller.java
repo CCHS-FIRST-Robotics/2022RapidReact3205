@@ -115,7 +115,7 @@ public class Controller {
         double storage_2 = 0;
         double shooter_1 = 0;
         double shooter_2 = 0;
-        
+
         double hang_l = 0;
         double hang_r = 0;
 
@@ -145,9 +145,9 @@ public class Controller {
 
             hang_l = e_xbox.getLeftTriggerAxis();
             hang_r = e_xbox.getRightTriggerAxis();
-            if (e_xbox.getLeftBumper()){
-                hang_l = -1* hang_l;
-                hang_r = -1*hang_r;
+            if (e_xbox.getLeftBumper()) {
+                hang_l = -1 * hang_l;
+                hang_r = -1 * hang_r;
             }
 
             if (xbox.getRightBumper()) {
@@ -298,7 +298,7 @@ public class Controller {
 
         double dt = (System.currentTimeMillis() / 1000) - start_time;
         SmartDashboard.putNumber("Controller/rumble period", Math.sin(dt * 3.14));
-        
+
         e_xbox.setRumble(RumbleType.kLeftRumble, 0.1);
 
         // rumble based on voltage , 1 at 7 and 0 at 11

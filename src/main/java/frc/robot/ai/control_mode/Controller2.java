@@ -32,6 +32,8 @@ public class Controller2 {
     double storage_2 = 0;
     double shooter_1 = 0;
     double shooter_2 = 0;
+    double hangl = 0;
+    double hangr = 0;
 
     IntakeHandler intake;
     ShooterHandler shooter;
@@ -113,7 +115,107 @@ public class Controller2 {
         SmartDashboard.putNumber("Controller/AVEL", avel);
         double[] whl_vec = MecanumIK.mecanumIK(vel_vec, avel);
         SmartDashboard.putNumberArray("Controller/MIKC", whl_vec);
-        return whl_vec;
+
+        double[] o_out = { 0, 0, 0, 0 };
+
+        o_out[0] = this.fl_pid.update(whl_vec[0] - state.getFLRadssVal());
+        o_out[1] = this.fl_pid.update(whl_vec[1] - state.getFRRadssVal());
+        o_out[2] = this.fl_pid.update(whl_vec[2] - state.getBLRadssVal());
+        o_out[3] = this.fl_pid.update(whl_vec[3] - state.getBRRadssVal());
+        return o_out;
+    }
+
+    public void shooterStuff() {
+        if (xbox.getYButtonReleased()) {
+            if (this.shooter.state == 0) {
+                this.shooter.initDoubleFiring();
+            } else {
+                this.shooter.idle();
+            }
+        }
+        if (xbox.getXButtonReleased()) {
+            if (this.shooter.state == 0) {
+                this.shooter.initFiring();
+            } else {
+                this.shooter.idle();
+            }
+        }
+    }
+
+    public void intakeStuff(MainState state) {
+        if (xbox.getRightBumper()) {
+            if (this.intake.substate == 0) {
+                this.intake.autoIntake(state);
+            } else {
+                this.intake.idle();
+            }
+        }
+        if (xbox.getAButtonReleased()) {
+            if (this.intake.substate == 0) {
+                this.intake.intakeStorage();
+            } else {
+                this.intake.idle();
+            }
+        }
+        if (xbox.getBButtonReleased()) {
+            if (this.intake.substate == 0) {
+                this.intake.intakeOnly();
+            } else {
+                this.intake.idle();
+            }
+        }
+    }
+
+    public double[] pamHandler(MainState state) {
+        double[] pam_cmd = { 0, 0, 0, 0 };
+        if (xbox.getRightStickButtonReleased() || e_xbox.getRightStickButtonReleased()) {
+            if (this.pam_s == 0) {
+                this.pam = new PointAtMiddle(state, 0.2);
+                this.pam_s = 1;
+
+                this.arty_s = 0;
+                this.chase_s = 0;
+            } else {
+                this.pam_s = 0;
+            }
+        }
+        if (this.pam_s == 1) {
+            Command tp_cmd = this.pam.update(state);
+            pam_cmd[0] = tp_cmd.fl_pprop;
+            pam_cmd[1] = tp_cmd.fr_pprop;
+            pam_cmd[2] = tp_cmd.bl_pprop;
+            pam_cmd[3] = tp_cmd.br_pprop;
+            if (this.pam.exit(state)) {
+                this.pam_s = 0;
+            }
+        }
+        return pam_cmd;
+    }
+
+    public double[] artyHandler(MainState state) {
+        double[] arty_cmd = { 0, 0, 0, 0 };
+        if (xbox.getLeftStickButtonReleased() || e_xbox.getLeftStickButtonReleased()) {
+            if (this.arty_s == 0) {
+                this.arty = new FiringPosition(state, 0.3);
+                this.arty_s = 1;
+
+                this.pam_s = 0;
+                this.chase_s = 0;
+            } else {
+                this.arty_s = 0;
+            }
+        }
+        if (this.arty_s == 1) {
+            Command ta_cmd = this.arty.update(state);
+            arty_cmd[0] = ta_cmd.fl_pprop;
+            arty_cmd[1] = ta_cmd.fr_pprop;
+            arty_cmd[2] = ta_cmd.bl_pprop;
+            arty_cmd[3] = ta_cmd.br_pprop;
+            if (this.arty.exit(state)) {
+                this.arty_s = 0;
+            }
+        }
+        return arty_cmd;
     }
 
     public double[] chaseHandler(MainState state, Map map) {
@@ -146,11 +248,52 @@ public class Controller2 {
         return chase_cmd;
     }
 
-    public Command getCommand(MainState state, Map map, double CST) {
+    public void rumbleHandler() {
+        e_xbox.setRumble(RumbleType.kLeftRumble, 0.1);
 
-        this.pprop = 0.5 + xbox.getLeftTriggerAxis() * 0.5;
-        double[] whl_vec = starControl(state);
-        double[] ocmd = { flr, frr, blr, brr, in, storage, storage_2, shooter_1, shooter_2 };
+        // rumble based on voltage , 1 at 7 and 0 at 11
+        double voltage = RobotController.getBatteryVoltage();
+        double rmb = 1 - ((voltage - 7) / 4);
+        rmb = Math.min(Math.max(0, rmb), 1);
+        xbox.setRumble(RumbleType.kRightRumble, rmb);
+    }
+
+    public Command getCommands(MainState state, Map map, double CST) {
+
+        this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.25 - e_xbox.getLeftTriggerAxis() * 0.25
+                - e_xbox.getRightTriggerAxis() * 0.25;
+        double[] wv_co = starControl(state);
+        double[] wv_ch = chaseHandler(state, map);
+        double[] wv_ar = artyHandler(state);
+        double[] wv_pm = pamHandler(state);
+        flr = wv_co[0] + wv_ch[0] + wv_ar[0] + wv_pm[0];
+        frr = wv_co[1] + wv_ch[1] + wv_ar[1] + wv_pm[1];
+        blr = wv_co[2] + wv_ch[2] + wv_ar[2] + wv_pm[2];
+        brr = wv_co[3] + wv_ch[3] + wv_ar[3] + wv_pm[3];
+
+        in = e_xbox.getRightY() - xbox.getRightTriggerAxis();
+        storage = e_xbox.getRightX() - xbox.getRightTriggerAxis();
+        storage_2 = e_xbox.getLeftX();
+        shooter_1 = e_xbox.getLeftY() * -1;
+        shooter_2 = e_xbox.getLeftY() * -1;
+        intakeStuff(state);
+        shooterStuff();
+        double[] ins_cmd = this.intake.update(state);
+        double[] sho_cmd = this.shooter.update(state);
+        if (this.intake.substate != 0) {
+            in = in + ins_cmd[0];
+            storage = storage + ins_cmd[1];
+            storage_2 = storage_2 + ins_cmd[2] + sho_cmd[0];
+        }
+        if (this.shooter.state != 0) {
+            in = in + ins_cmd[0] + sho_cmd[3];
+            storage = storage + ins_cmd[1] + sho_cmd[3];
+            storage_2 = storage_2 + ins_cmd[2] + sho_cmd[0];
+            shooter_1 = shooter_1 + sho_cmd[1];
+            shooter_2 = shooter_2 + sho_cmd[2];
+        }
+        rumbleHandler();
+        double[] ocmd = { flr, frr, blr, brr, in, storage, storage_2, shooter_1, shooter_2, hangl, hangr };
         Command command = new Command(ocmd);
         return command;
     }

@@ -31,6 +31,7 @@ public class Travel {
         this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
     }
+
     double getTheta(MainState main_state) {
         double[] point_vec = SimpleMat.projectHeading(this.thead, 1);
         double[] unit_h_vec = SimpleMat.projectHeading(main_state.getHeadingVal(), 1);
@@ -51,9 +52,9 @@ public class Travel {
     }
 
     public Command trajectory(MainState state, boolean override_adist, double nadist) {
-        
+
         double theta = getTheta(state);
-        //double theta = SimpleMat.angleRectifier(this.thead - state.getHeadingVal());
+        // double theta = SimpleMat.angleRectifier(this.thead - state.getHeadingVal());
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
         double adist;
         if (theta == 0) {
