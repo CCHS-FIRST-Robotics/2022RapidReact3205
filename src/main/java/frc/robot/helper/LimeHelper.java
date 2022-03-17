@@ -10,6 +10,7 @@ public class LimeHelper {
         double deg2rad = 2 * Math.PI / 360;
 
         double[] ang_arr = net.lime.getAngles();
+        SmartDashboard.putNumberArray("Limelight/ang_arr", ang_arr);
 
         double elev_ang = (ang_arr[1] + Constants.LIME_ELEV_ANG) * deg2rad;
         double elev_height = Constants.LIME_RING_HEIGHT - Constants.LIME_LPOS[1];
