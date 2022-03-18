@@ -152,12 +152,12 @@ public class Controller {
             hang_l = 0;
             hang_r = 0;
             if (e_xbox.getAButton()) {
-                hang_l = 1;
-                hang_r = 1;
+                hang_l = -0.7;
+                hang_r = -0.7;
             }
             if (e_xbox.getBButton()) {
-                hang_l = -1;
-                hang_r = -1;
+                hang_l = 0.7;
+                hang_r = 0.7;
             }
 
             if (xbox.getRightBumper()) {

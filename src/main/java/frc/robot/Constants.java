@@ -23,15 +23,15 @@ public final class Constants {
     public static final int BL_TALON_PORT = 4;
     public static final int BR_TALON_PORT = 10;
 
-    public static final int INTAKE_TALON_PORT = 2;
+    public static final int INTAKE_TALON_PORT = 11;
     public static final int STORAGE_1_TALON_PORT = 6;
 
     public static final int STORAGE_2_TALON_PORT = 3;
     public static final int SHOOTER_1_TALON_PORT = 5;
     public static final int SHOOTER_2_TALON_PORT = 1;
 
-    public static final int HANG_L_TALON_PORT = 7;
-    public static final int HANG_R_VICTOR_PORT = 11;
+    public static final int HANG_L_TALON_PORT = 9;
+    public static final int HANG_R_VICTOR_PORT = 7;
 
     public static final int IMU_PORT = 6;
 
@@ -173,7 +173,7 @@ public final class Constants {
     public static final double MAX_DT = 0.05;
     public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.004, 0.06, 0.0003 };
-    public static final double[] C_STRONG_PID = { 0.003, 0.003, 0.0 };
+    public static final double[] C_STRONG_PID = { 0.006, 0.006, 0.0005  };
     public static final double[] R_STRONG_PID = { 0.004, 0.04, 0.0005 };
     public static final double C_ACC_LIM = 4;
 
@@ -203,9 +203,9 @@ public final class Constants {
     public static final double LIME_POS_VAR = 0.5 * 0.5;
     public static final double LIME_RING_HEIGHT = 2.64;
     public static final double LIME_RING_RAD = 0.61;
-    public static final double LIME_ELEV_ANG = 43;
+    public static final double LIME_ELEV_ANG = 45;
     // 58.3 - 10; // in degs
-    public static final double[] LIME_LPOS = { 0.2413, 0.6858 }; // Y, Z
+    public static final double[] LIME_LPOS = { 0.2413, 0.6358 }; // Y, Z
 
     // IMPORTANT
     public static final int TEAM = 0; // 0 = red, 1 = blue
