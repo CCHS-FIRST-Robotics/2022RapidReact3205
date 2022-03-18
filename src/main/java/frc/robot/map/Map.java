@@ -25,10 +25,10 @@ public class Map {
     public MainState initialize(HardwareObjects hardware) {
         hardware.NAVX.reset();
         hardware.NAVX.zeroYaw();
-        hardware.NAVX.setAngleAdjustment(this.pos.heading * 360 / (2*Math.PI));
+        hardware.NAVX.setAngleAdjustment(this.pos.heading * 360 / (2 * Math.PI));
 
         hardware.IMU.configFactoryDefault();
-        hardware.IMU.setFusedHeading(this.pos.heading * 360 / (2*Math.PI), Constants.TIMEOUT_MS);
+        hardware.IMU.setFusedHeading(this.pos.heading * 360 / (2 * Math.PI), Constants.TIMEOUT_MS);
 
         MainState state = new MainState();
         state.setPos(this.pos.start_pos, state.getPosVar());
@@ -48,7 +48,7 @@ public class Map {
         state.setWhlOHeading(start_heading, state.getWhlOHeadingVar());
 
         hardware.IMU.setFusedHeading(start_heading * 360 / (2 * Math.PI));
-        hardware.NAVX.setAngleAdjustment(start_heading * 360 / (2*Math.PI));
+        hardware.NAVX.setAngleAdjustment(start_heading * 360 / (2 * Math.PI));
 
         state.setVel(new double[] { 0, 0 }, Constants.INIT_VARIANCE);
         state.setAcc(new double[] { 0, 0 }, Constants.INIT_VARIANCE);
@@ -72,7 +72,7 @@ public class Map {
             this.balls[c].color = (int) (g_state[1] + 0.1);
             this.balls[c].aerial = (int) (g_state[2] + 0.1);
             this.balls[c].fresh = (int) (g_state[3] + 0.1);
-            if (this.balls[c].state != 0){
+            if (this.balls[c].state != 0) {
                 SmartDashboard.putNumber("GetBall/have", 1);
             }
             if (this.balls[c].state != 0) {

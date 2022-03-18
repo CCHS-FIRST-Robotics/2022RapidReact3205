@@ -20,6 +20,9 @@ public class BallChase {
     DPID br;
     PID turn;
 
+    boolean dash_state = false;
+    double dash_time = System.currentTimeMillis() / 1000;
+
     public BallChase(MainState state, Map map, int ball_chase, double max_prop) {
         // if ball chase = -1, scan on its own
         ball_index = ball_chase;
@@ -31,6 +34,8 @@ public class BallChase {
         this.ang_vel_max = 0.05 * max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 4 * Math.PI
                 / (60 * Constants.ROBOT_WIDTH);
         initPID();
+        this.dash_state = false;
+        this.dash_time = System.currentTimeMillis() / 1000;
     }
 
     public void initPID() {
@@ -50,17 +55,28 @@ public class BallChase {
         double[] diff = SimpleMat.subtract(ball.pos, state.getPosVal());
         double dist = SimpleMat.mag(diff);
         double time = dist / this.vel_mag;
-        //double[] new_pos = SimpleMat.add(ball.pos, SimpleMat.scaleVec(ball.vel, time));
+        // double[] new_pos = SimpleMat.add(ball.pos, SimpleMat.scaleVec(ball.vel,
+        // time));
         double[] new_pos = ball.pos;
-        double[] ndiff = SimpleMat.subtract(new_pos, state.getPosVal());
-        ndiff = SimpleMat.unitVec(ndiff);
+        double[] nadiff = SimpleMat.subtract(new_pos, state.getPosVal());
+        double[] ndiff = SimpleMat.unitVec(nadiff);
 
         double[] unit_h_vec = SimpleMat.projectHeading(state.getHeadingVal(), 1);
         double pwr_cmd = SimpleMat.vecsAngle2(unit_h_vec, ndiff);
 
-        double[] vel = SimpleMat.scaleVec(ndiff, this.vel_mag);
-        double target_avel = pwr_cmd/time;
+        // determine dash state
+        if (Math.abs(pwr_cmd) < 30 * 2 * Math.PI / 360 && SimpleMat.mag(nadiff) < 0.5) {
+            this.dash_state = true;
+            this.dash_time = System.currentTimeMillis() / 1000;
+        }
 
+        double[] vel = SimpleMat.scaleVec(ndiff, this.vel_mag);
+        vel = SimpleMat.rot2d(vel, -1 * state.getHeadingVal());
+        double target_avel = pwr_cmd / time;
+        if (this.dash_state) {
+            vel = new double[] { 0, this.vel_mag };
+            target_avel = 0;
+        }
         double[] whl_array = MecanumIK.mecanumIK(vel, target_avel);
         double flr = this.fl.update(whl_array[0] - state.getFLRadssVal());
         double frr = this.fr.update(whl_array[1] - state.getFRRadssVal());
@@ -89,6 +105,12 @@ public class BallChase {
         }
         if (state.getBeam0Val() == 1) {
             return true;
+        }
+        if (this.dash_state) {
+            double wait_time = 0.2 + (0.5 / this.vel_mag);
+            if (System.currentTimeMillis() / 1000 - this.dash_time > wait_time) {
+                return true;
+            }
         }
         return false;
     }
