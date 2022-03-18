@@ -34,6 +34,8 @@ public class Controller {
     int arty_s = 0;
     int chase_s = 0;
 
+    double pprop = 1;
+
     Curve sfr_curve;
     Curve sfl_curve;
 
@@ -69,9 +71,15 @@ public class Controller {
 
     double[] starControl(MainState state) {
         // left controllers give a polar vec, angle from 0 and mag from 0 to 1
-        double lstick_x = xbox.getLeftX();
-        double lstick_y = xbox.getLeftY();
-        double rstick_x = xbox.getRightX();
+        double lstick_x = xbox.getLeftX() * pprop;
+        double lstick_y = 0;
+        if (Math.abs(xbox.getLeftY()) > Math.abs(xbox.getRightY())) {
+            lstick_y = xbox.getLeftY();
+        } else {
+            lstick_y = xbox.getRightY();
+        }
+        lstick_y = lstick_y * pprop;
+        double rstick_x = xbox.getRightX() * pprop;
         double[] stick_vec = { lstick_x, -1 * lstick_y };
         double yaw_val = rstick_x;
         double raw_theta = SimpleMat.vecsAngle2(new double[] { 0, 1 }, stick_vec);
@@ -124,30 +132,32 @@ public class Controller {
         double[] chase_cmd = { 0, 0, 0, 0 };
 
         if (DriverStation.isTeleop()) {
+            this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.25 - e_xbox.getLeftTriggerAxis() * 0.25
+                    - e_xbox.getRightTriggerAxis() * 0.25;
 
             lr_turn = e_xbox.getLeftX() * 0.8;
             fb_1 = e_xbox.getLeftY();
 
-            intake = xbox.getRightY() * 0.4;
-            storage = xbox.getRightY() * 0.7;
+            intake = xbox.getRightTriggerAxis() * -1;
+            storage = xbox.getRightTriggerAxis() * -1;
 
             intake = intake + e_xbox.getRightX();
             storage = storage - e_xbox.getRightY();
 
-            storage_2 = xbox.getRightTriggerAxis() - xbox.getLeftTriggerAxis();
+            storage_2 = xbox.getRightTriggerAxis() * -1 + e_xbox.getLeftY() * -1;
 
-            shooter_1 = e_xbox.getRightTriggerAxis();
-            shooter_2 = e_xbox.getRightTriggerAxis();
-            if (e_xbox.getRightBumper()) {
-                shooter_1 = -1 * shooter_1;
-                shooter_2 = -1 * shooter_2;
+            shooter_1 = e_xbox.getRightX();
+            shooter_2 = e_xbox.getRightX();
+
+            hang_l = 0;
+            hang_r = 0;
+            if (e_xbox.getAButton()) {
+                hang_l = 1;
+                hang_r = 1;
             }
-
-            hang_l = e_xbox.getLeftTriggerAxis();
-            hang_r = e_xbox.getRightTriggerAxis();
-            if (e_xbox.getLeftBumper()) {
-                hang_l = -1 * hang_l;
-                hang_r = -1 * hang_r;
+            if (e_xbox.getBButton()) {
+                hang_l = -1;
+                hang_r = -1;
             }
 
             if (xbox.getRightBumper()) {
