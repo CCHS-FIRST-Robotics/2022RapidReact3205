@@ -62,15 +62,15 @@ public class Auto15_4 {
         this.angsl.add(0.0);
 
         // Move to 2/3 between
-        this.met_list.add(Methods.ROTATE);
-        ArrayList<double[]> rot2far = new ArrayList<double[]>();
-        rot2far.add(new double[] { far_ball[0], far_ball[1] });
-        this.vals.add(rot2far);
-        this.angsl.add(0.0);
+        //this.met_list.add(Methods.ROTATE);
+        //ArrayList<double[]> rot2far = new ArrayList<double[]>();
+        //rot2far.add(new double[] { far_ball[0], far_ball[1] });
+        //this.vals.add(rot2far);
+        //this.angsl.add(0.0);
 
         this.met_list.add(Methods.TRAVEL);
         ArrayList<double[]> go2far = new ArrayList<double[]>();
-        go2far.add(new double[] { far_ball[0] * 0.7, far_ball[1] * 0.7 });
+        go2far.add(new double[] { far_ball[0] * 0.5, far_ball[1] * 0.5 });
         this.vals.add(go2far);
         this.angsl.add(far_ball[2]);
 
@@ -100,13 +100,13 @@ public class Auto15_4 {
         ArrayList<double[]> go2other = new ArrayList<double[]>();
         go2other.add(new double[] { far_other[0] * 0.9, far_other[1] * 0.9 });
         this.vals.add(go2other);
-        this.angsl.add(far_other[3]);
+        this.angsl.add(far_other[2]);
 
         this.met_list.add(Methods.TRAVEL);
         ArrayList<double[]> go2other2 = new ArrayList<double[]>();
         go2other2.add(new double[] { far_other[0], far_other[1] });
         this.vals.add(go2other2);
-        this.angsl.add(far_other[3]);
+        this.angsl.add(far_other[2]);
 
         this.met_list.add(Methods.INTAKE_STATIC);
         ArrayList<double[]> pickup_3 = new ArrayList<double[]>();

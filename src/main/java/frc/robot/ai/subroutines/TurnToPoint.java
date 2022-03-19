@@ -30,7 +30,7 @@ public class TurnToPoint {
         this.max_prop = max_prop;
         this.stime = (double) System.currentTimeMillis() / 1000;
 
-        this.angvel_max = max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 4 * Math.PI
+        this.angvel_max = 0.5 * max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 4 * Math.PI
                 / (60 * Constants.ROBOT_WIDTH);
 
         double cross_tc = Math.sin(Math.PI * 0.75 - Math.atan(Constants.ROBOT_WIDTH / Constants.ROBOT_LENGTH));

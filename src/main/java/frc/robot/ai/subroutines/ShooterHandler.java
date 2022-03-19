@@ -58,7 +58,7 @@ public class ShooterHandler {
             this.storage_2 = new DPID(Constants.R_STRONG_PID[0], Constants.R_STRONG_PID[1], Constants.R_STRONG_PID[2]);
             storage_2.reset();
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
-            if (dt > 2) {
+            if (dt > 0.8) {
                 this.state = 2;
             }
             so2_target = 0;
@@ -74,7 +74,7 @@ public class ShooterHandler {
             this.storage_2 = new DPID(Constants.R_STRONG_PID[0], Constants.R_STRONG_PID[1], Constants.R_STRONG_PID[2]);
             storage_2.reset();
             double dt = ct - this.o_time;
-            if (dt > 1.5) {
+            if (dt > 0.7) {
                 this.state = 4;
                 d_time = (System.currentTimeMillis() / 1000);
             }
@@ -82,7 +82,7 @@ public class ShooterHandler {
         }
         if (this.state == 4) {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
-            if (ct - d_time > 0.5) {
+            if (ct - d_time > 0.3) {
                 this.state = 5;
             }
         }

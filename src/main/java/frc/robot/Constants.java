@@ -173,7 +173,7 @@ public final class Constants {
     public static final double MAX_DT = 0.05;
     public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.004, 0.06, 0.0003 };
-    public static final double[] C_STRONG_PID = { 0.006, 0.006, 0.0005  };
+    public static final double[] C_STRONG_PID = { 0.003, 0.006, 0.0002  };
     public static final double[] R_STRONG_PID = { 0.004, 0.04, 0.0005 };
     public static final double C_ACC_LIM = 4;
 

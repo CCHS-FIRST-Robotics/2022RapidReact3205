@@ -132,22 +132,22 @@ public class Controller {
         double[] chase_cmd = { 0, 0, 0, 0 };
 
         if (DriverStation.isTeleop()) {
-            this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.25 - e_xbox.getLeftTriggerAxis() * 0.25
+            this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.5 - e_xbox.getLeftTriggerAxis() * 0.25
                     - e_xbox.getRightTriggerAxis() * 0.25;
 
-            lr_turn = e_xbox.getLeftX() * 0.8;
-            fb_1 = e_xbox.getLeftY();
+            lr_turn = 0;
+            fb_1 = 0;
 
-            intake = xbox.getRightTriggerAxis() * -1;
-            storage = xbox.getRightTriggerAxis() * -1;
+            intake = xbox.getRightTriggerAxis() * 0.6;
+            storage = xbox.getRightTriggerAxis() * 0.6;
 
             intake = intake + e_xbox.getRightX();
-            storage = storage - e_xbox.getRightY();
+            storage = storage - e_xbox.getRightY() * 10;
 
-            storage_2 = xbox.getRightTriggerAxis() * -1 + e_xbox.getLeftY() * -1;
+            storage_2 = e_xbox.getLeftY() * -1;
 
-            shooter_1 = e_xbox.getRightX();
-            shooter_2 = e_xbox.getRightX();
+            shooter_1 = e_xbox.getLeftX();
+            shooter_2 = e_xbox.getLeftX();
 
             hang_l = 0;
             hang_r = 0;

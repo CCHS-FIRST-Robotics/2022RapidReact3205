@@ -27,7 +27,7 @@ public class Autonomous {
     // 3.14 },
     // { 0.7, -0.7, -0.75 * 3.14 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 
-    Auto15_2 generator;
+    Auto15_4 generator;
 
     double[] start_pos;
     double start_heading;
@@ -59,7 +59,7 @@ public class Autonomous {
 
     public void init(HardwareObjects hardware, MainState state, Map map, Network net) {
         this.current_step = -1;
-        this.generator = new Auto15_2();
+        this.generator = new Auto15_4();
 
         this.start_pos = this.generator.start_point;
         this.start_heading = this.generator.start_heading;
