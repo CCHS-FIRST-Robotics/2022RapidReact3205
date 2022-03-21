@@ -37,7 +37,7 @@ public class BallChase {
         initPID();
         this.dash_state = false;
         this.dash_time = System.currentTimeMillis() / 1000;
-        this.dash_tpos = new double[]  {0, 0};
+        this.dash_tpos = new double[] { 0, 0 };
     }
 
     public void initPID() {
@@ -68,11 +68,11 @@ public class BallChase {
 
         // determine dash state
         if (Math.abs(pwr_cmd) < 90 * 2 * Math.PI / 360 && SimpleMat.mag(nadiff) < 0.5) {
-            if (this.dash_state == false){
+            if (this.dash_state == false) {
                 this.dash_time = System.currentTimeMillis() / 1000;
-                this.dash_tpos = SimpleMat.add(ball.pos, SimpleMat.projectHeading(state.getHeadingVal(), 0.2));
+                this.dash_tpos = SimpleMat.add(ball.pos, SimpleMat.projectHeading(state.getHeadingVal(), 0.02));
             }
-            this.dash_state = true; 
+            this.dash_state = true;
         }
 
         double[] vel = SimpleMat.scaleVec(ndiff, this.vel_mag);
@@ -117,13 +117,13 @@ public class BallChase {
             SmartDashboard.putNumber("BallChase/dash_state", wait_time);
             double ct = (System.currentTimeMillis() / 1000) - this.dash_time;
             SmartDashboard.putNumber("BallChase/ct", ct);
-            if ( ct > wait_time) {
+            if (ct > wait_time) {
                 return true;
             }
-            if (dist < 0.3){
+            if (dist < 0.05) {
                 return true;
             }
-            
+
         }
         return false;
     }

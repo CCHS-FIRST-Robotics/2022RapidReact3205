@@ -14,7 +14,6 @@ public class TurnToPoint extends Turn {
     DPID bl;
     DPID br;
 
-
     double[] tpos = { 0, 0 };
     double max_prop = 1;
     double init_dtheta;
@@ -44,8 +43,6 @@ public class TurnToPoint extends Turn {
         this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
     }
-
-
 
     public void init(MainState main_state) {
         this.init_dtheta = getTheta(main_state);

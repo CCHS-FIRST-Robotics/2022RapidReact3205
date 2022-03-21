@@ -14,7 +14,6 @@ public class PointAtMiddle extends Turn {
     DPID bl;
     DPID br;
 
-
     double[] tpos = { 0, 0 };
     double max_prop = 1;
     double angvel_max;
