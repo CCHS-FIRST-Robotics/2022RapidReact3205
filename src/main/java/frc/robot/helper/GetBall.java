@@ -12,7 +12,8 @@ public class GetBall {
         int min_ind = -1;
         for (int c = 0; c < Constants.BALL_NUM; c++) {
             Ball ball = map.balls[c];
-            if (ball.state != 0) {
+            // team selection
+            if (ball.state != 0 && ball.color == Constants.TEAM) {
                 double[] diff = SimpleMat.subtract(ball.pos, state.getPosVal());
                 double dist = SimpleMat.mag(diff);
                 double ang = Math
