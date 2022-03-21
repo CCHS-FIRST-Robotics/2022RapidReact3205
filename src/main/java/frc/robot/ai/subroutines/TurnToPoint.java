@@ -7,19 +7,16 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TurnToPoint {
+public class TurnToPoint extends Turn {
 
     DPID fl;
     DPID fr;
     DPID bl;
     DPID br;
 
-    PID turn;
 
     double[] tpos = { 0, 0 };
     double max_prop = 1;
-    double angvel_max;
-    double angacc_max;
     double init_dtheta;
     FwdController velcontr;
     double stime;
@@ -46,20 +43,9 @@ public class TurnToPoint {
         this.fr = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-
-        this.turn = new PID(5, 50, 0.2);
     }
 
-    double getTheta(MainState main_state) {
-        double[] pos = main_state.getPosVal();
-        double[] point_vec = { this.tpos[0] - pos[0], this.tpos[1] - pos[1] };
 
-        point_vec = SimpleMat.unitVec(point_vec);
-        double[] unit_h_vec = SimpleMat.projectHeading(main_state.getHeadingVal(), 1);
-        double pwr_cmd = SimpleMat.vecsAngle2(unit_h_vec, point_vec);
-
-        return pwr_cmd;
-    }
 
     public void init(MainState main_state) {
         this.init_dtheta = getTheta(main_state);

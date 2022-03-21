@@ -22,6 +22,7 @@ public class BallChase {
 
     boolean dash_state = false;
     double dash_time = System.currentTimeMillis() / 1000;
+    double[] dash_tpos;
 
     public BallChase(MainState state, Map map, int ball_chase, double max_prop) {
         // if ball chase = -1, scan on its own
@@ -36,6 +37,7 @@ public class BallChase {
         initPID();
         this.dash_state = false;
         this.dash_time = System.currentTimeMillis() / 1000;
+        this.dash_tpos = new double[]  {0, 0};
     }
 
     public void initPID() {
@@ -66,11 +68,11 @@ public class BallChase {
 
         // determine dash state
         if (Math.abs(pwr_cmd) < 90 * 2 * Math.PI / 360 && SimpleMat.mag(nadiff) < 0.5) {
-            if (this.dash_state != true){
+            if (this.dash_state == false){
                 this.dash_time = System.currentTimeMillis() / 1000;
+                this.dash_tpos = SimpleMat.add(ball.pos, SimpleMat.projectHeading(state.getHeadingVal(), 0.2));
             }
-            this.dash_state = true;
-            
+            this.dash_state = true; 
         }
 
         double[] vel = SimpleMat.scaleVec(ndiff, this.vel_mag);
@@ -111,12 +113,17 @@ public class BallChase {
         }
         if (this.dash_state) {
             double wait_time = 0.1 + (0.5 / this.vel_mag);
+            double dist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.dash_tpos));
             SmartDashboard.putNumber("BallChase/dash_state", wait_time);
             double ct = (System.currentTimeMillis() / 1000) - this.dash_time;
             SmartDashboard.putNumber("BallChase/ct", ct);
             if ( ct > wait_time) {
                 return true;
             }
+            if (dist < 0.3){
+                return true;
+            }
+            
         }
         return false;
     }

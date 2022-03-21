@@ -27,7 +27,7 @@ public class Autonomous {
     // 3.14 },
     // { 0.7, -0.7, -0.75 * 3.14 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 
-    Auto15_4 generator;
+    Auto15_2 generator;
 
     double[] start_pos;
     double start_heading;
@@ -59,19 +59,16 @@ public class Autonomous {
 
     public void init(HardwareObjects hardware, MainState state, Map map, Network net) {
         this.current_step = -1;
-        this.generator = new Auto15_4();
+        this.generator = new Auto15_2();
 
         this.start_pos = this.generator.start_point;
         this.start_heading = this.generator.start_heading;
-        SmartDashboard.putNumber("Autonomous/start_heading", start_heading);
 
         this.cmd_list = this.generator.met_list;
         this.ang_list = this.generator.angsl;
         this.coord_list = this.generator.vals;
 
         map.softInit(hardware, state, this.start_pos, this.start_heading);
-
-        SmartDashboard.putNumber("Autonomous/act head", state.getHeadingVal());
         // Attempt Limelight localization
         if (net.lime.getValid()) {
             this.start_pos = LimeHelper.getPos(state, net);
@@ -89,7 +86,7 @@ public class Autonomous {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
                         this.coord_list.get(this.current_step).get(0)[1] };
-                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.35);
+                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.5);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
@@ -101,7 +98,7 @@ public class Autonomous {
                 break;
             case CURVE:
                 this.curve = new CurveFwdTravel(this.coord_list.get(this.current_step),
-                        this.ang_list.get(this.current_step), 0.4);
+                        this.ang_list.get(this.current_step), 0.5);
                 this.curve.init(state);
                 SmartDashboard.putString("Auton/func", "CURVE");
                 break;

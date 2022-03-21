@@ -30,9 +30,12 @@ public class Controller {
     FiringPosition arty;
     BallChase chase;
 
+    HangAlign halign;
+
     int pam_s = 0;
     int arty_s = 0;
     int chase_s = 0;
+    int hang_s = 0;
 
     double pprop = 1;
 
@@ -130,19 +133,17 @@ public class Controller {
         double[] pam_cmd = { 0, 0, 0, 0 };
         double[] arty_cmd = { 0, 0, 0, 0 };
         double[] chase_cmd = { 0, 0, 0, 0 };
+        double[] hang_cmd = { 0, 0, 0, 0};
 
         if (DriverStation.isTeleop()) {
-            this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.5 - e_xbox.getLeftTriggerAxis() * 0.25
-                    - e_xbox.getRightTriggerAxis() * 0.25;
+            this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.6 - e_xbox.getLeftTriggerAxis() * 0.2
+                    - e_xbox.getRightTriggerAxis() * 0.2;
 
             lr_turn = 0;
             fb_1 = 0;
 
-            intake = xbox.getRightTriggerAxis() * 0.6;
-            storage = xbox.getRightTriggerAxis() * 0.6;
-
-            intake = intake + e_xbox.getRightX();
-            storage = storage - e_xbox.getRightY() * 10;
+            intake = xbox.getRightTriggerAxis() * 0.6 + e_xbox.getRightX();;
+            storage = xbox.getRightTriggerAxis() * 0.6 - e_xbox.getRightY();;
 
             storage_2 = e_xbox.getLeftY() * -1;
 
@@ -152,12 +153,22 @@ public class Controller {
             hang_l = 0;
             hang_r = 0;
             if (e_xbox.getAButton()) {
-                hang_l = -0.7;
-                hang_r = -0.7;
+                hang_l = -0.6;
+                hang_r = -0.6;
             }
             if (e_xbox.getBButton()) {
-                hang_l = 0.7;
-                hang_r = 0.7;
+                hang_l = 0.6;
+                hang_r = 0.6;
+            }
+
+            if (e_xbox.getXButtonReleased()){
+                if (this.hang_s == 0){
+                    this.halign = new HangAlign(0.3);
+                    this.hang_s = 1;
+                }
+                else{
+                    this.hang_s = 0;
+                }
             }
 
             if (xbox.getRightBumper()) {
@@ -167,19 +178,11 @@ public class Controller {
                     this.intake.idle();
                 }
             }
-            if (xbox.getAButtonReleased()) {
-                if (this.intake.substate == 0) {
-                    this.intake.intakeStorage();
-                } else {
-                    this.intake.idle();
-                }
+            if (xbox.getAButton()) {
+                storage_2 = storage_2 -0.4;
             }
-            if (xbox.getBButtonReleased()) {
-                if (this.intake.substate == 0) {
-                    this.intake.intakeStorage();
-                } else {
-                    this.intake.idle();
-                }
+            if (xbox.getBButton()) {
+                storage_2 = storage_2 + 0.4;
             }
             if (xbox.getYButtonReleased()) {
                 if (this.shooter.state == 0) {
@@ -260,7 +263,18 @@ public class Controller {
                 boolean chase_exit = this.chase.exit(state, map);
                 SmartDashboard.putBoolean("BallChase/chase exit", chase_exit);
                 if (chase_exit) {
-                    this.chase_s = this.chase_s;
+                    this.chase_s = 0;
+                }
+            }
+            if (this.hang_s == 1){
+                Command th_cmd = this.halign.update(state);
+                hang_cmd[0] = th_cmd.fl_pprop;
+                hang_cmd[1] = th_cmd.fr_pprop;
+                hang_cmd[2] = th_cmd.bl_pprop;
+                hang_cmd[3] = th_cmd.br_pprop;
+                boolean halign_exit = this.halign.exit(state);
+                if (halign_exit) {
+                    this.hang_s = 0;
                 }
             }
 
@@ -290,7 +304,6 @@ public class Controller {
         // double frt = whl_vec[1];
         // double blt = whl_vec[2];
         // double brt = whl_vec[3];
-        SmartDashboard.putNumberArray("Controller/whl_vec", whl_vec);
         flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
         blt = whl_vec[2] + (Math.min(1, Math.max(-1, blt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
@@ -301,13 +314,10 @@ public class Controller {
         double bld = blt - state.getBLRadssVal();
         double brd = brt - state.getBRRadssVal();
 
-        double flr = this.fl_pid.update(fld) + pam_cmd[0] + arty_cmd[0] + chase_cmd[0];
-        double frr = this.fr_pid.update(frd) + pam_cmd[1] + arty_cmd[1] + chase_cmd[1];
-        double blr = this.bl_pid.update(bld) + pam_cmd[2] + arty_cmd[2] + chase_cmd[2];
-        double brr = this.br_pid.update(brd) + pam_cmd[3] + arty_cmd[3] + chase_cmd[3];
-
-        double dt = (System.currentTimeMillis() / 1000) - start_time;
-        SmartDashboard.putNumber("Controller/rumble period", Math.sin(dt * 3.14));
+        double flr = this.fl_pid.update(fld) + pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
+        double frr = this.fr_pid.update(frd) + pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];
+        double blr = this.bl_pid.update(bld) + pam_cmd[2] + arty_cmd[2] + chase_cmd[2] + hang_cmd[2];
+        double brr = this.br_pid.update(brd) + pam_cmd[3] + arty_cmd[3] + chase_cmd[3] + hang_cmd[3];
 
         e_xbox.setRumble(RumbleType.kLeftRumble, 0.1);
 
