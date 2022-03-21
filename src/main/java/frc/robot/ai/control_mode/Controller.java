@@ -133,7 +133,7 @@ public class Controller {
         double[] pam_cmd = { 0, 0, 0, 0 };
         double[] arty_cmd = { 0, 0, 0, 0 };
         double[] chase_cmd = { 0, 0, 0, 0 };
-        double[] hang_cmd = { 0, 0, 0, 0};
+        double[] hang_cmd = { 0, 0, 0, 0 };
 
         if (DriverStation.isTeleop()) {
             this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.6 - e_xbox.getLeftTriggerAxis() * 0.2
@@ -142,8 +142,10 @@ public class Controller {
             lr_turn = 0;
             fb_1 = 0;
 
-            intake = xbox.getRightTriggerAxis() * 0.6 + e_xbox.getRightX();;
-            storage = xbox.getRightTriggerAxis() * 0.6 - e_xbox.getRightY();;
+            intake = xbox.getRightTriggerAxis() * 0.6 + e_xbox.getRightX();
+            ;
+            storage = xbox.getRightTriggerAxis() * 0.6 - e_xbox.getRightY();
+            ;
 
             storage_2 = e_xbox.getLeftY() * -1;
 
@@ -161,12 +163,11 @@ public class Controller {
                 hang_r = 0.6;
             }
 
-            if (e_xbox.getXButtonReleased()){
-                if (this.hang_s == 0){
+            if (e_xbox.getXButtonReleased()) {
+                if (this.hang_s == 0) {
                     this.halign = new HangAlign(0.3);
                     this.hang_s = 1;
-                }
-                else{
+                } else {
                     this.hang_s = 0;
                 }
             }
@@ -179,7 +180,7 @@ public class Controller {
                 }
             }
             if (xbox.getAButton()) {
-                storage_2 = storage_2 -0.4;
+                storage_2 = storage_2 - 0.4;
             }
             if (xbox.getBButton()) {
                 storage_2 = storage_2 + 0.4;
@@ -266,7 +267,7 @@ public class Controller {
                     this.chase_s = 0;
                 }
             }
-            if (this.hang_s == 1){
+            if (this.hang_s == 1) {
                 Command th_cmd = this.halign.update(state);
                 hang_cmd[0] = th_cmd.fl_pprop;
                 hang_cmd[1] = th_cmd.fr_pprop;
