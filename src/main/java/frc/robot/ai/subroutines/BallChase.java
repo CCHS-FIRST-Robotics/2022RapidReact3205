@@ -53,13 +53,19 @@ public class BallChase {
         if (this.ball_index == -1) {
             return new Command(Constants.DEFAULT_CMD);
         }
+        if (exit(state, map)){
+            return new Command(Constants.DEFAULT_CMD);
+        }
         Ball ball = map.balls[this.ball_index];
+        if (ball.pos[0] == 0){
+            return new Command(Constants.DEFAULT_CMD);
+        }
         double[] diff = SimpleMat.subtract(ball.pos, state.getPosVal());
         double dist = SimpleMat.mag(diff);
         double time = dist / this.vel_mag;
-        // double[] new_pos = SimpleMat.add(ball.pos, SimpleMat.scaleVec(ball.vel,
-        // time));
-        double[] new_pos = ball.pos;
+         double[] new_pos = SimpleMat.add(ball.pos, SimpleMat.scaleVec(ball.vel,
+         time));
+        //double[] new_pos = ball.pos;
         double[] nadiff = SimpleMat.subtract(new_pos, state.getPosVal());
         double[] ndiff = SimpleMat.unitVec(nadiff);
 
@@ -67,7 +73,7 @@ public class BallChase {
         double pwr_cmd = SimpleMat.vecsAngle2(unit_h_vec, ndiff);
 
         // determine dash state
-        if (Math.abs(pwr_cmd) < 90 * 2 * Math.PI / 360 && SimpleMat.mag(nadiff) < 0.5) {
+        if (Math.abs(pwr_cmd) < 90 * 2 * Math.PI / 360 && SimpleMat.mag(nadiff) < 1) {
             if (this.dash_state == false) {
                 this.dash_time = System.currentTimeMillis() / 1000;
                 this.dash_tpos = SimpleMat.add(ball.pos, SimpleMat.projectHeading(state.getHeadingVal(), 0.02));
@@ -77,9 +83,9 @@ public class BallChase {
 
         double[] vel = SimpleMat.scaleVec(ndiff, this.vel_mag);
         vel = SimpleMat.rot2d(vel, -1 * state.getHeadingVal());
-        double target_avel = pwr_cmd / time;
+        double target_avel = 1.5 * pwr_cmd / time;
         if (this.dash_state) {
-            vel = new double[] { 0, this.vel_mag };
+            vel = new double[] { 0, this.vel_mag * 0.5 };
             target_avel = 0;
         }
         double[] whl_array = MecanumIK.mecanumIK(vel, target_avel);
@@ -93,7 +99,7 @@ public class BallChase {
         SmartDashboard.putNumber("BallChase/target avel", target_avel);
         SmartDashboard.putNumberArray("BallChase/Ball pos", ball.pos);
         SmartDashboard.putNumberArray("BallChase/Ball npos", new_pos);
-        SmartDashboard.putNumberArray("BallChase/Ball vell", ball.vel);
+        SmartDashboard.putNumberArray("BallChase/Ball vel", ball.vel);
         // return new Command(0, 0, 0, 0);
         double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };
         SmartDashboard.putNumberArray("BallChase/OCMD", ocmd);
@@ -108,11 +114,14 @@ public class BallChase {
         if (ball.state == 0) {
             return true;
         }
+        if (ball.pos[0] == 0){
+            return true;
+        }
         if (state.getBeam0Val() == 1) {
             return true;
         }
         if (this.dash_state) {
-            double wait_time = 0.1 + (0.5 / this.vel_mag);
+            double wait_time = 0.1 + (1 / (this.vel_mag* 0.5 ));
             double dist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.dash_tpos));
             SmartDashboard.putNumber("BallChase/dash_state", wait_time);
             double ct = (System.currentTimeMillis() / 1000) - this.dash_time;

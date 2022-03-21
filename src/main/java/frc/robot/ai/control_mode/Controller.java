@@ -47,22 +47,30 @@ public class Controller {
     DPID bl_pid;
     DPID br_pid;
 
+    double temp_cmd = 1;
+
     double start_time = System.currentTimeMillis() / 1000;
+
+    double cooldown_time = System.currentTimeMillis() / 1000;
 
     public Controller() {
         this.sfr_curve = new Curve(Constants.SLOW_CURVE[0], Constants.SLOW_CURVE[1], Constants.SLOW_CURVE[2]);
         this.sfl_curve = new Curve(Constants.SLOW_CURVE[0], Constants.SLOW_CURVE[1], Constants.SLOW_CURVE[2]);
 
-        this.fl_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.fr_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.bl_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.br_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        resetPID();
 
         this.intake = new IntakeHandler();
         this.intake.idle();
 
         this.shooter = new ShooterHandler();
         this.shooter.idle();
+    }
+
+    void resetPID(){
+        this.fl_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br_pid = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
     }
 
     double stickCurve(double val) {
@@ -223,9 +231,10 @@ public class Controller {
                 }
             }
             if (xbox.getLeftBumperReleased()) {
+                this.intake.idle();
                 if (this.chase_s == 0) {
                     this.intake.autoIntake(state);
-                    this.chase = new BallChase(state, map, -1, 0.6);
+                    this.chase = new BallChase(state, map, -1, 0.4);
                     this.chase_s = 1;
 
                     this.arty_s = 0;
@@ -243,6 +252,9 @@ public class Controller {
                 pam_cmd[3] = tp_cmd.br_pprop;
                 if (this.pam.exit(state)) {
                     this.pam_s = 0;
+                    resetPID();
+                    this.temp_cmd = 0;
+                    this.cooldown_time = System.currentTimeMillis() / 1000; 
                 }
             }
             if (this.arty_s == 1) {
@@ -253,6 +265,9 @@ public class Controller {
                 arty_cmd[3] = ta_cmd.br_pprop;
                 if (this.arty.exit(state)) {
                     this.arty_s = 0;
+                    resetPID();
+                    this.temp_cmd = 0;
+                    this.cooldown_time = System.currentTimeMillis() / 1000; 
                 }
             }
             if (this.chase_s == 1) {
@@ -265,6 +280,9 @@ public class Controller {
                 SmartDashboard.putBoolean("BallChase/chase exit", chase_exit);
                 if (chase_exit) {
                     this.chase_s = 0;
+                    resetPID();
+                    this.temp_cmd = 0;
+                    this.cooldown_time = System.currentTimeMillis() / 1000; 
                 }
             }
             if (this.hang_s == 1) {
@@ -276,6 +294,9 @@ public class Controller {
                 boolean halign_exit = this.halign.exit(state);
                 if (halign_exit) {
                     this.hang_s = 0;
+                    resetPID();
+                    this.temp_cmd = 0;
+                    this.cooldown_time = System.currentTimeMillis() / 1000; 
                 }
             }
 
@@ -296,6 +317,18 @@ public class Controller {
 
         }
         double[] whl_vec = starControl(state);
+        if (System.currentTimeMillis()/1000 - cooldown_time > 1){
+            this.temp_cmd = 1;
+        }
+        else if (System.currentTimeMillis()/1000 - cooldown_time < 0.9){
+            SmartDashboard.putNumber("Controller/end I", this.fl_pid.integral);
+        }
+        else{
+            this.temp_cmd = 0;
+            resetPID();
+            SmartDashboard.putNumber("Controller/end I2", this.fl_pid.integral);
+            SmartDashboard.putNumberArray("Controller/end starcmd", whl_vec);
+        }
 
         double flt = -1 * fb_1 + lr_turn;// + whl_vec[0];
         double frt = -1 * fb_1 - lr_turn;// + whl_vec[1];
@@ -305,20 +338,41 @@ public class Controller {
         // double frt = whl_vec[1];
         // double blt = whl_vec[2];
         // double brt = whl_vec[3];
-        flt = whl_vec[0] + (Math.min(1, Math.max(-1, flt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        frt = whl_vec[1] + (Math.min(1, Math.max(-1, frt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        blt = whl_vec[2] + (Math.min(1, Math.max(-1, blt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        brt = whl_vec[3] + (Math.min(1, Math.max(-1, brt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        flt = whl_vec[0];// + (Math.min(1, Math.max(-1, flt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        frt = whl_vec[1];// + (Math.min(1, Math.max(-1, frt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        blt = whl_vec[2];// + (Math.min(1, Math.max(-1, blt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        brt = whl_vec[3];// + (Math.min(1, Math.max(-1, brt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
 
         double fld = flt - state.getFLRadssVal();
         double frd = frt - state.getFRRadssVal();
         double bld = blt - state.getBLRadssVal();
         double brd = brt - state.getBRRadssVal();
 
-        double flr = this.fl_pid.update(fld) + pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
-        double frr = this.fr_pid.update(frd) + pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];
-        double blr = this.bl_pid.update(bld) + pam_cmd[2] + arty_cmd[2] + chase_cmd[2] + hang_cmd[2];
-        double brr = this.br_pid.update(brd) + pam_cmd[3] + arty_cmd[3] + chase_cmd[3] + hang_cmd[3];
+        double flr = 0;
+        double frr = 0;
+        double blr = 0;
+        double brr = 0;
+        if (chase_s == 0 && pam_s == 0 && arty_s == 0 && hang_s == 0){
+            flr = this.fl_pid.update(fld)*temp_cmd;
+            frr = this.fr_pid.update(frd)*temp_cmd;
+            blr = this.bl_pid.update(bld)*temp_cmd;
+            brr = this.br_pid.update(brd)*temp_cmd;
+        }
+        else {
+        flr = pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
+        frr = pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];
+        blr = pam_cmd[2] + arty_cmd[2] + chase_cmd[2] + hang_cmd[2];
+        brr = pam_cmd[3] + arty_cmd[3] + chase_cmd[3] + hang_cmd[3];
+        }
+
+        if (System.currentTimeMillis()/1000 - cooldown_time < 1){
+            SmartDashboard.putNumber("Controller/end flr", this.fl_pid.update(fld));
+            SmartDashboard.putNumber("Controller/end fld", fld);
+        }
+        //flr = flr*temp_cmd;
+        //frr = frr*temp_cmd;
+        //blr = blr*temp_cmd;
+        //brr = brr*temp_cmd;
 
         e_xbox.setRumble(RumbleType.kLeftRumble, 0.1);
 
@@ -329,6 +383,7 @@ public class Controller {
         xbox.setRumble(RumbleType.kRightRumble, rmb);
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r };
+        SmartDashboard.putNumberArray("Controller/cmd", ocmd);
         Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;

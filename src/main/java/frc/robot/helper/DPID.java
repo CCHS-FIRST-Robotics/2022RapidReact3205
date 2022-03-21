@@ -32,6 +32,7 @@ public class DPID {
         this.integral = 0;
         this.prev_response = 0;
         this.previous = 0;
+        this.hist_deriv = 0;
         this.previous_time = (double) System.currentTimeMillis() / 1000;
     }
 
