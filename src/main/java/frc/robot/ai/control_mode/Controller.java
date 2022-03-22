@@ -236,7 +236,9 @@ public class Controller {
                     this.intake.autoIntake(state);
                     this.chase = new BallChase(state, map, -1, 0.4);
                     this.chase_s = 1;
-
+                    if (this.chase.ball_index == -1){
+                        this.intake.idle();
+                    }
                     this.arty_s = 0;
                     this.pam_s = 0;
                 } else {

@@ -12,7 +12,7 @@ public class BallChase {
 
     double vel_mag = 0;
     double ang_vel_max = 0;
-    int ball_index = -1;
+    public int ball_index = -1;
 
     DPID fl;
     DPID fr;
