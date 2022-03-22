@@ -35,13 +35,17 @@ public class PID {
     public double update(double delta) {
         double current_time = (double) System.currentTimeMillis() / 1000;
         double dt = current_time - this.previous_time;
-        if (dt == 0) {
-            dt = 0.0001;
+        double deriv = 0;
+        if (dt < Constants.MAIN_DT - 0.001) {
+            dt = Constants.MAIN_DT;
         }
-        if (dt > Constants.MAX_DT) {
+        else if (dt > Constants.MAX_DT) {
             dt = Constants.MAX_DT;
+            deriv = (delta - this.previous) / dt;
         }
-        double deriv = (delta - this.previous) / dt;
+        else {
+            deriv = (delta - this.previous) / dt;
+        }
 
         this.integral = this.integral * this.decay + delta * dt;
 

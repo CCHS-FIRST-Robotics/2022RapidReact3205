@@ -42,13 +42,6 @@ public class DPID {
         double current_time = (double) System.currentTimeMillis() / 1000;
         double dt = current_time - this.previous_time;
 
-        if (dt == 0) {
-            dt = 0.0001;
-        }
-        if (dt > Constants.MAX_DT) {
-            dt = Constants.MAX_DT;
-        }
-
         double[] temp_tunings = { k_p, k_i, k_d };
 
         boolean up = false;
@@ -71,8 +64,17 @@ public class DPID {
             temp_tunings[2] = k_d * 1.1;
         }
         double delta = t_radss - c_radss;
-
-        double deriv = (delta - this.previous) / dt;
+        double deriv = 0;
+        if (dt < Constants.MAIN_DT - 0.001) {
+            dt = Constants.MAIN_DT;
+        }
+        else if (dt > Constants.MAX_DT) {
+            dt = Constants.MAX_DT;
+            deriv = (delta - this.previous) / dt;
+        }
+        else {
+            deriv = (delta - this.previous) / dt;
+        }
         this.hist_deriv = deriv * Constants.DERIV_FILTER + this.hist_deriv * (1 - Constants.DERIV_FILTER);
 
         this.integral = this.integral * this.decay + delta * dt;
@@ -109,14 +111,17 @@ public class DPID {
         double current_time = (double) System.currentTimeMillis() / 1000;
         double dt = current_time - this.previous_time;
 
-        if (dt == 0) {
-            dt = 0.0001;
+        double deriv = 0;
+        if (dt < Constants.MAIN_DT - 0.001) {
+            dt = Constants.MAIN_DT;
         }
-        if (dt > Constants.MAX_DT) {
+        else if (dt > Constants.MAX_DT) {
             dt = Constants.MAX_DT;
+            deriv = (delta - this.previous) / dt;
         }
-
-        double deriv = (delta - this.previous) / dt;
+        else {
+            deriv = (delta - this.previous) / dt;
+        }
         this.hist_deriv = deriv * Constants.DERIV_FILTER + this.hist_deriv * (1 - Constants.DERIV_FILTER);
 
         this.integral = this.integral * this.decay + delta * dt;

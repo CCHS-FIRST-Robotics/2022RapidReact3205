@@ -329,19 +329,14 @@ public class Controller {
             SmartDashboard.putNumber("Controller/end I2", this.fl_pid.integral);
             SmartDashboard.putNumberArray("Controller/end starcmd", whl_vec);
         }
-
-        double flt = -1 * fb_1 + lr_turn;// + whl_vec[0];
-        double frt = -1 * fb_1 - lr_turn;// + whl_vec[1];
-        double blt = -1 * fb_1 + lr_turn;// + whl_vec[2];
-        double brt = -1 * fb_1 - lr_turn;// + whl_vec[3];
         // double flt = whl_vec[0];
         // double frt = whl_vec[1];
         // double blt = whl_vec[2];
         // double brt = whl_vec[3];
-        flt = whl_vec[0];// + (Math.min(1, Math.max(-1, flt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        frt = whl_vec[1];// + (Math.min(1, Math.max(-1, frt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        blt = whl_vec[2];// + (Math.min(1, Math.max(-1, blt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
-        brt = whl_vec[3];// + (Math.min(1, Math.max(-1, brt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        double flt = whl_vec[0];// + (Math.min(1, Math.max(-1, flt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        double frt = whl_vec[1];// + (Math.min(1, Math.max(-1, frt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        double blt = whl_vec[2];// + (Math.min(1, Math.max(-1, blt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
+        double brt = whl_vec[3];// + (Math.min(1, Math.max(-1, brt))) * Constants.MOTOR_MAX_RPM * 2 * Math.PI / 60;
 
         double fld = flt - state.getFLRadssVal();
         double frd = frt - state.getFRRadssVal();
