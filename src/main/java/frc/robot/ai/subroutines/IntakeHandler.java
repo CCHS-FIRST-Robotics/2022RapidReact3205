@@ -45,7 +45,7 @@ public class IntakeHandler {
                 this.substate = 4;
                 this.storage_time = System.currentTimeMillis() / 1000;
             }
-            return new double[] { 0.6, 0.5, 0.0 };
+            return new double[] { 0.5, 0.5, 0.0 };
         }
         if (this.substate == 2) {
             if (state.getBeam1Val() == 1) {
@@ -64,7 +64,7 @@ public class IntakeHandler {
             if (c_time - this.storage_time > 0.5) {
                 this.substate = 0;
             }
-            return new double[] { 0.4, 1, 0.0 };
+            return new double[] { 0.4, 1, 0};
         }
         return new double[] { 0, 0, 0.0 };
     }

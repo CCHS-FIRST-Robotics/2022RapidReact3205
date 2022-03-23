@@ -206,16 +206,22 @@ public class Controller {
             if (xbox.getBButton()) {
                 storage_2 = storage_2 + 0.4;
             }
-            if (xbox.getYButtonReleased()) {
-                if (this.shooter.state == 0) {
-                    this.shooter.initDoubleFiring();
-                } else {
-                    this.shooter.idle();
-                }
+            if (e_xbox.getRightBumper()) {
+                storage_2 = storage_2 + 1;
+            }
+            if (e_xbox.getLeftBumper()) {
+                storage_2 = storage_2 - 1;
             }
             if (xbox.getXButtonReleased()) {
                 if (this.shooter.state == 0) {
                     this.shooter.initFiring();
+                } else {
+                    this.shooter.idle();
+                }
+            }
+            if (xbox.getYButtonReleased()) {
+                if (this.shooter.state == 0) {
+                    this.shooter.initDoubleFiring();
                 } else {
                     this.shooter.idle();
                 }
@@ -389,10 +395,16 @@ public class Controller {
         double voltage = RobotController.getBatteryVoltage();
         double rmb = 1 - ((voltage - 7) / 4);
         rmb = Math.min(Math.max(0, rmb), 1);
-        xbox.setRumble(RumbleType.kRightRumble, rmb);
-        e_xbox.setRumble(RumbleType.kRightRumble, rmb);
         xbox.setRumble(RumbleType.kLeftRumble, rmb);
+        e_xbox.setRumble(RumbleType.kRightRumble, rmb);
         e_xbox.setRumble(RumbleType.kLeftRumble, rmb);
+        xbox.setRumble(RumbleType.kRightRumble, 0);
+        if (state.getBeam1Val() == 1 || state.getBeam0_5Val() == 1){
+            xbox.setRumble(RumbleType.kRightRumble, 0.5);
+        }
+        if (state.getBeam0Val() == 1){
+            xbox.setRumble(RumbleType.kRightRumble, 1);
+        }
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r };
         SmartDashboard.putNumberArray("Controller/cmd", ocmd);

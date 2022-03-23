@@ -72,6 +72,7 @@ public class Travel {
         double target_v = this.v_contr.update(current_vel, adist);
         SmartDashboard.putNumber("Travel/target_v", target_v);
         SmartDashboard.putNumber("Travel/adist", adist);
+        SmartDashboard.putNumber("Travel/adist", a_max);
         if (override_adist) {
             target_v = this.v_contr.update(current_vel, nadist);
         }

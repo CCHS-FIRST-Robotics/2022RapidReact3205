@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import frc.robot.ai.routines.coords.*;
 
+import frc.robot.helper.*;
+
 public class Auto15_2 {
     public double[] start_point = { 0, 0 };
     public double start_heading;
@@ -14,6 +16,10 @@ public class Auto15_2 {
     public Auto15_2() {
         double[] start = SR1_R1.START;
         double[] ball = SR1_R1.BALL;
+
+        double[] ball_pos = {ball[0], ball[1]};
+        double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -0.5));
+        double[] ball_fwd = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], 0.3));
 
         this.start_point[0] = start[0];
         this.start_point[1] = start[1];
@@ -32,8 +38,14 @@ public class Auto15_2 {
 
         this.met_list.add(Methods.TRAVEL);
         ArrayList<double[]> pickup0_5 = new ArrayList<double[]>();
-        pickup0_5.add(new double[] { ball[0], ball[1] });
+        pickup0_5.add(ball_back);
         this.vals.add(pickup0_5);
+        this.angsl.add(ball[2]);
+
+        this.met_list.add(Methods.TRAVEL);
+        ArrayList<double[]> pickup0_7 = new ArrayList<double[]>();
+        pickup0_7.add(ball_fwd);
+        this.vals.add(pickup0_7);
         this.angsl.add(ball[2]);
 
         this.met_list.add(Methods.WAIT);

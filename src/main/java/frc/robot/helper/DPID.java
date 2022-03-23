@@ -36,6 +36,9 @@ public class DPID {
         this.previous_time = (double) System.currentTimeMillis() / 1000;
     }
 
+    public void softReset(){
+        this.integral = 0;
+    }
     public double updateRaw(double t_radss, double c_radss) {
         // if its moving a way from the origin, limits to delta
         // otherwise boost gain and int but cap at 0

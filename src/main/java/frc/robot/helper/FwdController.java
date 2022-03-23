@@ -18,7 +18,7 @@ public class FwdController {
     public FwdController(double v_max, double a_max) {
         this.v_max = v_max;
         this.a_max = a_max;
-        this.jerk = a_max / 0.5;
+        this.jerk = a_max / 0.15;
         this.target_v = 0;
         this.whl_c = new PID(Constants.C_BASE_GAIN, Constants.C_BASE_GAIN * 0.1, Constants.C_BASE_GAIN * 0.001);
         reset();

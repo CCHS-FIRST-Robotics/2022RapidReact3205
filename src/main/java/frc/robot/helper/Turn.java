@@ -3,7 +3,7 @@ package frc.robot.helper;
 import frc.robot.state.MainState;
 
 public class Turn {
-    public PID turn = new PID(1, 5, 0.0);
+    public PID turn = new PID(1.5, 7, 0.0);
     public double[] tpos = { 0, 0 };
     public double max_prop = 1;
     public double angvel_max;

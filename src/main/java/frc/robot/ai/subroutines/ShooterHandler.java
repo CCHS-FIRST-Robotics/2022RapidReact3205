@@ -28,11 +28,15 @@ public class ShooterHandler {
     public void initFiring() {
         this.state = 1;
         this.o_time = System.currentTimeMillis() / 1000;
+        this.shooter_1.softReset();
+        this.shooter_2.softReset();
     }
 
     public void initDoubleFiring() {
         this.state = 3;
         this.o_time = System.currentTimeMillis() / 1000;
+        this.shooter_1.softReset();
+        this.shooter_2.softReset();
     }
 
     public void idle() {
@@ -55,11 +59,10 @@ public class ShooterHandler {
             sh2_target = Constants.SHOOTER_2_RPM * rpm2radss;
         }
         if (this.state == 1) {
-            this.storage_2 = new DPID(Constants.R_STRONG_PID[0], Constants.R_STRONG_PID[1], Constants.R_STRONG_PID[2]);
-            storage_2.reset();
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
             if (dt > 0.8) {
                 this.state = 2;
+                storage_2.softReset();
             }
             so2_target = 0;
         }
@@ -67,14 +70,12 @@ public class ShooterHandler {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
-                this.storage_2.reset();
+                this.storage_2.softReset();
             }
         }
         if (this.state == 3) {
-            this.storage_2 = new DPID(Constants.R_STRONG_PID[0], Constants.R_STRONG_PID[1], Constants.R_STRONG_PID[2]);
-            storage_2.reset();
             double dt = ct - this.o_time;
-            if (dt > 0.7) {
+            if (dt > 0.8) {
                 this.state = 4;
                 d_time = (System.currentTimeMillis() / 1000);
             }
@@ -82,7 +83,7 @@ public class ShooterHandler {
         }
         if (this.state == 4) {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
-            if (ct - d_time > 0.3) {
+            if (ct - d_time > 0.4) {
                 this.state = 5;
             }
         }
@@ -90,7 +91,6 @@ public class ShooterHandler {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
-                storage_2.reset();
             }
             intake_resp = 1;
             sh1_target = 1 * Constants.SHOOTER_1_RPM * rpm2radss;
