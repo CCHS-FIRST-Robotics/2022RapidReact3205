@@ -18,7 +18,7 @@ public class FiringPosition extends Travel {
 
         this.v_max = max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI
                 / 60;
-        this.a_max = 0.4 * max_prop * 4 * Constants.MOTOR_MAX_TORQUE
+        this.a_max = 0.05 * max_prop * 4 * Constants.MOTOR_MAX_TORQUE
                 / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
         SmartDashboard.putNumber("vmax", this.v_max);
         SmartDashboard.putNumber("amax", this.a_max);

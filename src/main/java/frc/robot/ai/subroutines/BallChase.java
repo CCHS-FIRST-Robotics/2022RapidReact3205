@@ -83,7 +83,7 @@ public class BallChase {
 
         double[] vel = SimpleMat.scaleVec(ndiff, this.vel_mag);
         vel = SimpleMat.rot2d(vel, -1 * state.getHeadingVal());
-        double target_avel = 1.5 * pwr_cmd / time;
+        double target_avel = 1.2 * pwr_cmd / time;
         if (this.dash_state) {
             vel = new double[] { 0, this.vel_mag * 0.5 };
             target_avel = 0;

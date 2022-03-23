@@ -144,15 +144,14 @@ public class Controller {
         double[] hang_cmd = { 0, 0, 0, 0 };
 
         if (DriverStation.isTeleop()) {
-            this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.6 - e_xbox.getLeftTriggerAxis() * 0.2
-                    - e_xbox.getRightTriggerAxis() * 0.2;
+            this.pprop = 1 - xbox.getLeftTriggerAxis() * 0.4 - xbox.getRightTriggerAxis() * 0.4;
 
             lr_turn = 0;
             fb_1 = 0;
 
-            intake = xbox.getRightTriggerAxis() * 0.6 + e_xbox.getRightX();
+            intake = e_xbox.getRightX();
             ;
-            storage = xbox.getRightTriggerAxis() * 0.6 - e_xbox.getRightY();
+            storage = e_xbox.getRightY();
             ;
 
             storage_2 = e_xbox.getLeftY() * -1;
@@ -160,15 +159,15 @@ public class Controller {
             shooter_1 = e_xbox.getLeftX();
             shooter_2 = e_xbox.getLeftX();
 
-            hang_l = 0;
-            hang_r = 0;
+            hang_l = e_xbox.getRightTriggerAxis() - e_xbox.getLeftTriggerAxis();
+            hang_r = e_xbox.getRightTriggerAxis() - e_xbox.getLeftTriggerAxis();
             if (e_xbox.getAButton()) {
-                hang_l = -0.6;
-                hang_r = -0.6;
+                hang_l = -0.8;
+                hang_r = -0.8;
             }
             if (e_xbox.getBButton()) {
-                hang_l = 0.6;
-                hang_r = 0.6;
+                hang_l = 0.8;
+                hang_r = 0.8;
             }
 
             if (e_xbox.getXButtonReleased()) {
@@ -208,9 +207,9 @@ public class Controller {
                 }
             }
 
-            if (xbox.getLeftStickButtonReleased()) {
+            if (xbox.getLeftBumperReleased()) {
                 if (this.arty_s == 0) {
-                    this.arty = new FiringPosition(state, 0.3);
+                    this.arty = new FiringPosition(state, 0.2);
                     this.arty_s = 1;
 
                     this.pam_s = 0;
@@ -230,7 +229,7 @@ public class Controller {
                     this.pam_s = 0;
                 }
             }
-            if (xbox.getLeftBumperReleased()) {
+            if (xbox.getLeftStickButtonReleased()) {
                 this.intake.idle();
                 if (this.chase_s == 0) {
                     this.intake.autoIntake(state);
@@ -319,10 +318,10 @@ public class Controller {
 
         }
         double[] whl_vec = starControl(state);
-        if (System.currentTimeMillis()/1000 - cooldown_time > 1){
+        if (System.currentTimeMillis()/1000 - cooldown_time > 0.1){
             this.temp_cmd = 1;
         }
-        else if (System.currentTimeMillis()/1000 - cooldown_time < 0.9){
+        else if (System.currentTimeMillis()/1000 - cooldown_time < 0.05){
             SmartDashboard.putNumber("Controller/end I", this.fl_pid.integral);
         }
         else{
@@ -371,13 +370,15 @@ public class Controller {
         //blr = blr*temp_cmd;
         //brr = brr*temp_cmd;
 
-        e_xbox.setRumble(RumbleType.kLeftRumble, 0.1);
 
         // rumble based on voltage , 1 at 7 and 0 at 11
         double voltage = RobotController.getBatteryVoltage();
         double rmb = 1 - ((voltage - 7) / 4);
         rmb = Math.min(Math.max(0, rmb), 1);
         xbox.setRumble(RumbleType.kRightRumble, rmb);
+        e_xbox.setRumble(RumbleType.kRightRumble, rmb);
+        xbox.setRumble(RumbleType.kLeftRumble, rmb);
+        e_xbox.setRumble(RumbleType.kLeftRumble, rmb);
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r };
         SmartDashboard.putNumberArray("Controller/cmd", ocmd);

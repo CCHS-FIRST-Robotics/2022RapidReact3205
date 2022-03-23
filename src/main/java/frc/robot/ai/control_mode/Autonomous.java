@@ -86,7 +86,7 @@ public class Autonomous {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
                         this.coord_list.get(this.current_step).get(0)[1] };
-                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.5);
+                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.3);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
@@ -133,13 +133,14 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "SHOOTER_DOUBLE");
                 break;
             case BALL_CHASE:
+                this.intake.autoIntake(state);
                 this.ball_chase = new BallChase(state, map, -1, 0.3);
                 SmartDashboard.putString("Auton/func", "BALL CHASE");
                 break;
             case DROP_INTAKE:
                 double[] drop = SimpleMat.subtract(state.getPosVal(),
                         SimpleMat.projectHeading(state.getHeadingVal(), 0.3));
-                this.travel = new SimpleTravel(drop, state.getHeadingVal(), .5);
+                this.travel = new SimpleTravel(drop, state.getHeadingVal(), .2);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "DROP");
                 break;

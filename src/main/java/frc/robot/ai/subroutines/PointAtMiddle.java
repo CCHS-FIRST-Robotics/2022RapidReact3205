@@ -14,14 +14,6 @@ public class PointAtMiddle extends Turn {
     DPID bl;
     DPID br;
 
-    double[] tpos = { 0, 0 };
-    double max_prop = 1;
-    double angvel_max;
-    double angacc_max;
-    double init_dtheta;
-    FwdController velcontr;
-    double stime;
-
     public PointAtMiddle(MainState state, double max_prop) {
         this.tpos[0] = state.getPosVal()[0] * 2;
         this.tpos[1] = state.getPosVal()[1] * 2;
@@ -71,7 +63,8 @@ public class PointAtMiddle extends Turn {
         double target_avel = Math.max(Math.min(this.turn.update(dtheta),
                 this.angvel_max), this.angvel_max * -1);
 
-        SmartDashboard.putNumber("turn/dtheta", dtheta);
+        SmartDashboard.putNumber("PAM/dtheta", dtheta);
+        SmartDashboard.putNumberArray("PAM/TPOS", this.tpos);
 
         double[] vel = { 0, 0 };
         double[] whl_array = MecanumIK.mecanumIK(vel, target_avel);
