@@ -25,6 +25,7 @@ public class LimeHelper {
                 horiz_dist + Constants.LIME_RING_RAD);
         // pos + dir_vec should be origin. Offset is pos offset
         double[] offset = SimpleMat.add(state.getPosVal(), dir_vec);
+        offset = SimpleMat.add(offset, SimpleMat.projectHeading(state.getHeadingVal(), -1 * Constants.LIME_LPOS[0]));
         double[] new_pos = SimpleMat.subtract(state.getPosVal(), offset);
         SmartDashboard.putNumberArray("Limelight/new_pos", new_pos);
         return new_pos;
