@@ -164,24 +164,12 @@ public class Controller {
             hang_l = e_xbox.getRightTriggerAxis() - e_xbox.getLeftTriggerAxis();
             hang_r = e_xbox.getRightTriggerAxis() - e_xbox.getLeftTriggerAxis();
             if (e_xbox.getAButton()) {
-                if (alternate == 1) {
-                    hang_l = -1;
-                    hang_r = 0;
-                } else {
-                    hang_l = 0;
-                    hang_r = -1;
-                }
-                alternate = alternate * -1;
+                hang_l = -0.4;
+                hang_r = -0.4;
             }
             if (e_xbox.getBButton()) {
-                if (alternate == 1) {
-                    hang_l = 1;
-                    hang_r = 0;
-                } else {
-                    hang_l = 0;
-                    hang_r = 1;
-                }
-                alternate = alternate * -1;
+                hang_l = 0.4;
+                hang_r = 0.4;
             }
 
             if (e_xbox.getXButtonReleased()) {
@@ -399,10 +387,10 @@ public class Controller {
         e_xbox.setRumble(RumbleType.kRightRumble, rmb);
         e_xbox.setRumble(RumbleType.kLeftRumble, rmb);
         xbox.setRumble(RumbleType.kRightRumble, 0);
-        if (state.getBeam1Val() == 1 || state.getBeam0_5Val() == 1){
+        if (state.getBeam1Val() == 1 || state.getBeam0_5Val() == 1) {
             xbox.setRumble(RumbleType.kRightRumble, 0.5);
         }
-        if (state.getBeam0Val() == 1){
+        if (state.getBeam0Val() == 1) {
             xbox.setRumble(RumbleType.kRightRumble, 1);
         }
 

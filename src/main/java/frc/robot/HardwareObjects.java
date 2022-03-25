@@ -60,8 +60,6 @@ public class HardwareObjects {
         this.SHOOTER_1_MOTOR = new WPI_TalonSRX(Constants.SHOOTER_1_TALON_PORT);
         this.SHOOTER_2_MOTOR = new CANSparkMax(Constants.SHOOTER_2_TALON_PORT, MotorType.kBrushed);
 
-
-
         this.HANG_L_MOTOR = new WPI_TalonSRX(Constants.HANG_L_TALON_PORT);
         this.HANG_R_MOTOR = new WPI_VictorSPX(Constants.HANG_R_VICTOR_PORT);
 
@@ -111,12 +109,12 @@ public class HardwareObjects {
         IMU.configFactoryDefault();
         IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
-        this.SHOOTER_2_ENCODER = this.SHOOTER_2_MOTOR.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 4096);
+        this.SHOOTER_2_ENCODER = this.SHOOTER_2_MOTOR.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,
+                4096);
     }
 
-    public void resetMotors(){
+    public void resetMotors() {
 
-    
         this.FLD_MOTOR.configFactoryDefault();
         this.FRD_MOTOR.configFactoryDefault();
         this.BLD_MOTOR.configFactoryDefault();
