@@ -1,6 +1,10 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.*;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.sensors.*;
 import com.kauailabs.navx.frc.*;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -25,7 +29,8 @@ public class HardwareObjects {
 
     public TalonSRX STORAGE_2_MOTOR;
     public TalonSRX SHOOTER_1_MOTOR;
-    public TalonSRX SHOOTER_2_MOTOR;
+    public CANSparkMax SHOOTER_2_MOTOR;
+    public RelativeEncoder SHOOTER_2_ENCODER;
 
     public TalonSRX HANG_L_MOTOR;
     public VictorSPX HANG_R_MOTOR;
@@ -53,7 +58,9 @@ public class HardwareObjects {
 
         this.STORAGE_2_MOTOR = new WPI_TalonSRX(Constants.STORAGE_2_TALON_PORT);
         this.SHOOTER_1_MOTOR = new WPI_TalonSRX(Constants.SHOOTER_1_TALON_PORT);
-        this.SHOOTER_2_MOTOR = new WPI_TalonSRX(Constants.SHOOTER_2_TALON_PORT);
+        this.SHOOTER_2_MOTOR = new CANSparkMax(Constants.SHOOTER_2_TALON_PORT, MotorType.kBrushed);
+
+
 
         this.HANG_L_MOTOR = new WPI_TalonSRX(Constants.HANG_L_TALON_PORT);
         this.HANG_R_MOTOR = new WPI_VictorSPX(Constants.HANG_R_VICTOR_PORT);
@@ -73,7 +80,7 @@ public class HardwareObjects {
 
         this.STORAGE_2_MOTOR.configFactoryDefault();
         this.SHOOTER_1_MOTOR.configFactoryDefault();
-        this.SHOOTER_2_MOTOR.configFactoryDefault();
+        this.SHOOTER_2_MOTOR.restoreFactoryDefaults();
 
         this.HANG_L_MOTOR.configFactoryDefault();
         this.HANG_R_MOTOR.configFactoryDefault();
@@ -103,6 +110,8 @@ public class HardwareObjects {
         this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
         IMU.configFactoryDefault();
         IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+
+        this.SHOOTER_2_ENCODER = this.SHOOTER_2_MOTOR.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, 4096);
     }
 
     public void resetMotors(){
@@ -118,6 +127,6 @@ public class HardwareObjects {
 
         this.STORAGE_2_MOTOR.configFactoryDefault();
         this.SHOOTER_1_MOTOR.configFactoryDefault();
-        this.SHOOTER_2_MOTOR.configFactoryDefault();
+        this.SHOOTER_2_MOTOR.restoreFactoryDefaults();
     }
 }

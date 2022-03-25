@@ -36,7 +36,7 @@ public final class Constants {
     public static final int IMU_PORT = 6;
 
     public static final int XBOX_PORT = 0;
-    public static final int XBOX2_PORT = 2;
+    public static final int XBOX2_PORT = 1;
 
     public static final int JOYSTICK_L_PORT = 2;
     public static final int JOYSTICK_R_PORT = 3;

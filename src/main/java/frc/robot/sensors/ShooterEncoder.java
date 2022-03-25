@@ -21,7 +21,7 @@ public class ShooterEncoder extends BaseSensor {
     public void processValue(MainState state, HardwareObjects hardware) {
         double storage_2 = hardware.STORAGE_2_MOTOR.getSelectedSensorVelocity(1);
         double shooter_1 = hardware.SHOOTER_1_MOTOR.getSelectedSensorVelocity(1) * -1;
-        double shooter_2 = hardware.SHOOTER_2_MOTOR.getSelectedSensorVelocity(1) * -1;
+        double shooter_2 = hardware.SHOOTER_2_ENCODER.getVelocity() * -1;
 
         SmartDashboard.putNumber("ShooterEncoder/storage raw", storage_2);
         SmartDashboard.putNumber("ShooterEncoder/shooter 1 raw", shooter_1);
@@ -31,7 +31,7 @@ public class ShooterEncoder extends BaseSensor {
 
         storage_2 = storage_2 * dps2rads;
         shooter_1 = shooter_1 * dps2rads;
-        shooter_2 = shooter_2 * dps2rads;
+        shooter_2 = shooter_2 * 2 * Math.PI / 60;
 
         state.setStorage2(storage_2, Constants.INIT_VARIANCE);
         state.setShooter(new double[] { shooter_1, shooter_2 }, Constants.INIT_VARIANCE);

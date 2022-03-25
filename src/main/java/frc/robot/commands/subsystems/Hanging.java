@@ -11,7 +11,7 @@ public class Hanging {
     }
 
     public void setDrives(double hang_l, double hang_r, HardwareObjects hardware) {
-        hardware.HANG_L_MOTOR.set(ControlMode.PercentOutput, hang_l);
+        hardware.HANG_L_MOTOR.set(ControlMode.PercentOutput, hang_l * -1);
         hardware.HANG_R_MOTOR.set(ControlMode.PercentOutput, hang_r * -1);
     }
 }
