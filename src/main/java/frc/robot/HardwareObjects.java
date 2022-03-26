@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -111,6 +112,9 @@ public class HardwareObjects {
 
         this.SHOOTER_2_ENCODER = this.SHOOTER_2_MOTOR.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,
                 4096);
+
+        this.HANG_L_MOTOR.setNeutralMode(NeutralMode.Brake);
+        this.HANG_R_MOTOR.setNeutralMode(NeutralMode.Brake);
     }
 
     public void resetMotors() {
