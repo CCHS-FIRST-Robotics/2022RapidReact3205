@@ -37,7 +37,7 @@ public class HardwareObjects {
     public TalonSRX HANG_L_MOTOR;
     public VictorSPX HANG_R_MOTOR;
 
-    //public PigeonIMU IMU;
+    // public PigeonIMU IMU;
     public AHRS NAVX;
     public ADXRS450_Gyro AD_GYRO;
     public Accelerometer RR_ACC;
@@ -97,16 +97,16 @@ public class HardwareObjects {
         this.beam_0 = new DigitalInput(Constants.BEAM_0);
         this.beam_0_5 = new DigitalInput(Constants.BEAM_0_5);
         this.beam_1 = new DigitalInput(Constants.BEAM_1);
-        //this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
-        //IMU.configFactoryDefault();
-        //IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+        // this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
+        // IMU.configFactoryDefault();
+        // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
         this.SHOOTER_2_ENCODER = this.SHOOTER_2_MOTOR.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,
                 4096);
 
         this.HANG_L_MOTOR.setNeutralMode(NeutralMode.Brake);
         this.HANG_R_MOTOR.setNeutralMode(NeutralMode.Brake);
-    
+
     }
 
     public void resetMotors() {

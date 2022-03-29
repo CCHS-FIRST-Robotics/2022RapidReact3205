@@ -14,6 +14,8 @@ public class Travel {
     DPID bl;
     DPID br;
 
+    TPID tvel_ctr;
+
     double v_max;
     double a_max;
     FwdController v_contr;
@@ -30,14 +32,16 @@ public class Travel {
         this.fr = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
         this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+
+        this.tvel_ctr = new TPID(0.2, 0.8, 0.05);
     }
 
     double getTheta(MainState main_state) {
         double[] point_vec = SimpleMat.projectHeading(this.thead, 1);
         double[] unit_h_vec = SimpleMat.projectHeading(main_state.getHeadingVal(), 1);
         double pwr_cmd = SimpleMat.vecsAngle2(unit_h_vec, point_vec);
-        //SmartDashboard.putNumberArray("Travel/point_vec", point_vec);
-        //SmartDashboard.putNumberArray("Travel/unit_h_vec", unit_h_vec);
+        // SmartDashboard.putNumberArray("Travel/point_vec", point_vec);
+        // SmartDashboard.putNumberArray("Travel/unit_h_vec", unit_h_vec);
         return pwr_cmd;
     }
 
@@ -53,10 +57,21 @@ public class Travel {
         return adist;
     }
 
+    double getPIDDist(MainState state, double dist) {
+        double[] tdiff = SimpleMat.subtract(state.getPosVal(), this.tpos);
+        tdiff = SimpleMat.unitVec(tdiff);
+        double[] sdiff = SimpleMat.subtract(this.ipos, this.tpos);
+        sdiff = SimpleMat.unitVec(sdiff);
+        if (SimpleMat.dot(tdiff, sdiff) < Math.cos(Math.PI)) {
+            dist = dist * -1;
+        }
+        return this.tvel_ctr.update(dist);
+    }
+
     public Command trajectory(MainState state, boolean override_adist, double nadist) {
 
         double theta = getTheta(state);
-        //double theta = (this.thead - state.getHeadingVal());
+        // double theta = (this.thead - state.getHeadingVal());
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
         double adist;
         if (theta == 0) {
@@ -69,10 +84,10 @@ public class Travel {
         direction_vec = SimpleMat.rot2d(direction_vec, -0.5 * theta);
 
         double current_vel = SimpleMat.dot(direction_vec, state.getVelVal());
-        double target_v = this.v_contr.update(current_vel, adist);
-        //SmartDashboard.putNumber("Travel/target_v", target_v);
-        //SmartDashboard.putNumber("Travel/adist", adist);
-        //SmartDashboard.putNumber("Travel/adist", a_max);
+        double target_v = getPIDDist(state, adist);
+        // SmartDashboard.putNumber("Travel/target_v", target_v);
+        // SmartDashboard.putNumber("Travel/adist", adist);
+        // SmartDashboard.putNumber("Travel/adist", a_max);
         if (override_adist) {
             target_v = this.v_contr.update(current_vel, nadist);
         }
@@ -93,17 +108,17 @@ public class Travel {
         double blr = this.bl.updateRaw(whl_array[2], state.getBLRadssVal());
         double brr = this.br.updateRaw(whl_array[3], state.getBRRadssVal());
 
-        //SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
-        //SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
-        //SmartDashboard.putNumber("Travel/theta", theta);
-        //SmartDashboard.putNumber("Travel/thead", thead);
-        //SmartDashboard.putNumber("Travel/chead", state.getHeadingVal());
-        //SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
-        //SmartDashboard.putNumberArray("Travel/local_vel", local_vel);
-        //SmartDashboard.putNumber("Travel/flr", flr);
-        //SmartDashboard.putNumber("Travel/flr_actual", state.getFLRadssVal());
-        //SmartDashboard.putNumber("Travel/flr Integral", fl.integral);
-        //SmartDashboard.putNumber("Travel/flr P", fl.k_p);
+        // SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
+        // SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
+        // SmartDashboard.putNumber("Travel/theta", theta);
+        // SmartDashboard.putNumber("Travel/thead", thead);
+        // SmartDashboard.putNumber("Travel/chead", state.getHeadingVal());
+        // SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
+        // SmartDashboard.putNumberArray("Travel/local_vel", local_vel);
+        // SmartDashboard.putNumber("Travel/flr", flr);
+        // SmartDashboard.putNumber("Travel/flr_actual", state.getFLRadssVal());
+        // SmartDashboard.putNumber("Travel/flr Integral", fl.integral);
+        // SmartDashboard.putNumber("Travel/flr P", fl.k_p);
 
         // return new Command(0, 0, 0, 0);
         double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };

@@ -176,6 +176,8 @@ public final class Constants {
     public static final double[] C_STRONG_PID = { 0.0010, 0.009, 0.0005 };
     public static final double[] R_STRONG_PID = { 0.007, 0.05, 0.0007 };
     public static final double C_ACC_LIM = 4;
+    public static final double INT_LIMIT = 1;
+    public static final double DERIV_LIMIT = 0.3;
 
     public static final double INTERGRAL_HALFLIFE_T = 2;
 
@@ -210,6 +212,6 @@ public final class Constants {
     // IMPORTANT
     public static final int TEAM = 1; // 0 = red, 1 = blue
 
-    public static double[] sp = {-2.1239, 1.0258};
+    public static double[] sp = { -2.1239, 1.0258 };
     public static double sa = 46.2 * 2 * Math.PI / 360;
 }

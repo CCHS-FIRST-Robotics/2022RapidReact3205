@@ -86,11 +86,7 @@ public class Controller {
         // left controllers give a polar vec, angle from 0 and mag from 0 to 1
         double lstick_x = stickCurve(xbox.getLeftX()) * pprop;
         double lstick_y = 0;
-        if (Math.abs(xbox.getLeftY()) > Math.abs(xbox.getRightY())) {
-            lstick_y = stickCurve(xbox.getLeftY());
-        } else {
-            lstick_y = stickCurve(xbox.getRightY());
-        }
+        lstick_y = stickCurve(xbox.getLeftY());
         lstick_y = lstick_y * pprop;
         double rstick_x = stickCurve(xbox.getRightX()) * pprop * 0.8;
         double[] stick_vec = { lstick_x, -1 * lstick_y };
@@ -116,13 +112,13 @@ public class Controller {
         double rthe = SimpleMat.angleRectifier(theta);
         max_vel = max_vel * Math.max(Math.abs(Math.cos(theta)), Math.abs(Math.sin(theta)));
         double[] vel_vec = SimpleMat.projectHeading(rthe, mag * max_vel);
-        //SmartDashboard.putNumberArray("Controller/Vel Vec", vel_vec);
-        //SmartDashboard.putNumber("Controller/mag", mag);
+        // SmartDashboard.putNumberArray("Controller/Vel Vec", vel_vec);
+        // SmartDashboard.putNumber("Controller/mag", mag);
 
         double avel = max_avl * -1 * yaw_val;
-        //SmartDashboard.putNumber("Controller/AVEL", avel);
+        // SmartDashboard.putNumber("Controller/AVEL", avel);
         double[] whl_vec = MecanumIK.mecanumIK(vel_vec, avel);
-        //SmartDashboard.putNumberArray("Controller/MIKC", whl_vec);
+        // SmartDashboard.putNumberArray("Controller/MIKC", whl_vec);
         return whl_vec;
     }
 
@@ -130,7 +126,7 @@ public class Controller {
         double lr_strafe = 0;
         double fb_1 = 0;
         double lr_turn = 0;
-        double fb_2 = 0;
+        double fb_2 = stickCurve(xbox.getRightY()) * -0.5;
         double intake = 0;
         double storage = 0;
         double storage_2 = 0;
@@ -152,9 +148,8 @@ public class Controller {
             fb_1 = 0;
 
             intake = e_xbox.getRightX();
-            
+
             storage = e_xbox.getRightY();
-            
 
             storage_2 = e_xbox.getLeftY() * -1;
 
@@ -286,7 +281,7 @@ public class Controller {
                 chase_cmd[2] = tc_cmd.bl_pprop;
                 chase_cmd[3] = tc_cmd.br_pprop;
                 boolean chase_exit = this.chase.exit(state, map);
-                //SmartDashboard.putBoolean("BallChase/chase exit", chase_exit);
+                // SmartDashboard.putBoolean("BallChase/chase exit", chase_exit);
                 if (chase_exit) {
                     this.chase_s = 0;
                     resetPID();
@@ -329,12 +324,12 @@ public class Controller {
         if (System.currentTimeMillis() / 1000 - cooldown_time > 0.1) {
             this.temp_cmd = 1;
         } else if (System.currentTimeMillis() / 1000 - cooldown_time < 0.05) {
-            //SmartDashboard.putNumber("Controller/end I", this.fl_pid.integral);
+            // SmartDashboard.putNumber("Controller/end I", this.fl_pid.integral);
         } else {
             this.temp_cmd = 0;
             resetPID();
-            //SmartDashboard.putNumber("Controller/end I2", this.fl_pid.integral);
-            //SmartDashboard.putNumberArray("Controller/end starcmd", whl_vec);
+            // SmartDashboard.putNumber("Controller/end I2", this.fl_pid.integral);
+            // SmartDashboard.putNumberArray("Controller/end starcmd", whl_vec);
         }
         // double flt = whl_vec[0];
         // double frt = whl_vec[1];
@@ -364,15 +359,15 @@ public class Controller {
             blr = this.bl_pid.update(bld) * temp_cmd;
             brr = this.br_pid.update(brd) * temp_cmd;
         } else {
-            flr = pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
-            frr = pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];
-            blr = pam_cmd[2] + arty_cmd[2] + chase_cmd[2] + hang_cmd[2];
-            brr = pam_cmd[3] + arty_cmd[3] + chase_cmd[3] + hang_cmd[3];
+            flr = fb_2 + pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
+            frr = fb_2 + pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];
+            blr = fb_2 + pam_cmd[2] + arty_cmd[2] + chase_cmd[2] + hang_cmd[2];
+            brr = fb_2 + pam_cmd[3] + arty_cmd[3] + chase_cmd[3] + hang_cmd[3];
         }
 
         if (System.currentTimeMillis() / 1000 - cooldown_time < 1) {
-            //SmartDashboard.putNumber("Controller/end flr", this.fl_pid.update(fld));
-            //SmartDashboard.putNumber("Controller/end fld", fld);
+            // SmartDashboard.putNumber("Controller/end flr", this.fl_pid.update(fld));
+            // SmartDashboard.putNumber("Controller/end fld", fld);
         }
         // flr = flr*temp_cmd;
         // frr = frr*temp_cmd;
@@ -389,7 +384,7 @@ public class Controller {
         xbox.setRumble(RumbleType.kRightRumble, rmb);
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r };
-        //SmartDashboard.putNumberArray("Controller/cmd", ocmd);
+        // SmartDashboard.putNumberArray("Controller/cmd", ocmd);
         Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;
