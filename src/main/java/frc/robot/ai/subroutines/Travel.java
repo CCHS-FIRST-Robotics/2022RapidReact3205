@@ -36,8 +36,8 @@ public class Travel {
         double[] point_vec = SimpleMat.projectHeading(this.thead, 1);
         double[] unit_h_vec = SimpleMat.projectHeading(main_state.getHeadingVal(), 1);
         double pwr_cmd = SimpleMat.vecsAngle2(unit_h_vec, point_vec);
-        SmartDashboard.putNumberArray("Travel/point_vec", point_vec);
-        SmartDashboard.putNumberArray("Travel/unit_h_vec", unit_h_vec);
+        //SmartDashboard.putNumberArray("Travel/point_vec", point_vec);
+        //SmartDashboard.putNumberArray("Travel/unit_h_vec", unit_h_vec);
         return pwr_cmd;
     }
 
@@ -70,9 +70,9 @@ public class Travel {
 
         double current_vel = SimpleMat.dot(direction_vec, state.getVelVal());
         double target_v = this.v_contr.update(current_vel, adist);
-        SmartDashboard.putNumber("Travel/target_v", target_v);
-        SmartDashboard.putNumber("Travel/adist", adist);
-        SmartDashboard.putNumber("Travel/adist", a_max);
+        //SmartDashboard.putNumber("Travel/target_v", target_v);
+        //SmartDashboard.putNumber("Travel/adist", adist);
+        //SmartDashboard.putNumber("Travel/adist", a_max);
         if (override_adist) {
             target_v = this.v_contr.update(current_vel, nadist);
         }
@@ -93,17 +93,17 @@ public class Travel {
         double blr = this.bl.updateRaw(whl_array[2], state.getBLRadssVal());
         double brr = this.br.updateRaw(whl_array[3], state.getBRRadssVal());
 
-        SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
-        SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
-        SmartDashboard.putNumber("Travel/theta", theta);
-        SmartDashboard.putNumber("Travel/thead", thead);
-        SmartDashboard.putNumber("Travel/chead", state.getHeadingVal());
-        SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
-        SmartDashboard.putNumberArray("Travel/local_vel", local_vel);
-        SmartDashboard.putNumber("Travel/flr", flr);
-        SmartDashboard.putNumber("Travel/flr_actual", state.getFLRadssVal());
-        SmartDashboard.putNumber("Travel/flr Integral", fl.integral);
-        SmartDashboard.putNumber("Travel/flr P", fl.k_p);
+        //SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
+        //SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
+        //SmartDashboard.putNumber("Travel/theta", theta);
+        //SmartDashboard.putNumber("Travel/thead", thead);
+        //SmartDashboard.putNumber("Travel/chead", state.getHeadingVal());
+        //SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
+        //SmartDashboard.putNumberArray("Travel/local_vel", local_vel);
+        //SmartDashboard.putNumber("Travel/flr", flr);
+        //SmartDashboard.putNumber("Travel/flr_actual", state.getFLRadssVal());
+        //SmartDashboard.putNumber("Travel/flr Integral", fl.integral);
+        //SmartDashboard.putNumber("Travel/flr P", fl.k_p);
 
         // return new Command(0, 0, 0, 0);
         double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };

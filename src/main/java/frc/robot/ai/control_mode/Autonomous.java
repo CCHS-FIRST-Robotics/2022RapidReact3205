@@ -27,7 +27,7 @@ public class Autonomous {
     // 3.14 },
     // { 0.7, -0.7, -0.75 * 3.14 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 
-    Auto15_2 generator;
+    Idle generator;
 
     double[] start_pos;
     double start_heading;
@@ -44,22 +44,26 @@ public class Autonomous {
     PointAtMiddle pam;
     FiringPosition firing_pos;
     BallChase ball_chase;
+    RawTranslate rtrans;
     double wait_t = 0;
     double end_time = 0;
 
     // General Hardware methods
     IntakeHandler intake;
     ShooterHandler shooter;
+    public Boolean initted = false;
 
     public Autonomous() {
         this.current_step = 0;
         this.intake = new IntakeHandler();
         this.shooter = new ShooterHandler();
+        this.initted = false;
+
     }
 
     public void init(HardwareObjects hardware, MainState state, Map map, Network net) {
         this.current_step = -1;
-        this.generator = new Auto15_2();
+        this.generator = new Idle();
 
         this.start_pos = this.generator.start_point;
         this.start_heading = this.generator.start_heading;
@@ -71,7 +75,9 @@ public class Autonomous {
         map.softInit(hardware, state, this.start_pos, this.start_heading);
         // Attempt Limelight localization
         if (net.lime.getValid()) {
-            this.start_pos = LimeHelper.getPos(state, net);
+            double[] lime_pos = LimeHelper.getPos(state, net);
+            this.start_pos = lime_pos;
+            
         }
         map.softInit(hardware, state, this.start_pos, this.start_heading);
         map.pos.start_pos = this.start_pos;
@@ -79,14 +85,16 @@ public class Autonomous {
         map.initialize(hardware);
         this.current_step = 0;
         setMethods(state, map);
+        this.initted = true;
     }
 
     public void setMethods(MainState state, Map map) {
+        
         switch (this.cmd_list.get(this.current_step)) {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
                         this.coord_list.get(this.current_step).get(0)[1] };
-                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.2);
+                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.3);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
@@ -138,10 +146,7 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "BALL CHASE");
                 break;
             case DROP_INTAKE:
-                double[] drop = SimpleMat.subtract(state.getPosVal(),
-                        SimpleMat.projectHeading(state.getHeadingVal(), 0.3));
-                this.travel = new SimpleTravel(drop, state.getHeadingVal(), .2);
-                this.travel.init(state);
+                this.rtrans = new RawTranslate(new double[] {0, -0.3}, 0.2);
                 SmartDashboard.putString("Auton/func", "DROP");
                 break;
             case INTAKE_STATIC:
@@ -153,10 +158,19 @@ public class Autonomous {
                 this.wait_t = System.currentTimeMillis() / 1000;
                 SmartDashboard.putString("Auton/func", "WAIT");
                 break;
+            case RAW_TRANS:
+                double[] move_vec = { this.coord_list.get(this.current_step).get(0)[0],
+                    this.coord_list.get(this.current_step).get(0)[1] };
+                this.rtrans = new RawTranslate(move_vec, this.ang_list.get(this.current_step));
+                SmartDashboard.putString("Auton/func", "Raw Trans");
+                break;
         }
     }
 
-    public Command getCommands(MainState state, Map map) {
+    public Command getCommands(MainState state, Map map, HardwareObjects hardware, Network net) {
+        if (this.initted == false){
+            init(hardware, state, map, net);
+        }
         if (this.current_step == -1) {
             return new Command(Constants.DEFAULT_CMD);
         }
@@ -170,61 +184,61 @@ public class Autonomous {
             case TRAVEL:
                 main_cmd = this.travel.update(state);
                 exit = this.travel.exit(state);
-                SmartDashboard.putString("Auton/func_exe", "TRAVEL");
-                SmartDashboard.putNumber("Auton/travel cmd", main_cmd.fl_pprop);
-                SmartDashboard.putNumberArray("Auton/travel point", this.travel.tpos);
+                //SmartDashboard.putString("Auton/func_exe", "TRAVEL");
+                //SmartDashboard.putNumber("Auton/travel cmd", main_cmd.fl_pprop);
+                //SmartDashboard.putNumberArray("Auton/travel point", this.travel.tpos);
                 break;
             case ROTATE:
                 main_cmd = this.rotate.update(state);
                 exit = this.rotate.exit(state);
-                SmartDashboard.putString("Auton/func_exe", "ROTATE");
+                //SmartDashboard.putString("Auton/func_exe", "ROTATE");
                 break;
             case CURVE:
                 main_cmd = this.curve.update(state);
                 exit = this.curve.exit(state);
-                SmartDashboard.putString("Auton/func_exe", "CURVE");
+                //SmartDashboard.putString("Auton/func_exe", "CURVE");
                 break;
             case POINT_MID:
                 main_cmd = this.pam.update(state);
                 exit = this.pam.exit(state);
-                SmartDashboard.putString("Auton/func_exe", "POINT_MID");
+                //SmartDashboard.putString("Auton/func_exe", "POINT_MID");
                 break;
             case FIRE_MID:
                 main_cmd = this.firing_pos.update(state);
                 exit = this.firing_pos.exit(state);
-                SmartDashboard.putString("Auton/func_exe", "FIRE_MID");
+                //SmartDashboard.putString("Auton/func_exe", "FIRE_MID");
                 break;
             case INTAKE_ONLY:
                 exit = true;
-                SmartDashboard.putString("Auton/func_exe", "INTAKE_ONLY");
+                //SmartDashboard.putString("Auton/func_exe", "INTAKE_ONLY");
                 break;
             case INTAKE_STORE:
-                exit = intake.exit();
-                SmartDashboard.putString("Auton/func_exe", "INTAKE_STORE");
+                exit = true;
+                //SmartDashboard.putString("Auton/func_exe", "INTAKE_STORE");
                 break;
             case INTAKE_IDLE:
                 this.intake.idle();
                 exit = true;
-                SmartDashboard.putString("Auton/func_exe", "INTAKE_IDLE");
+                //SmartDashboard.putString("Auton/func_exe", "INTAKE_IDLE");
                 break;
             case SHOOTER_FIRE:
                 exit = shooter.exit();
-                SmartDashboard.putString("Auton/func_exe", "SHOOTER_FIRE");
+                //SmartDashboard.putString("Auton/func_exe", "SHOOTER_FIRE");
                 break;
             case SHOOTER_DOUBLE:
                 main_cmd = new Command(Constants.DEFAULT_CMD);
                 exit = shooter.exit();
-                SmartDashboard.putString("Auton/func_exe", "SHOOTER_DOUBLE");
+                //SmartDashboard.putString("Auton/func_exe", "SHOOTER_DOUBLE");
                 break;
             case BALL_CHASE:
                 main_cmd = this.ball_chase.update(state, map);
                 main_cmd = new Command(Constants.DEFAULT_CMD);
                 exit = this.ball_chase.exit(state, map);
-                SmartDashboard.putString("Auton/func_exe", "BALL CHASE");
+                //SmartDashboard.putString("Auton/func_exe", "BALL CHASE");
                 break;
             case DROP_INTAKE:
-                main_cmd = this.travel.update(state);
-                exit = this.travel.exit(state);
+                main_cmd = this.rtrans.update(state);
+                exit = this.rtrans.exit();
                 break;
             case INTAKE_STATIC:
                 exit = this.intake.exit();
@@ -233,6 +247,10 @@ public class Autonomous {
                 if (System.currentTimeMillis() / 1000 - this.wait_t > this.end_time) {
                     exit = true;
                 }
+                break;
+            case RAW_TRANS:
+                main_cmd = this.rtrans.update(state);
+                exit = this.rtrans.exit();
                 break;
         }
         if (exit) {
@@ -244,10 +262,10 @@ public class Autonomous {
         }
         double[] intake_cmd = this.intake.update(state);
         double[] shooter_cmd = this.shooter.update(state);
-        SmartDashboard.putNumberArray("Auton/intake_cmd", intake_cmd);
-        SmartDashboard.putNumberArray("Auton/shooter_cmd", intake_cmd);
-        SmartDashboard.putNumber("Auton/FL", main_cmd.fr_pprop);
-        SmartDashboard.putNumber("Auton/step", this.current_step);
+        //SmartDashboard.putNumberArray("Auton/intake_cmd", intake_cmd);
+        //SmartDashboard.putNumberArray("Auton/shooter_cmd", intake_cmd);
+        //SmartDashboard.putNumber("Auton/FL", main_cmd.fr_pprop);
+        //SmartDashboard.putNumber("Auton/step", this.current_step);
         main_cmd.intake_pprop = intake_cmd[0] + shooter_cmd[3];
         main_cmd.storage_1_pprop = intake_cmd[1] + shooter_cmd[3];
         main_cmd.storage_2_pprop = shooter_cmd[0] + intake_cmd[2];

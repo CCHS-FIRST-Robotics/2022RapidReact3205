@@ -100,7 +100,7 @@ public class ShooterHandler {
         so2_resp = this.storage_2.update(so2_target);
         double sh1_resp = Math.max(-1, Math.min(1, this.shooter_1.update(sh1_target - state.getShooterVal()[0])));
         double sh2_resp = Math.max(-1, Math.min(1, this.shooter_2.update(sh2_target - state.getShooterVal()[1])));
-        SmartDashboard.putNumber("Shooter/state", this.state);
+        //SmartDashboard.putNumber("Shooter/state", this.state);
         if (this.state == 0) {
             double[] output = { 0, 0, 0, 0 };
             return output;
@@ -117,7 +117,7 @@ public class ShooterHandler {
         double ct = (System.currentTimeMillis() / 1000);
         if (this.state == 2) {
             double dt = ct - this.o_time;
-            if (dt > 3) {
+            if (dt > 2) {
                 return true;
             }
         }

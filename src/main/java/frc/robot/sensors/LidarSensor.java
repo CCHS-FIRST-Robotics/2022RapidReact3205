@@ -26,7 +26,7 @@ public class LidarSensor extends BaseSensor {
         double[] ha = state.kalmanAngleUpdate(state.getHeadingVal(), state.getHeadingVar(), heading,
                 Constants.LIDAR_H_VAR);
         double[] new_pos = { npa[0], npa[1] };
-        SmartDashboard.putNumberArray("lidar/pos",pos);
+        //SmartDashboard.putNumberArray("lidar/pos",pos);
         //state.setPos(new_pos, pos[2]);
         //state.setHeading(ha[0], ha[1]);
     }

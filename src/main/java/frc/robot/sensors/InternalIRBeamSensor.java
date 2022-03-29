@@ -36,8 +36,8 @@ public class InternalIRBeamSensor extends BaseSensor {
         } else {
             state.setBeam0_5(1, 1);
         }
-        SmartDashboard.putBoolean("IRB/beam 0", hardware.beam_0.get());
-        SmartDashboard.putBoolean("IRB/beam 1", hardware.beam_1.get());
-        SmartDashboard.putBoolean("IRB/beam 0.5", hardware.beam_0_5.get());
+        //SmartDashboard.putBoolean("IRB/beam 0", hardware.beam_0.get());
+        //SmartDashboard.putBoolean("IRB/beam 1", hardware.beam_1.get());
+        //SmartDashboard.putBoolean("IRB/beam 0.5", hardware.beam_0_5.get());
     }
 }

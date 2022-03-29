@@ -33,7 +33,7 @@ public class NAVXSensor extends BaseSensor {
 
         }
         hardware.NAVX.zeroYaw();
-        hardware.NAVX.setAngleAdjustment(angle);
+        hardware.NAVX.setAngleAdjustment(0);
         this.zero[0] = 0;
         this.zero[1] = 0;
         for (int c = 0; c < 10; c++) {
@@ -56,7 +56,7 @@ public class NAVXSensor extends BaseSensor {
         updateHeadingVar();
 
         double heading = hardware.NAVX.getAngle() * -1 * 2 * Math.PI / 360;
-        heading = SimpleMat.angleRectifier(heading);
+        heading = SimpleMat.angleRectifier(heading + Constants.sa);
 
         double[] global_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY() * -1 };
         global_acc = SimpleMat.scaleVec(global_acc, -9.81);
@@ -75,13 +75,13 @@ public class NAVXSensor extends BaseSensor {
         state.setHeading(h2[0], h2[1]);
         state.setAngVel(av2[0], av2[1]);
 
-        SmartDashboard.putNumber("Navx Heading", heading);
+        //SmartDashboard.putNumber("Navx Heading", heading);
 
-        SmartDashboard.putNumberArray("Navx Acc", global_acc);
+        //SmartDashboard.putNumberArray("Navx Acc", global_acc);
 
-        SmartDashboard.putNumber("Navx Angvel", ang_vel);
+        //SmartDashboard.putNumber("Navx Angvel", ang_vel);
 
         double[] raw_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY(), hardware.NAVX.getRawAccelZ() };
-        SmartDashboard.putNumberArray("Navx 3 Raw Acc", raw_acc);
+        //SmartDashboard.putNumberArray("Navx 3 Raw Acc", raw_acc);
     }
 }

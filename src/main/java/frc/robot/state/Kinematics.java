@@ -33,9 +33,9 @@ public class Kinematics {
     public void predict(double dt) {
         this.Val.predict(dt);
         this.Var.predict(dt);
-        SmartDashboard.putNumber("Kin Heading", this.Val.heading);
-        SmartDashboard.putNumberArray("Kin Pos", this.Val.pos);
-        SmartDashboard.putNumberArray("Kin Acc", this.Val.acc);
+        //SmartDashboard.putNumber("Kin Heading", this.Val.heading);
+        //SmartDashboard.putNumberArray("Kin Pos", this.Val.pos);
+        //SmartDashboard.putNumberArray("Kin Acc", this.Val.acc);
     }
 
     /**
@@ -44,11 +44,11 @@ public class Kinematics {
      * @author Ludwig Tay
      */
     class Values {
-        public double[] pos = Constants.INIT_POS;
+        public double[] pos = Constants.sp;
         public double[] vel = Constants.INIT_VEL;
         public double[] acc = Constants.INIT_ACC;
 
-        public double heading = Constants.INIT_HEADING;
+        public double heading = Constants.sa;
         public double ang_vel = Constants.INIT_ANG_VEL;
         public double ang_acc = Constants.INIT_ANG_ACC;
 
@@ -56,11 +56,11 @@ public class Kinematics {
          * Constructor for values
          */
         public Values() {
-            this.pos = Constants.INIT_POS;
+            this.pos = Constants.sp;
             this.vel = Constants.INIT_VEL;
             this.acc = Constants.INIT_ACC;
 
-            this.heading = Constants.INIT_HEADING;
+            this.heading = Constants.sa;
             this.ang_vel = Constants.INIT_ANG_VEL;
 
         }
@@ -127,7 +127,7 @@ public class Kinematics {
             // NEW POSITION CALCULATION WITH TAYLOR SERIES
             double[] pos1 = { this.pos[0], this.pos[1] };
             double[] taylor_dis = TaylorDisplacement(dt);
-            SmartDashboard.putNumberArray("Kinematics/TaylorDis", taylor_dis);
+            //SmartDashboard.putNumberArray("Kinematics/TaylorDis", taylor_dis);
             pos1[0] += taylor_dis[0];
             pos1[1] += taylor_dis[1];
 
@@ -208,7 +208,7 @@ public class Kinematics {
             this.heading = this.heading + this.ang_vel * dt + 0.5 * this.ang_acc * dt * dt;
             this.ang_vel = this.ang_vel + this.ang_acc * dt;
 
-            SmartDashboard.putNumber("Kinematics/pos var", this.pos);
+            //SmartDashboard.putNumber("Kinematics/pos var", this.pos);
         }
     }
 }

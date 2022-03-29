@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.map.Map;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,7 +41,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    //SmartDashboard.putData("Auto choices", m_chooser);
+    this.robotContainer.init();
   }
 
   /**
@@ -78,6 +80,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     this.robotContainer.hardware.resetMotors();
+    
     m_autoSelected = m_chooser.getSelected();
     this.robotContainer.setAutonomousState();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
@@ -113,12 +116,17 @@ public class Robot extends TimedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
+    this.robotContainer.ai.setDisabledState();
+    this.robotContainer.ai.autonomous.initted = false;
+    //this.robotContainer.map.softInit( this.robotContainer.hardware, this.robotContainer.main_state, Constants.sp, Constants.sa);
   }
 
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
+    //this.robotContainer.map.softInit( this.robotContainer.hardware, this.robotContainer.main_state, Constants.sp, Constants.sa);
     this.robotContainer.controller_start_time = System.currentTimeMillis() / 1000;
+    this.robotContainer.ai.autonomous.initted = false;
   }
 
   /** This function is called once when test mode is enabled. */

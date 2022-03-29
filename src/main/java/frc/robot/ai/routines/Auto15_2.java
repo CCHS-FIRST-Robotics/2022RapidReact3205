@@ -14,8 +14,8 @@ public class Auto15_2 {
     public ArrayList<Methods> met_list = new ArrayList<Methods>();
 
     public Auto15_2() {
-        double[] start = SR1_R1.START;
-        double[] ball = SR1_R1.BALL;
+        double[] start = SB3_B3.START;
+        double[] ball = SB3_B3.BALL;
 
         double[] ball_pos = {ball[0], ball[1]};
         double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -0.5));
@@ -25,7 +25,12 @@ public class Auto15_2 {
         this.start_point[1] = start[1];
         this.start_heading = start[2];
 
-        this.met_list.add(Methods.INTAKE_ONLY);
+        this.met_list.add(Methods.SHOOTER_FIRE);
+        ArrayList<double[]> empty_n1 = new ArrayList<double[]>();
+        this.vals.add(empty_n1);
+        this.angsl.add(0.0);
+
+        this.met_list.add(Methods.INTAKE_STORE);
         ArrayList<double[]> empty_0 = new ArrayList<double[]>();
         this.vals.add(empty_0);
         this.angsl.add(0.0);
@@ -69,7 +74,7 @@ public class Auto15_2 {
         this.vals.add(empty_3_5);
         this.angsl.add(0.0);
 
-        this.met_list.add(Methods.SHOOTER_DOUBLE);
+        this.met_list.add(Methods.SHOOTER_FIRE);
         ArrayList<double[]> empty_4 = new ArrayList<double[]>();
         this.vals.add(empty_4);
         this.angsl.add(0.0);

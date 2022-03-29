@@ -55,8 +55,8 @@ public class CommandHandler {
         command.bl_pprop = command.bl_pprop * concern_const;
         command.br_pprop = command.br_pprop * concern_const;
 
-        SmartDashboard.putNumber("Storage Volts", hardware.STORAGE_1_MOTOR.getMotorOutputVoltage());
-        SmartDashboard.putNumber("Storage Volts per", hardware.STORAGE_1_MOTOR.getMotorOutputPercent());
+        //SmartDashboard.putNumber("Storage Volts", hardware.STORAGE_1_MOTOR.getMotorOutputVoltage());
+        //SmartDashboard.putNumber("Storage Volts per", hardware.STORAGE_1_MOTOR.getMotorOutputPercent());
 
         if (Math.abs(command.storage_2_pprop) < 0.1){
             command.storage_2_pprop = -0.03;

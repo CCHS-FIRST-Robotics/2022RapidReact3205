@@ -14,13 +14,13 @@ public class Wheel {
     public void predict(double dt, double heading, double[] acc, double ang_vel) {
         this.Val.predict(dt, heading, acc, ang_vel);
         this.Var.predict(dt, this.Val.fl_radss, this.Val.fr_radss, this.Val.bl_radss, this.Val.br_radss);
-        SmartDashboard.putNumber("FL rpm", this.Val.fl_radss * 30 / Math.PI);
-        SmartDashboard.putNumber("FR rpm", this.Val.fr_radss * 30 / Math.PI);
-        SmartDashboard.putNumber("BL rpm", this.Val.bl_radss * 30 / Math.PI);
-        SmartDashboard.putNumber("BR rpm", this.Val.br_radss * 30 / Math.PI);
-        SmartDashboard.putNumberArray("Odo Pos", this.Val.whl_o_pos);
-        SmartDashboard.putNumberArray("Odo Vel", this.Val.whl_o_vel);
-        SmartDashboard.putNumber("Odo Heading", this.Val.whl_o_heading);
+        //SmartDashboard.putNumber("FL rpm", this.Val.fl_radss * 30 / Math.PI);
+        //SmartDashboard.putNumber("FR rpm", this.Val.fr_radss * 30 / Math.PI);
+        //SmartDashboard.putNumber("BL rpm", this.Val.bl_radss * 30 / Math.PI);
+        //SmartDashboard.putNumber("BR rpm", this.Val.br_radss * 30 / Math.PI);
+        //SmartDashboard.putNumberArray("Odo Pos", this.Val.whl_o_pos);
+        //SmartDashboard.putNumberArray("Odo Vel", this.Val.whl_o_vel);
+        //SmartDashboard.putNumber("Odo Heading", this.Val.whl_o_heading);
     }
 
     class Values {
@@ -51,8 +51,8 @@ public class Wheel {
             this.bl_t = 0;
             this.br_t = 0;
 
-            this.whl_o_pos[0] = 0;
-            this.whl_o_pos[1] = 0;
+            this.whl_o_pos[0] = Constants.sp[0];
+            this.whl_o_pos[1] = Constants.sp[1];
             this.whl_o_heading = 0;
 
             this.whl_o_vel[0] = 0;
@@ -89,13 +89,13 @@ public class Wheel {
                 double[] ec_vel = computeVels(local_acc, ang_vel);
                 e_vel[0] = ec_vel[0];
                 e_vel[1] = ec_vel[1];
-                SmartDashboard.putNumberArray("Odo experimental vel", e_vel);
+                //SmartDashboard.putNumberArray("Odo experimental vel", e_vel);
             }
             // Local pos transform
 
             double[] xyl_disp = { 0, 0 };
             double tl_disp = 0;
-            SmartDashboard.putNumber("odo angvel", angvel);
+            //SmartDashboard.putNumber("odo angvel", angvel);
             if (Math.abs(angvel) == 0) {
                 xyl_disp[0] = vside * dt;
                 xyl_disp[1] = vfwd * dt;
@@ -121,8 +121,8 @@ public class Wheel {
             double[] local_vel = { xyl_disp[0] / dt, xyl_disp[1] / dt };
             this.whl_o_angvel = angvel;
             // offset xyl_disp and local vel
-            SmartDashboard.putNumberArray("Odo xyldisp", local_vel);
-            SmartDashboard.putNumber("Odo given h", heading);
+            //SmartDashboard.putNumberArray("Odo xyldisp", local_vel);
+            //SmartDashboard.putNumber("Odo given h", heading);
             this.whl_o_vel = SimpleMat.rot2d(local_vel, heading);
             this.whl_o_pos = SimpleMat.add(this.whl_o_pos, SimpleMat.rot2d(xyl_disp, heading));
             this.whl_o_heading = SimpleMat.angleRectifier(this.whl_o_heading + theta);

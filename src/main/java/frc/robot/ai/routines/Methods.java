@@ -14,5 +14,6 @@ public enum Methods {
     BALL_CHASE,
     DROP_INTAKE,
     INTAKE_STATIC,
-    WAIT
+    WAIT,
+    RAW_TRANS
 }

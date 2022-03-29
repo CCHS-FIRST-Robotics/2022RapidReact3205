@@ -8,6 +8,7 @@ import frc.robot.commands.*;
 import frc.robot.map.Map;
 import frc.robot.network.Network;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * AI finite state machine class, handles switching between various autonomous
@@ -42,15 +43,20 @@ public class AI {
      * @param state main robot state
      * @return hardware command
      */
-    public Command getCommand(MainState state, Map map, double CST) {
+    public Command getCommand(HardwareObjects hardware, MainState state, Map map, double CST, Network net1) {
+        //SmartDashboard.putBoolean("Doing Disabled", false);
         switch (this.current_state) {
             case CONTROLLER:
                 main_command = this.controller_state.getCommands(state, map, CST);
                 break;
             case AUTONOMOUS:
-                main_command = this.autonomous.getCommands(state, map);
+                main_command = this.autonomous.getCommands(state, map, hardware, net1);
                 break;
             case DISABLED:
+                map.softInit(hardware, state, Constants.sp, Constants.sa);
+                //state.setPos(Constants.sp, 0.01);
+                //SmartDashboard.putBoolean("Doing Disabled", true);
+                //SmartDashboard.putNumberArray("SP", Constants.sp);
                 main_command = new Command(Constants.DEFAULT_CMD);
                 break;
         }
@@ -72,7 +78,11 @@ public class AI {
     }
 
     public void setAutonomousState(HardwareObjects hardware, MainState state, Map map, Network net) {
-        this.autonomous.init(hardware, state, map, net);
+        //this.autonomous.init(hardware, state, map, net);
         this.current_state = States.AUTONOMOUS;
+    }
+
+    public void setDisabledState(){
+        this.current_state = States.DISABLED;
     }
 }

@@ -22,8 +22,8 @@ public class CurveFwdTravel extends Travel {
                 / 60;
         this.a_max = 0.8 * max_prop * 4 * Constants.MOTOR_MAX_TORQUE
                 / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
-        SmartDashboard.putNumber("vmax", this.v_max);
-        SmartDashboard.putNumber("amax", this.a_max);
+        //SmartDashboard.putNumber("vmax", this.v_max);
+        //SmartDashboard.putNumber("amax", this.a_max);
         this.v_contr = new FwdController(this.v_max, this.a_max);
 
         this.angvel_max = max_prop * Constants.ROBOT_WIDTH * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * Math.PI
@@ -59,10 +59,10 @@ public class CurveFwdTravel extends Travel {
         double[] sdiff = SimpleMat.subtract(this.lsp2, this.tpos);
         sdiff = SimpleMat.unitVec(sdiff);
         double prod = SimpleMat.dot(tdiff, sdiff);
-        SmartDashboard.putNumberArray("CFT/ tdiff", tdiff);
-        SmartDashboard.putNumberArray("CFT/ sdiff", sdiff);
-        SmartDashboard.putNumberArray("CFT/ l_start_pos", this.lsp2);
-        SmartDashboard.putNumber("CFT/ trip prod", prod);
+        //SmartDashboard.putNumberArray("CFT/ tdiff", tdiff);
+        //SmartDashboard.putNumberArray("CFT/ sdiff", sdiff);
+        //SmartDashboard.putNumberArray("CFT/ l_start_pos", this.lsp2);
+        //SmartDashboard.putNumber("CFT/ trip prod", prod);
 
         if (prod > 0) {
             return true;
@@ -83,7 +83,7 @@ public class CurveFwdTravel extends Travel {
     public Command update(MainState state) {
         double adist = curveLength(state);
         Command cmd;
-        SmartDashboard.putNumber("CFT/ adist", adist);
+        //SmartDashboard.putNumber("CFT/ adist", adist);
         if (this.point_list.size() > 1) {
             cmd = trajectory(state, true, adist);
         } else {
@@ -99,9 +99,9 @@ public class CurveFwdTravel extends Travel {
                 this.thead = this.final_head;
             }
         }
-        SmartDashboard.putNumber("CFT/Steps Remaining", (double) this.point_list.size());
-        SmartDashboard.putNumberArray("CFT/Current TPos", this.tpos);
-        SmartDashboard.putNumber("CFT/Current THead", this.thead);
+        //SmartDashboard.putNumber("CFT/Steps Remaining", (double) this.point_list.size());
+        //SmartDashboard.putNumberArray("CFT/Current TPos", this.tpos);
+        //SmartDashboard.putNumber("CFT/Current THead", this.thead);
         // return new Command(Constants.DEFAULT_CMD);
         return cmd;
 

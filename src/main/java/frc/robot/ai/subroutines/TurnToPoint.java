@@ -29,7 +29,7 @@ public class TurnToPoint extends Turn {
         this.angacc_max = 0.5 * max_prop * adist * cross_tc * 4 * Constants.MOTOR_MAX_TORQUE
                 / (Constants.WHEEL_RADIUS * Constants.MOI);
 
-        SmartDashboard.putNumber("turn/angmax", this.angvel_max);
+        //SmartDashboard.putNumber("turn/angmax", this.angvel_max);
         this.velcontr = new FwdController(this.angvel_max, this.angacc_max);
 
         this.fl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
@@ -62,22 +62,22 @@ public class TurnToPoint extends Turn {
         double target_avel = Math.max(Math.min(this.turn.update(dtheta),
                 this.angvel_max), this.angvel_max * -1);
 
-        SmartDashboard.putNumber("turn/dtheta", dtheta);
+        //SmartDashboard.putNumber("turn/dtheta", dtheta);
 
         double[] vel = { 0, 0 };
         double[] whl_array = MecanumIK.mecanumIK(vel, target_avel);
 
-        SmartDashboard.putNumber("turn/tavel", target_avel);
-        SmartDashboard.putNumber("turn/avel_max", this.angvel_max);
-        SmartDashboard.putNumber("turn/aacc_max", this.angacc_max);
-        SmartDashboard.putNumberArray("turn/whl arr", whl_array);
+        //SmartDashboard.putNumber("turn/tavel", target_avel);
+        //SmartDashboard.putNumber("turn/avel_max", this.angvel_max);
+        //SmartDashboard.putNumber("turn/aacc_max", this.angacc_max);
+        //SmartDashboard.putNumberArray("turn/whl arr", whl_array);
 
         double flr = this.fl.updateRaw(whl_array[0], state.getFLRadssVal());
         double frr = this.fr.updateRaw(whl_array[1], state.getFRRadssVal());
         double blr = this.bl.updateRaw(whl_array[2], state.getBLRadssVal());
         double brr = this.br.updateRaw(whl_array[3], state.getBRRadssVal());
 
-        SmartDashboard.putNumber("turn/flr", flr);
+        //SmartDashboard.putNumber("turn/flr", flr);
 
         double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };
         return new Command(ocmd);

@@ -35,7 +35,7 @@ public class RoboRioAccSensor extends BaseSensor {
         acc_vec = SimpleMat.scaleVec(acc_vec, Constants.GRAV_ACC);
         acc_vec = SimpleMat.add(acc_vec, this.zero);
 
-        SmartDashboard.putNumberArray("RR Acc/RR Acc", acc_vec);
+        //SmartDashboard.putNumberArray("RR Acc/RR Acc", acc_vec);
 
         acc_vec = SimpleMat.rot2d(acc_vec, state.getHeadingVal());
         double var = Constants.IMU_ACC_VAR * 2;

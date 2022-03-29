@@ -19,7 +19,7 @@ public class GetBall {
                 double ang = Math
                         .acos(SimpleMat.dot(SimpleMat.unitVec(diff),
                                 SimpleMat.projectHeading(state.getHeadingVal(), 1)));
-                SmartDashboard.putNumber("GetBall/ang", ang);
+                //SmartDashboard.putNumber("GetBall/ang", ang);
                 if (ang < 1) {
                     if (dist < min_dist) {
                         min_dist = dist;

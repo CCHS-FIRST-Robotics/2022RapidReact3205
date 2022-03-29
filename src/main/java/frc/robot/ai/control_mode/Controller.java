@@ -76,7 +76,7 @@ public class Controller {
     }
 
     double stickCurve(double val) {
-        if (Math.abs(val) < 0.2) {
+        if (Math.abs(val) < 0.08) {
             val = 0;
         }
         return val;
@@ -84,15 +84,15 @@ public class Controller {
 
     double[] starControl(MainState state) {
         // left controllers give a polar vec, angle from 0 and mag from 0 to 1
-        double lstick_x = xbox.getLeftX() * pprop;
+        double lstick_x = stickCurve(xbox.getLeftX()) * pprop;
         double lstick_y = 0;
         if (Math.abs(xbox.getLeftY()) > Math.abs(xbox.getRightY())) {
-            lstick_y = xbox.getLeftY();
+            lstick_y = stickCurve(xbox.getLeftY());
         } else {
-            lstick_y = xbox.getRightY();
+            lstick_y = stickCurve(xbox.getRightY());
         }
         lstick_y = lstick_y * pprop;
-        double rstick_x = xbox.getRightX() * pprop;
+        double rstick_x = stickCurve(xbox.getRightX()) * pprop * 0.8;
         double[] stick_vec = { lstick_x, -1 * lstick_y };
         double yaw_val = rstick_x;
         double raw_theta = SimpleMat.vecsAngle2(new double[] { 0, 1 }, stick_vec);
@@ -116,13 +116,13 @@ public class Controller {
         double rthe = SimpleMat.angleRectifier(theta);
         max_vel = max_vel * Math.max(Math.abs(Math.cos(theta)), Math.abs(Math.sin(theta)));
         double[] vel_vec = SimpleMat.projectHeading(rthe, mag * max_vel);
-        SmartDashboard.putNumberArray("Controller/Vel Vec", vel_vec);
-        SmartDashboard.putNumber("Controller/mag", mag);
+        //SmartDashboard.putNumberArray("Controller/Vel Vec", vel_vec);
+        //SmartDashboard.putNumber("Controller/mag", mag);
 
         double avel = max_avl * -1 * yaw_val;
-        SmartDashboard.putNumber("Controller/AVEL", avel);
+        //SmartDashboard.putNumber("Controller/AVEL", avel);
         double[] whl_vec = MecanumIK.mecanumIK(vel_vec, avel);
-        SmartDashboard.putNumberArray("Controller/MIKC", whl_vec);
+        //SmartDashboard.putNumberArray("Controller/MIKC", whl_vec);
         return whl_vec;
     }
 
@@ -152,9 +152,9 @@ public class Controller {
             fb_1 = 0;
 
             intake = e_xbox.getRightX();
-            ;
+            
             storage = e_xbox.getRightY();
-            ;
+            
 
             storage_2 = e_xbox.getLeftY() * -1;
 
@@ -181,7 +181,7 @@ public class Controller {
                 }
             }
 
-            if (xbox.getRightBumper()) {
+            if (xbox.getRightBumperReleased()) {
                 if (this.intake.substate == 0) {
                     this.intake.autoIntake(state);
                 } else {
@@ -286,7 +286,7 @@ public class Controller {
                 chase_cmd[2] = tc_cmd.bl_pprop;
                 chase_cmd[3] = tc_cmd.br_pprop;
                 boolean chase_exit = this.chase.exit(state, map);
-                SmartDashboard.putBoolean("BallChase/chase exit", chase_exit);
+                //SmartDashboard.putBoolean("BallChase/chase exit", chase_exit);
                 if (chase_exit) {
                     this.chase_s = 0;
                     resetPID();
@@ -313,12 +313,12 @@ public class Controller {
             double[] sho_cmd = this.shooter.update(state);
             if (this.intake.substate != 0) {
                 intake = intake + ins_cmd[0];
-                storage = storage + ins_cmd[1];
+                storage = ins_cmd[1];
                 storage_2 = storage_2 + ins_cmd[2] + sho_cmd[0];
             }
             if (this.shooter.state != 0) {
                 intake = intake + ins_cmd[0] + sho_cmd[3];
-                storage = storage + ins_cmd[1] + sho_cmd[3];
+                storage = ins_cmd[1] + sho_cmd[3];
                 storage_2 = storage_2 + ins_cmd[2] + sho_cmd[0];
                 shooter_1 = shooter_1 + sho_cmd[1];
                 shooter_2 = shooter_2 + sho_cmd[2];
@@ -329,12 +329,12 @@ public class Controller {
         if (System.currentTimeMillis() / 1000 - cooldown_time > 0.1) {
             this.temp_cmd = 1;
         } else if (System.currentTimeMillis() / 1000 - cooldown_time < 0.05) {
-            SmartDashboard.putNumber("Controller/end I", this.fl_pid.integral);
+            //SmartDashboard.putNumber("Controller/end I", this.fl_pid.integral);
         } else {
             this.temp_cmd = 0;
             resetPID();
-            SmartDashboard.putNumber("Controller/end I2", this.fl_pid.integral);
-            SmartDashboard.putNumberArray("Controller/end starcmd", whl_vec);
+            //SmartDashboard.putNumber("Controller/end I2", this.fl_pid.integral);
+            //SmartDashboard.putNumberArray("Controller/end starcmd", whl_vec);
         }
         // double flt = whl_vec[0];
         // double frt = whl_vec[1];
@@ -371,8 +371,8 @@ public class Controller {
         }
 
         if (System.currentTimeMillis() / 1000 - cooldown_time < 1) {
-            SmartDashboard.putNumber("Controller/end flr", this.fl_pid.update(fld));
-            SmartDashboard.putNumber("Controller/end fld", fld);
+            //SmartDashboard.putNumber("Controller/end flr", this.fl_pid.update(fld));
+            //SmartDashboard.putNumber("Controller/end fld", fld);
         }
         // flr = flr*temp_cmd;
         // frr = frr*temp_cmd;
@@ -386,16 +386,10 @@ public class Controller {
         xbox.setRumble(RumbleType.kLeftRumble, rmb);
         e_xbox.setRumble(RumbleType.kRightRumble, rmb);
         e_xbox.setRumble(RumbleType.kLeftRumble, rmb);
-        xbox.setRumble(RumbleType.kRightRumble, 0);
-        if (state.getBeam1Val() == 1 || state.getBeam0_5Val() == 1) {
-            xbox.setRumble(RumbleType.kRightRumble, 0.5);
-        }
-        if (state.getBeam0Val() == 1) {
-            xbox.setRumble(RumbleType.kRightRumble, 1);
-        }
+        xbox.setRumble(RumbleType.kRightRumble, rmb);
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r };
-        SmartDashboard.putNumberArray("Controller/cmd", ocmd);
+        //SmartDashboard.putNumberArray("Controller/cmd", ocmd);
         Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);
         return command;

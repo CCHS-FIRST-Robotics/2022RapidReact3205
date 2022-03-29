@@ -68,11 +68,11 @@ public class NAVXAccumSensor extends BaseSensor {
         double[] new_pos = { kpi[0], kpi[1] };
         double[] new_vel = { kvi[0], kvi[1] };
 
-        SmartDashboard.putNumberArray("Accum/ld", ld);
-        SmartDashboard.putNumberArray("Accum/lv", lv);
+        //SmartDashboard.putNumberArray("Accum/ld", ld);
+        //SmartDashboard.putNumberArray("Accum/lv", lv);
 
-        SmartDashboard.putNumberArray("Accum/pos", est_pos);
-        SmartDashboard.putNumberArray("Accum/vel", est_vel);
+        //SmartDashboard.putNumberArray("Accum/pos", est_pos);
+        //SmartDashboard.putNumberArray("Accum/vel", est_vel);
 
         state.setPos(new_pos, kpi[2]);
         state.setVel(new_vel, kvi[2]);

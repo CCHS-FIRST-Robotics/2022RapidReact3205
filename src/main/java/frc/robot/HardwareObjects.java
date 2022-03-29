@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -36,7 +37,7 @@ public class HardwareObjects {
     public TalonSRX HANG_L_MOTOR;
     public VictorSPX HANG_R_MOTOR;
 
-    public PigeonIMU IMU;
+    //public PigeonIMU IMU;
     public AHRS NAVX;
     public ADXRS450_Gyro AD_GYRO;
     public Accelerometer RR_ACC;
@@ -69,17 +70,7 @@ public class HardwareObjects {
         this.NAVX = new AHRS();
         // IMU = new PigeonIMU(RIGHT_MOTOR2);
 
-        this.FLD_MOTOR.configFactoryDefault();
-        this.FRD_MOTOR.configFactoryDefault();
-        this.BLD_MOTOR.configFactoryDefault();
-        this.BRD_MOTOR.configFactoryDefault();
-
-        this.INTAKE_MOTOR.configFactoryDefault();
-        this.STORAGE_1_MOTOR.configFactoryDefault();
-
-        this.STORAGE_2_MOTOR.configFactoryDefault();
-        this.SHOOTER_1_MOTOR.configFactoryDefault();
-        this.SHOOTER_2_MOTOR.restoreFactoryDefaults();
+        resetMotors();
 
         this.HANG_L_MOTOR.configFactoryDefault();
         this.HANG_R_MOTOR.configFactoryDefault();
@@ -106,15 +97,16 @@ public class HardwareObjects {
         this.beam_0 = new DigitalInput(Constants.BEAM_0);
         this.beam_0_5 = new DigitalInput(Constants.BEAM_0_5);
         this.beam_1 = new DigitalInput(Constants.BEAM_1);
-        this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
-        IMU.configFactoryDefault();
-        IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+        //this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
+        //IMU.configFactoryDefault();
+        //IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
         this.SHOOTER_2_ENCODER = this.SHOOTER_2_MOTOR.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,
                 4096);
 
         this.HANG_L_MOTOR.setNeutralMode(NeutralMode.Brake);
         this.HANG_R_MOTOR.setNeutralMode(NeutralMode.Brake);
+    
     }
 
     public void resetMotors() {
@@ -130,5 +122,8 @@ public class HardwareObjects {
         this.STORAGE_2_MOTOR.configFactoryDefault();
         this.SHOOTER_1_MOTOR.configFactoryDefault();
         this.SHOOTER_2_MOTOR.restoreFactoryDefaults();
+
+
+
     }
 }
