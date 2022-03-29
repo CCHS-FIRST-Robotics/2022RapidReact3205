@@ -109,6 +109,12 @@ public class HardwareObjects {
 
     }
 
+    public void canFrameFreqTalon(TalonSRX mtr, double mul) {
+        mtr.setStatusFramePeriod(StatusFrame.Status_1_General, (int) Math.round(40 * mul));
+        mtr.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, (int) Math.round(40 * mul));
+        mtr.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, (int) Math.round(100 * mul));
+    }
+
     public void resetMotors() {
 
         this.FLD_MOTOR.configFactoryDefault();
@@ -123,7 +129,10 @@ public class HardwareObjects {
         this.SHOOTER_1_MOTOR.configFactoryDefault();
         this.SHOOTER_2_MOTOR.restoreFactoryDefaults();
 
-
+        canFrameFreqTalon(this.FLD_MOTOR, 1.);
+        canFrameFreqTalon(this.FRD_MOTOR, 1.);
+        canFrameFreqTalon(this.BLD_MOTOR, 1.);
+        canFrameFreqTalon(this.BRD_MOTOR, 1.);
 
     }
 }

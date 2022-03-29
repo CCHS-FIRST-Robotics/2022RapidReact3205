@@ -65,7 +65,9 @@ public class Travel {
         if (SimpleMat.dot(tdiff, sdiff) < Math.cos(Math.PI)) {
             dist = dist * -1;
         }
-        return this.tvel_ctr.update(dist);
+        double resp = this.tvel_ctr.update(dist);
+        resp = Math.max(Math.min(resp, 1), -1);
+        return resp * this.v_max;
     }
 
     public Command trajectory(MainState state, boolean override_adist, double nadist) {
