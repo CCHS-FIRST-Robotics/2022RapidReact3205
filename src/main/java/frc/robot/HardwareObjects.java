@@ -37,7 +37,7 @@ public class HardwareObjects {
     public TalonSRX HANG_L_MOTOR;
     public VictorSPX HANG_R_MOTOR;
 
-    // public PigeonIMU IMU;
+    public PigeonIMU IMU;
     public AHRS NAVX;
     public ADXRS450_Gyro AD_GYRO;
     public Accelerometer RR_ACC;
@@ -68,14 +68,14 @@ public class HardwareObjects {
         this.S_LIDAR = new Counter(Constants.S_LIDAR);
 
         this.NAVX = new AHRS();
-        // IMU = new PigeonIMU(RIGHT_MOTOR2);
+        IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
 
         resetMotors();
 
         this.HANG_L_MOTOR.configFactoryDefault();
         this.HANG_R_MOTOR.configFactoryDefault();
-        // IMU.configFactoryDefault();
-        // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+        IMU.configFactoryDefault();
+        IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
         this.S_LIDAR.setMaxPeriod(1.00);
         this.S_LIDAR.setSemiPeriodMode(true);
@@ -97,9 +97,9 @@ public class HardwareObjects {
         this.beam_0 = new DigitalInput(Constants.BEAM_0);
         this.beam_0_5 = new DigitalInput(Constants.BEAM_0_5);
         this.beam_1 = new DigitalInput(Constants.BEAM_1);
-        // this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
-        // IMU.configFactoryDefault();
-        // IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
+        this.IMU = new PigeonIMU(this.STORAGE_1_MOTOR);
+        IMU.configFactoryDefault();
+        IMU.setFusedHeading(0.0, Constants.TIMEOUT_MS);
 
         this.SHOOTER_2_ENCODER = this.SHOOTER_2_MOTOR.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,
                 4096);
