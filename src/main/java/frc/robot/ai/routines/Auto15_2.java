@@ -2,9 +2,9 @@ package frc.robot.ai.routines;
 
 import java.util.ArrayList;
 
-import frc.robot.ai.routines.coords.*;
-
+import frc.robot.coords.*;
 import frc.robot.helper.*;
+import frc.robot.Constants;
 
 public class Auto15_2 {
     public double[] start_point = { 0, 0 };
@@ -14,10 +14,10 @@ public class Auto15_2 {
     public ArrayList<Methods> met_list = new ArrayList<Methods>();
 
     public Auto15_2() {
-        double[] start = SB3_B3.START;
-        double[] ball = SB3_B3.BALL;
+        double[] start = Constants.START;
+        double[] ball = Constants.BALL;
 
-        double[] ball_pos = {ball[0], ball[1]};
+        double[] ball_pos = { ball[0], ball[1] };
         double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -0.5));
         double[] ball_fwd = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], 0.3));
 

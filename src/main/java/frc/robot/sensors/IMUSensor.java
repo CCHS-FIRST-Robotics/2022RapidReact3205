@@ -44,7 +44,8 @@ public class IMUSensor extends BaseSensor {
      * @param shouldUse true if ready to use.
      */
     public boolean shouldUse(HardwareObjects hardware) {
-        //this.log_active_sensor = (hardware.IMU.getState() == PigeonIMU.PigeonState.Ready);
+        // this.log_active_sensor = (hardware.IMU.getState() ==
+        // PigeonIMU.PigeonState.Ready);
         return true;
     }
 
@@ -66,7 +67,7 @@ public class IMUSensor extends BaseSensor {
      */
     public void reset(double angle, HardwareObjects hardware) {
         short[] xyz_acc = new short[3];
-        //hardware.IMU.getBiasedAccelerometer(xyz_acc);
+        // hardware.IMU.getBiasedAccelerometer(xyz_acc);
         double x_acc = (double) xyz_acc[0] * -9.81 / 16384;
         double y_acc = (double) xyz_acc[1] * -9.81 / 16384;
         double z_acc = (double) xyz_acc[2] * -9.81 / 16384;
@@ -78,7 +79,7 @@ public class IMUSensor extends BaseSensor {
 
         this.yz_mag_zero = SimpleMat.mag(this.xyz_acc_zero) - 9.8;
 
-        //hardware.IMU.setFusedHeading(angle * 360 / (2 * Math.PI));
+        // hardware.IMU.setFusedHeading(angle * 360 / (2 * Math.PI));
     }
 
     /**
@@ -120,24 +121,24 @@ public class IMUSensor extends BaseSensor {
         double[] ypr_deg = new double[3];
         PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
 
-        //hardware.IMU.getRawGyro(xyz_dps);
-        //hardware.IMU.getFusedHeading(fusionStatus);
+        // hardware.IMU.getRawGyro(xyz_dps);
+        // hardware.IMU.getFusedHeading(fusionStatus);
 
-        //hardware.IMU.getBiasedAccelerometer(xyz_acc);
+        // hardware.IMU.getBiasedAccelerometer(xyz_acc);
 
-        //hardware.IMU.getYawPitchRoll(ypr_deg);
+        // hardware.IMU.getYawPitchRoll(ypr_deg);
 
-        //SmartDashboard.putNumber("pidgeon/x dps", xyz_dps[0]);
-        //SmartDashboard.putNumber("pidgeon/y dps", xyz_dps[1]);
-        //SmartDashboard.putNumber("pidgeon/z dps", xyz_dps[2]);
+        // SmartDashboard.putNumber("pidgeon/x dps", xyz_dps[0]);
+        // SmartDashboard.putNumber("pidgeon/y dps", xyz_dps[1]);
+        // SmartDashboard.putNumber("pidgeon/z dps", xyz_dps[2]);
 
-        //SmartDashboard.putNumber("pidgeon/x acc", xyz_acc[0]);
-        //SmartDashboard.putNumber("pidgeon/y acc", xyz_acc[1]);
-        //SmartDashboard.putNumber("pidgeon/z acc", xyz_acc[2]);
+        // SmartDashboard.putNumber("pidgeon/x acc", xyz_acc[0]);
+        // SmartDashboard.putNumber("pidgeon/y acc", xyz_acc[1]);
+        // SmartDashboard.putNumber("pidgeon/z acc", xyz_acc[2]);
 
-        //SmartDashboard.putNumber("pidgeon/y deg", ypr_deg[0]);
-        //SmartDashboard.putNumber("pidgeon/p deg", ypr_deg[1]);
-        //SmartDashboard.putNumber("pidgeon/r deg", ypr_deg[2]);
+        // SmartDashboard.putNumber("pidgeon/y deg", ypr_deg[0]);
+        // SmartDashboard.putNumber("pidgeon/p deg", ypr_deg[1]);
+        // SmartDashboard.putNumber("pidgeon/r deg", ypr_deg[2]);
         // 16384 = 1g
 
         double r_pitch = ypr_deg[2] * 2 * Math.PI / 360;
@@ -159,7 +160,7 @@ public class IMUSensor extends BaseSensor {
 
         double heading = fusionStatus.heading;
         heading = heading * 2 * Math.PI / 360;
-        heading = SimpleMat.angleRectifier(heading + Constants.sa);
+        heading = SimpleMat.angleRectifier(heading + Constants.START_H);
 
         this.log_fused_heading = heading;
 

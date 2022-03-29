@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.coords.*;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -214,4 +216,12 @@ public final class Constants {
 
     public static double[] sp = { -2.1239, 1.0258 };
     public static double sa = 46.2 * 2 * Math.PI / 360;
+
+    public static final double[] START = SR1_R1.START;
+    public static final double[] BALL = SR1_R1.BALL;
+    public static final double[] START_POS = { START[0], START[1] };
+    public static final double START_H = START[2];
+
+    public static final double[] BALL_POS = { BALL[0], BALL[1] };
+    public static final double BALL_H = BALL[2];
 }

@@ -44,7 +44,7 @@ public class AI {
      * @return hardware command
      */
     public Command getCommand(HardwareObjects hardware, MainState state, Map map, double CST, Network net1) {
-        //SmartDashboard.putBoolean("Doing Disabled", false);
+        // SmartDashboard.putBoolean("Doing Disabled", false);
         switch (this.current_state) {
             case CONTROLLER:
                 main_command = this.controller_state.getCommands(state, map, CST);
@@ -53,10 +53,10 @@ public class AI {
                 main_command = this.autonomous.getCommands(state, map, hardware, net1);
                 break;
             case DISABLED:
-                map.softInit(hardware, state, Constants.sp, Constants.sa);
-                //state.setPos(Constants.sp, 0.01);
-                //SmartDashboard.putBoolean("Doing Disabled", true);
-                //SmartDashboard.putNumberArray("SP", Constants.sp);
+                map.softInit(hardware, state, Constants.START_POS, Constants.START_H);
+                // state.setPos(Constants.sp, 0.01);
+                // SmartDashboard.putBoolean("Doing Disabled", true);
+                // SmartDashboard.putNumberArray("SP", Constants.sp);
                 main_command = new Command(Constants.DEFAULT_CMD);
                 break;
         }
@@ -78,11 +78,11 @@ public class AI {
     }
 
     public void setAutonomousState(HardwareObjects hardware, MainState state, Map map, Network net) {
-        //this.autonomous.init(hardware, state, map, net);
+        // this.autonomous.init(hardware, state, map, net);
         this.current_state = States.AUTONOMOUS;
     }
 
-    public void setDisabledState(){
+    public void setDisabledState() {
         this.current_state = States.DISABLED;
     }
 }
