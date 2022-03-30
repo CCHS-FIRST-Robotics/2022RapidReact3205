@@ -23,9 +23,9 @@ public class ShooterEncoder extends BaseSensor {
         double shooter_1 = hardware.SHOOTER_1_MOTOR.getSelectedSensorVelocity(1) * -1;
         double shooter_2 = hardware.HANG_L_MOTOR.getSelectedSensorVelocity(1) * -1;
 
-        //SmartDashboard.putNumber("ShooterEncoder/storage raw", storage_2);
-        //SmartDashboard.putNumber("ShooterEncoder/shooter 1 raw", shooter_1);
-        //SmartDashboard.putNumber("ShooterEncoder/shooter 2 raw", shooter_2);
+        // SmartDashboard.putNumber("ShooterEncoder/storage raw", storage_2);
+        // SmartDashboard.putNumber("ShooterEncoder/shooter 1 raw", shooter_1);
+        // SmartDashboard.putNumber("ShooterEncoder/shooter 2 raw", shooter_2);
 
         double dps2rads = 10 * 2 * Math.PI / 4096;
 
@@ -36,8 +36,8 @@ public class ShooterEncoder extends BaseSensor {
         state.setStorage2(storage_2, Constants.INIT_VARIANCE);
         state.setShooter(new double[] { shooter_1, shooter_2 }, Constants.INIT_VARIANCE);
 
-        //SmartDashboard.putNumber("ShooterEncoder/storage radss", storage_2);
-        //SmartDashboard.putNumber("ShooterEncoder/shooter 1 radss", shooter_1);
-        //SmartDashboard.putNumber("ShooterEncoder/shooter 2 radss", shooter_2);
+        SmartDashboard.putNumber("ShooterEncoder/storage radss", storage_2);
+        SmartDashboard.putNumber("ShooterEncoder/shooter 1 radss", shooter_1);
+        SmartDashboard.putNumber("ShooterEncoder/shooter 2 radss", shooter_2);
     }
 }
