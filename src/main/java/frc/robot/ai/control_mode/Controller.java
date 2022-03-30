@@ -126,7 +126,7 @@ public class Controller {
         double lr_strafe = 0;
         double fb_1 = 0;
         double lr_turn = 0;
-        double fb_2 = stickCurve(xbox.getRightY()) * -0.5;
+        double fb_2 = stickCurve(xbox.getRightY()) * -1;
         double intake = 0;
         double storage = 0;
         double storage_2 = 0;
@@ -354,15 +354,15 @@ public class Controller {
         double blr = 0;
         double brr = 0;
         if (chase_s == 0 && pam_s == 0 && arty_s == 0 && hang_s == 0) {
-            flr = this.fl_pid.update(fld) * temp_cmd;
-            frr = this.fr_pid.update(frd) * temp_cmd;
-            blr = this.bl_pid.update(bld) * temp_cmd;
-            brr = this.br_pid.update(brd) * temp_cmd;
+            flr = fb_2 + this.fl_pid.update(fld) * temp_cmd;
+            frr = fb_2 + this.fr_pid.update(frd) * temp_cmd;
+            blr = fb_2 + this.bl_pid.update(bld) * temp_cmd;
+            brr = fb_2 + this.br_pid.update(brd) * temp_cmd;
         } else {
-            flr = fb_2 + pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
-            frr = fb_2 + pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];
-            blr = fb_2 + pam_cmd[2] + arty_cmd[2] + chase_cmd[2] + hang_cmd[2];
-            brr = fb_2 + pam_cmd[3] + arty_cmd[3] + chase_cmd[3] + hang_cmd[3];
+            flr = pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
+            frr = pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];
+            blr = pam_cmd[2] + arty_cmd[2] + chase_cmd[2] + hang_cmd[2];
+            brr = pam_cmd[3] + arty_cmd[3] + chase_cmd[3] + hang_cmd[3];
         }
 
         if (System.currentTimeMillis() / 1000 - cooldown_time < 1) {

@@ -126,8 +126,8 @@ public final class Constants {
     public static final double STORAGE_2_RPM = 300;
 
     public static final double SHOOTER_RATIO = 0.6666;
-    public static final double SHOOTER_1_RPM = 2100 / SHOOTER_RATIO;
-    public static final double SHOOTER_2_RPM = 2100 / SHOOTER_RATIO;
+    public static final double SHOOTER_1_RPM = 700 / SHOOTER_RATIO;
+    public static final double SHOOTER_2_RPM = 700 / SHOOTER_RATIO;
 
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
@@ -219,7 +219,7 @@ public final class Constants {
 
     public static final double[] START = SR1_R1.START;
     public static final double[] BALL = SR1_R1.BALL;
-    public static final double[] START_POS = { START[0], START[1] };
+    public static double[] START_POS = { START[0], START[1] };
     public static final double START_H = START[2];
 
     public static final double[] BALL_POS = { BALL[0], BALL[1] };
