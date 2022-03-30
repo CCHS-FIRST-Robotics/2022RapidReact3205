@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Class that contains and initializes for all hardware objects
  * 
@@ -134,5 +136,19 @@ public class HardwareObjects {
         canFrameFreqTalon(this.BLD_MOTOR, 1.);
         canFrameFreqTalon(this.BRD_MOTOR, 1.);
 
+    }
+
+    public void printMotorHealth() {
+        SmartDashboard.putNumber("Drive Health/FLD Volts", this.FLD_MOTOR.getBusVoltage());
+        SmartDashboard.putNumber("Drive Health/FLD Amps", this.FLD_MOTOR.getStatorCurrent());
+
+        SmartDashboard.putNumber("Drive Health/FRD Volts", this.FRD_MOTOR.getBusVoltage());
+        SmartDashboard.putNumber("Drive Health/FRD Amps", this.FRD_MOTOR.getStatorCurrent());
+
+        SmartDashboard.putNumber("Drive Health/BLD Volts", this.BLD_MOTOR.getBusVoltage());
+        SmartDashboard.putNumber("Drive Health/BLD Amps", this.BLD_MOTOR.getStatorCurrent());
+
+        SmartDashboard.putNumber("Drive Health/BRD Volts", this.BRD_MOTOR.getBusVoltage());
+        SmartDashboard.putNumber("Drive Health/BRD Amps", this.BRD_MOTOR.getStatorCurrent());
     }
 }

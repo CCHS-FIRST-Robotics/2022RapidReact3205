@@ -112,9 +112,11 @@ public class RobotContainer {
    * mainLoop that executes state update, predict, ai and command scheduling.
    */
   public void mainLoop() {
-    Constants.sp = new double[] {-2.1239, 1.0258};
+    this.hardware.printMotorHealth();
+    Constants.sp = new double[] { -2.1239, 1.0258 };
     Constants.sa = 46.2 * 2 * Math.PI / 360;
-    this.main_command = this.ai.getCommand(this.hardware, this.main_state, this.map, this.controller_start_time, this.network);
+    this.main_command = this.ai.getCommand(this.hardware, this.main_state, this.map, this.controller_start_time,
+        this.network);
 
     UpdateState.updateState(this.main_state, this.main_command);
     this.command_handler.scheduleCommands(this.main_command, this.hardware);
@@ -138,24 +140,24 @@ public class RobotContainer {
       this.rr_acc.processValue(this.main_state, this.hardware);
     }
     if (this.lidar.shouldUse()) {
-      //this.lidar.processValue(this.main_state, this.network);
+      // this.lidar.processValue(this.main_state, this.network);
     }
     if (this.s_lidar.shouldUse()) {
-      //this.s_lidar.processValue(this.main_state, this.hardware);
+      // this.s_lidar.processValue(this.main_state, this.hardware);
     }
     if (this.beam.shouldUse()) {
       this.beam.processValue(this.main_state, this.hardware);
     }
-    //if (this.imu.shouldUse(hardware)) {
-      //this.imu.processValue(this.main_state, this.hardware);
-    //}
+    // if (this.imu.shouldUse(hardware)) {
+    // this.imu.processValue(this.main_state, this.hardware);
+    // }
     if (this.lime.shouldUse(this.network)) {
       this.lime.processValue(this.main_state, this.network);
     }
     this.map.getBalls(this.network);
 
     this.main_state.predict(Constants.MAIN_DT);
-    //SmartDashboard.putNumberArray("PosArr",this.main_state.getPosVal());
+    // SmartDashboard.putNumberArray("PosArr",this.main_state.getPosVal());
 
     this.network.writeNTable(this.main_state);
 
