@@ -1,4 +1,4 @@
-package frc.robot.ai.routines.coords;
+package frc.robot.coords;
 
 public class SB1_B1 {
     public static final double deg2rad = 2 * Math.PI / 360;

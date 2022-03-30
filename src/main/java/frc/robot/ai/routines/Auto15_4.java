@@ -3,7 +3,7 @@ package frc.robot.ai.routines;
 import java.util.ArrayList;
 
 import frc.robot.helper.*;
-import frc.robot.ai.routines.coords.*;
+import frc.robot.Constants;
 
 public class Auto15_4 {
     public double[] start_point = { 0, 0 };
@@ -13,11 +13,11 @@ public class Auto15_4 {
     public ArrayList<Methods> met_list = new ArrayList<Methods>();
 
     public Auto15_4() {
-        double[] start = SR1_R1.START;
-        double[] ball = SR1_R1.BALL;
+        double[] start = Constants.START;
+        double[] ball = Constants.BALL;
 
-        double[] far_ball = R_FAR.FAR_MID;
-        double[] far_other = R_FAR.FAR_LEFT;
+        double[] far_ball = Constants.BALL;//.FAR_MID;
+        double[] far_other = Constants.BALL; //.FAR_LEFT;
 
         this.start_point[0] = start[0];
         this.start_point[1] = start[1];

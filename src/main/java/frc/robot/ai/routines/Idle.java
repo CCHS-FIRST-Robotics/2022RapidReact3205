@@ -2,7 +2,7 @@ package frc.robot.ai.routines;
 
 import java.util.ArrayList;
 
-import frc.robot.ai.routines.coords.*;
+import frc.robot.Constants;
 
 import frc.robot.helper.*;
 
@@ -14,8 +14,8 @@ public class Idle {
     public ArrayList<Methods> met_list = new ArrayList<Methods>();
 
     public Idle() {
-        double[] start = SB3_B3.START;
-        double[] ball = SB3_B3.BALL;
+        double[] start = Constants.START;
+        double[] ball = Constants.BALL;
 
         double[] ball_pos = {ball[0], ball[1]};
         double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -0.5));

@@ -125,19 +125,19 @@ public class RobotContainer {
       this.drive_encoder_sensor.processValue(this.main_state, this.hardware);
     }
     if (this.navx_sensor.shouldUse(this.hardware)) {
-      this.navx_sensor.processValue(this.main_state, this.hardware);
+      //this.navx_sensor.processValue(this.main_state, this.hardware);
     }
     if (this.navx_accum.shouldUse(this.hardware)) {
-      this.navx_accum.processValue(this.main_state, this.hardware);
+      //this.navx_accum.processValue(this.main_state, this.hardware);
     }
     if (this.shooter_e.shouldUse()) {
       this.shooter_e.processValue(this.main_state, this.hardware);
     }
     if (this.ad_gyro.shouldUse(this.hardware)) {
-      this.ad_gyro.processValue(this.main_state, this.hardware);
+      //this.ad_gyro.processValue(this.main_state, this.hardware);
     }
     if (this.rr_acc.shouldUse()) {
-      this.rr_acc.processValue(this.main_state, this.hardware);
+      //this.rr_acc.processValue(this.main_state, this.hardware);
     }
     if (this.lidar.shouldUse()) {
       // this.lidar.processValue(this.main_state, this.network);

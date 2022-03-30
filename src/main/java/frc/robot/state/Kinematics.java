@@ -44,7 +44,7 @@ public class Kinematics {
      * @author Ludwig Tay
      */
     class Values {
-        public double[] pos = Constants.sp;
+        public double[] pos = Constants.START_POS;
         public double[] vel = Constants.INIT_VEL;
         public double[] acc = Constants.INIT_ACC;
 
