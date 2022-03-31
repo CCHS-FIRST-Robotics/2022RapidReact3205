@@ -16,7 +16,7 @@ public class Shooter {
         hardware.STORAGE_2_MOTOR.set(ControlMode.PercentOutput, storage_2);
         hardware.SHOOTER_1_MOTOR.set(ControlMode.PercentOutput, shooter1 * -1);
         hardware.SHOOTER_2_MOTOR.set( shooter2);
-        //SmartDashboard.putNumber("Shooter/Storage V", hardware.STORAGE_2_MOTOR.getMotorOutputVoltage());
+        SmartDashboard.putNumber("ShooterEncoder/Storage V", hardware.STORAGE_2_MOTOR.getMotorOutputVoltage());
         //SmartDashboard.putNumber("Shooter/Storage P", hardware.STORAGE_2_MOTOR.getMotorOutputPercent());
     }
 }

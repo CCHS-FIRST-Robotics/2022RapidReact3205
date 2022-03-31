@@ -17,7 +17,7 @@ public class LimeHelper {
 
         // tan elev * run = heihgt
         double horiz_dist = elev_height / Math.tan(elev_ang);
-        //SmartDashboard.putNumber("Limelight/horiz_dist", horiz_dist);
+        SmartDashboard.putNumber("Limelight/horiz_dist", horiz_dist);
         // project heading
         double horiz_angle = SimpleMat.angleRectifier(state.getHeadingVal() + Math.PI - ang_arr[0] * deg2rad);
         //SmartDashboard.putNumber("Limelight/horiz_angle", horiz_angle);

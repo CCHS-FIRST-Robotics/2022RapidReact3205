@@ -123,11 +123,11 @@ public final class Constants {
 
     public static final int TIMEOUT_MS = 50;
 
-    public static final double STORAGE_2_RPM = 300;
+    public static final double STORAGE_2_RPM = 500;
 
     public static final double SHOOTER_RATIO = 0.6666;
-    public static final double SHOOTER_1_RPM = 700 / SHOOTER_RATIO;
-    public static final double SHOOTER_2_RPM = 700 / SHOOTER_RATIO;
+    public static final double SHOOTER_1_RPM = 2700 / SHOOTER_RATIO;
+    public static final double SHOOTER_2_RPM = 2700 / SHOOTER_RATIO;
 
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
@@ -175,8 +175,8 @@ public final class Constants {
     public static final double MAX_DT = 0.05;
     public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.004, 0.06, 0.0003 };
-    public static final double[] C_STRONG_PID = { 0.0013, 0.008, 0.0003 };
-    public static final double[] R_STRONG_PID = { 0.003, 0.04, 0.0002 };
+    public static final double[] C_STRONG_PID = { 0.0010, 0.003, 0.0003 };
+    public static final double[] R_STRONG_PID = { 0.003, 0.02, 0.0002 };
     public static final double C_ACC_LIM = 4;
     public static final double INT_LIMIT = 1;
     public static final double DERIV_LIMIT = 0.3;
@@ -201,7 +201,7 @@ public final class Constants {
     public static final double[] VOLT_CONCERN_RANGE = { 7.0, 9.0 };
 
     // FIRING PARAMETERS
-    public static final double FIRING_DIST = 2.70105;
+    public static final double FIRING_DIST = 1.75105;
 
     // Limelight Parameters
     public static final double LIME_POS_VAR = 0.3 * 0.3;

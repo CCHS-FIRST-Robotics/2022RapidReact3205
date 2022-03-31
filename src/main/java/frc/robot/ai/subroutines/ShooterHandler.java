@@ -60,7 +60,7 @@ public class ShooterHandler {
         }
         if (this.state == 1) {
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
-            if (dt > 0.8) {
+            if (dt > 1) {
                 this.state = 2;
                 storage_2.softReset();
             }
@@ -75,15 +75,15 @@ public class ShooterHandler {
         }
         if (this.state == 3) {
             double dt = ct - this.o_time;
-            if (dt > 0.8) {
+            if (dt > 1) {
                 this.state = 4;
                 d_time = (System.currentTimeMillis() / 1000);
             }
-            so2_target = 0;
+            so2_target = 0.;
         }
         if (this.state == 4) {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
-            if (ct - d_time > 0.4) {
+            if (ct - d_time > 1) {
                 this.state = 5;
             }
         }
@@ -92,9 +92,9 @@ public class ShooterHandler {
             if (exit()) {
                 this.state = 0;
             }
-            intake_resp = 1;
-            sh1_target = 1 * Constants.SHOOTER_1_RPM * rpm2radss;
-            sh2_target = 1 * Constants.SHOOTER_2_RPM * rpm2radss;
+            intake_resp = 0.4;
+            sh1_target = 0.8 * Constants.SHOOTER_1_RPM * rpm2radss;
+            sh2_target = 0.8 * Constants.SHOOTER_2_RPM * rpm2radss;
         }
 
         so2_resp = this.storage_2.update(so2_target);
@@ -117,12 +117,12 @@ public class ShooterHandler {
         double ct = (System.currentTimeMillis() / 1000);
         if (this.state == 2) {
             double dt = ct - this.o_time;
-            if (dt > 2) {
+            if (dt > 3) {
                 return true;
             }
         }
         if (this.state == 5) {
-            if (ct - d_time > 3) {
+            if (ct - d_time > 4) {
                 return true;
             }
         }

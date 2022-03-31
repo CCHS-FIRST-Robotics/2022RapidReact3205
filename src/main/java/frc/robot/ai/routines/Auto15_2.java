@@ -25,11 +25,6 @@ public class Auto15_2 {
         this.start_point[1] = start[1];
         this.start_heading = start[2];
 
-        this.met_list.add(Methods.SHOOTER_FIRE);
-        ArrayList<double[]> empty_n1 = new ArrayList<double[]>();
-        this.vals.add(empty_n1);
-        this.angsl.add(0.0);
-
         this.met_list.add(Methods.INTAKE_STORE);
         ArrayList<double[]> empty_0 = new ArrayList<double[]>();
         this.vals.add(empty_0);

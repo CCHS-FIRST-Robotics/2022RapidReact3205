@@ -55,7 +55,7 @@ public class IntakeHandler {
             return new double[] { 0.5, 0.5, 0.25 };
         }
         if (this.substate == 3) {
-            if (c_time - this.storage_time > 0.00) {
+            if (c_time - this.storage_time > 0.8) {
                 this.substate = 0;
             }
             return new double[] { 0.0, 0.0, 0.0 };

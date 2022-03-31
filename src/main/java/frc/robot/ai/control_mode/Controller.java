@@ -354,10 +354,10 @@ public class Controller {
         double blr = 0;
         double brr = 0;
         if (chase_s == 0 && pam_s == 0 && arty_s == 0 && hang_s == 0) {
-            flr = fb_2 + this.fl_pid.update(fld) * temp_cmd;
-            frr = fb_2 + this.fr_pid.update(frd) * temp_cmd;
-            blr = fb_2 + this.bl_pid.update(bld) * temp_cmd;
-            brr = fb_2 + this.br_pid.update(brd) * temp_cmd;
+            flr = this.fl_pid.update(fld) * temp_cmd;
+            frr = this.fr_pid.update(frd) * temp_cmd;
+            blr = this.bl_pid.update(bld) * temp_cmd;
+            brr = this.br_pid.update(brd) * temp_cmd;
         } else {
             flr = pam_cmd[0] + arty_cmd[0] + chase_cmd[0] + hang_cmd[0];
             frr = pam_cmd[1] + arty_cmd[1] + chase_cmd[1] + hang_cmd[1];

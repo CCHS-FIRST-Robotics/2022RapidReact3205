@@ -56,7 +56,7 @@ public class NAVXSensor extends BaseSensor {
         updateHeadingVar();
 
         double heading = hardware.NAVX.getAngle() * -1 * 2 * Math.PI / 360;
-        heading = SimpleMat.angleRectifier(heading + Constants.sa);
+        heading = SimpleMat.angleRectifier(heading + Constants.START_H);
 
         double[] global_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY() * -1 };
         global_acc = SimpleMat.scaleVec(global_acc, -9.81);
