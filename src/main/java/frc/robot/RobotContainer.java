@@ -154,7 +154,7 @@ public class RobotContainer {
     if (this.imu.shouldUse(hardware)) {
       this.imu.processValue(this.main_state, this.hardware);
     }
-    if (this.lime.shouldUse(this.network)) {
+    if (this.lime.shouldUse(this.main_state, this.network)) {
       this.lime.processValue(this.main_state, this.network);
     }
     this.map.getBalls(this.network);

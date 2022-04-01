@@ -10,8 +10,14 @@ public class Limelight extends BaseSensor {
         this.SYNC_TIME = sync_time;
     }
 
-    public boolean shouldUse(Network net) {
-        return net.lime.getValid();
+    public boolean shouldUse(MainState state, Network net) {
+        if (net.lime.getValid()) {
+            return true;
+        }
+        if (LimeHelper.getOutTRange(state, net)) {
+            return true;
+        }
+        return false;
     }
 
     public void processValue(MainState state, Network net) {
