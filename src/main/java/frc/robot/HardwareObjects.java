@@ -39,6 +39,8 @@ public class HardwareObjects {
     public TalonSRX HANG_L_MOTOR;
     public VictorSPX HANG_R_MOTOR;
 
+    public VictorSPX RINTAKE_MOTOR;
+
     public PigeonIMU IMU;
     public AHRS NAVX;
     public ADXRS450_Gyro AD_GYRO;
@@ -66,6 +68,8 @@ public class HardwareObjects {
 
         this.HANG_L_MOTOR = new WPI_TalonSRX(Constants.HANG_L_TALON_PORT);
         this.HANG_R_MOTOR = new WPI_VictorSPX(Constants.HANG_R_VICTOR_PORT);
+
+        this.RINTAKE_MOTOR = new VictorSPX(Constants.RINTAKE_PWM_PORT);
 
         this.S_LIDAR = new Counter(Constants.S_LIDAR);
 

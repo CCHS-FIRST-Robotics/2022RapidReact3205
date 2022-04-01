@@ -15,6 +15,8 @@ public class Command {
     public double hang_l_pprop = 0;
     public double hang_r_pprop = 0;
 
+    public double rin_prop = 0;
+
     public Command(double[] values) {
         this.fl_pprop = values[0];
         this.fr_pprop = values[1];
@@ -30,12 +32,14 @@ public class Command {
             this.shooter2_pprop = values[8];
             this.hang_l_pprop = values[9];
             this.hang_r_pprop = values[10];
+            this.rin_prop = values[11];
         } else {
             this.storage_2_pprop = 0;
             this.shooter1_pprop = 0;
             this.shooter2_pprop = 0;
             this.hang_l_pprop = 0;
             this.hang_r_pprop = 0;
+            this.rin_prop = 0;
         }
     }
 }

@@ -136,6 +136,8 @@ public class Controller {
         double hang_l = 0;
         double hang_r = 0;
 
+        double rin = 0;
+
         double[] pam_cmd = { 0, 0, 0, 0 };
         double[] arty_cmd = { 0, 0, 0, 0 };
         double[] chase_cmd = { 0, 0, 0, 0 };
@@ -167,13 +169,11 @@ public class Controller {
                 hang_r = 0.4;
             }
 
-            if (e_xbox.getXButtonReleased()) {
-                if (this.hang_s == 0) {
-                    this.halign = new HangAlign(0.3);
-                    this.hang_s = 1;
-                } else {
-                    this.hang_s = 0;
-                }
+            if (e_xbox.getXButton()) {
+                rin = 1;
+            }
+            if (e_xbox.getYButton()){
+                rin = -1;
             }
 
             if (xbox.getRightBumperReleased()) {
@@ -383,7 +383,7 @@ public class Controller {
         e_xbox.setRumble(RumbleType.kLeftRumble, rmb);
         xbox.setRumble(RumbleType.kRightRumble, rmb);
 
-        double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r };
+        double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r, rin };
         // SmartDashboard.putNumberArray("Controller/cmd", ocmd);
         Command command = new Command(ocmd);
         // Command command = new Command(flt*0.1, frt*0.1, blt*0.1,brt*0.1);

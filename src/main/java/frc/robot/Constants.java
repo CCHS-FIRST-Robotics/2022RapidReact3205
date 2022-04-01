@@ -35,6 +35,8 @@ public final class Constants {
     public static final int HANG_L_TALON_PORT = 9;
     public static final int HANG_R_VICTOR_PORT = 7;
 
+    public static final int RINTAKE_PWM_PORT = 0;
+
     public static final int IMU_PORT = 6;
 
     public static final int XBOX_PORT = 0;
@@ -187,7 +189,7 @@ public final class Constants {
 
     public static final double[] SLOW_CURVE = { 0.2, 0.4, 5 };
 
-    public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public static final double[] DEFAULT_CMD = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
     public static final double DEADBAND = 0.05;
     public static final double MAX_M_SP_ACC = 0.7 * Constants.MOTOR_MAX_TORQUE / Constants.WHEEL_MOI;

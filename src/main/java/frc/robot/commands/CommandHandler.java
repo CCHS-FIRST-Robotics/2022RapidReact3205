@@ -22,6 +22,7 @@ public class CommandHandler {
     private Intake intake = new Intake();
     private Shooter shooter = new Shooter();
     public Hanging hanging = new Hanging();
+    public Rintake rintake = new Rintake();
 
     /**
      * Constructor for CommandHandler
@@ -30,6 +31,7 @@ public class CommandHandler {
         this.drive = new Drive();
         this.intake = new Intake();
         this.hanging = new Hanging();
+        this.rintake = new Rintake();
     }
 
     /**
@@ -67,5 +69,6 @@ public class CommandHandler {
         this.intake.setDrives(command.intake_pprop, command.storage_1_pprop, hardware);
         this.shooter.setDrives(command.storage_2_pprop, command.shooter1_pprop, command.shooter2_pprop, hardware);
         this.hanging.setDrives(command.hang_l_pprop, command.hang_r_pprop, hardware);
+        this.rintake.setDrives(hardware, command.rin_prop);
     }
 }

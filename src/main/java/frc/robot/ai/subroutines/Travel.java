@@ -123,7 +123,7 @@ public class Travel {
         // SmartDashboard.putNumber("Travel/flr P", fl.k_p);
 
         // return new Command(0, 0, 0, 0);
-        double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0 };
+        double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0, 0 };
         return new Command(ocmd);
     }
 }
