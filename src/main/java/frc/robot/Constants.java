@@ -201,7 +201,7 @@ public final class Constants {
     public static final double[] VOLT_CONCERN_RANGE = { 7.0, 9.0 };
 
     // FIRING PARAMETERS
-    public static final double FIRING_DIST = 1.75105;
+    public static final double FIRING_DIST = 2.6;
 
     // Limelight Parameters
     public static final double LIME_POS_VAR = 0.3 * 0.3;
