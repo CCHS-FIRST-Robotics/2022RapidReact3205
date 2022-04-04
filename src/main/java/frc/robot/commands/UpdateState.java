@@ -4,6 +4,8 @@ import frc.robot.state.MainState;
 import frc.robot.Constants;
 import frc.robot.helper.SimpleMat;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class UpdateState {
 
     public static double motorT(double whl_radss, double pwr_prop) {
@@ -43,7 +45,13 @@ public class UpdateState {
         // var
         double ave_prop_coeff = 0.25 * (Math.abs(command.fl_pprop) + Math.abs(command.fr_pprop)
                 + Math.abs(command.bl_pprop) + Math.abs(command.br_pprop));
-        state.setAcc(acc_vec, ave_prop_coeff * Constants.ACC_VARIANCE);
-        state.setAngAcc(ang_acc, ave_prop_coeff * Constants.ANG_VEL_VARIANCE);
+        
+        double acc_error = SimpleMat.mag(SimpleMat.subtract(acc_vec, state.getAccVal()));
+        SmartDashboard.putNumber("acc_diff", acc_error);
+
+        double[] nacc = state.kalman2Update(state.getAccVal(), state.getAccVar(), acc_vec, ave_prop_coeff * Constants.ACC_VARIANCE );
+        double[] nacc_0 = {nacc[0], nacc[1]};
+        //state.setAcc(nacc_0, nacc[2]);
+        //state.setAngAcc(ang_acc, ave_prop_coeff * Constants.ANG_VEL_VARIANCE);
     }
 }

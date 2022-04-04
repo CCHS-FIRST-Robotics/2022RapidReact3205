@@ -10,6 +10,6 @@ public class Rintake {
 
     }
     public void setDrives(HardwareObjects hardware, double pwr) {
-        hardware.RINTAKE_MOTOR.set(ControlMode.PercentOutput, pwr);
+        hardware.RINTAKE_MOTOR.set( -1 * pwr);
     }
 }

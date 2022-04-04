@@ -51,7 +51,7 @@ public class FiringPosition extends Travel {
     public boolean exit(MainState state) {
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
         if (tdist < 0.1) {
-            if (Math.abs(state.getHeadingVal() - thead) < 0.1) {
+            if (Math.abs(state.getHeadingVal() - thead) < 0.05) {
                 return true;
             }
         }
@@ -61,7 +61,7 @@ public class FiringPosition extends Travel {
         sdiff = SimpleMat.unitVec(sdiff);
         if (SimpleMat.dot(tdiff, sdiff) < Math.cos(Math.PI * 0.125)) {
             if (tdist < 0.2) {
-                if (Math.abs(state.getHeadingVal() - thead) < 0.1) {
+                if (Math.abs(state.getHeadingVal() - thead) < 0.05) {
                     return true;
                 }
             }

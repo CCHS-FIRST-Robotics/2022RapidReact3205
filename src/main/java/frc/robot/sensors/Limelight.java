@@ -15,7 +15,7 @@ public class Limelight extends BaseSensor {
             return true;
         }
         if (LimeHelper.getOutTRange(state, net)) {
-            return true;
+            return false;
         }
         return false;
     }

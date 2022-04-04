@@ -170,10 +170,10 @@ public class Controller {
             }
 
             if (e_xbox.getXButton()) {
-                rin = 1;
+                rin = -0.25;
             }
             if (e_xbox.getYButton()){
-                rin = -1;
+                rin = 0.4;
             }
 
             if (xbox.getRightBumperReleased()) {

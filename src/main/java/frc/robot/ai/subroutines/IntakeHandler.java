@@ -41,36 +41,49 @@ public class IntakeHandler {
             return new double[] { 0, 0, 0.0 };
         }
         if (this.substate == 1) {
-            if (c_time - start_time > 5 || state.getBeam0Val() == 1) {
+            if (state.getBeam0Val() == 1) {
                 this.substate = 4;
                 this.storage_time = System.currentTimeMillis() / 1000;
             }
-            return new double[] { 0.5, 0.5, 0.0 };
+            return new double[] { 0.5, 0.3, 0.0 };
         }
         if (this.substate == 2) {
             if (state.getBeam1Val() == 1) {
                 this.substate = 3;
                 this.storage_time = System.currentTimeMillis() / 1000;
             }
-            return new double[] { 0.5, 0.5, 0.25 };
+            return new double[] { 0.5, 0.8, 0.3 };
         }
         if (this.substate == 3) {
-            if (c_time - this.storage_time > 0.8) {
-                this.substate = 0;
+            if (state.getBeam1Val() == 0) {
+                this.substate = 5;
+                this.storage_time = System.currentTimeMillis() / 1000;
             }
-            return new double[] { 0.0, 0.0, 0.0 };
+            return new double[] { 0.0, 0.0, -0.2 };
         }
         if (this.substate == 4) {
-            if (c_time - this.storage_time > 0.5) {
+            if (c_time - this.storage_time > 0.1) {
                 this.substate = 0;
             }
-            return new double[] { 0.4, 1, 0};
+            return new double[] { 0.4, -0.1, 0};
+        }
+        if (this.substate == 5) {
+            if (c_time - this.storage_time > 0.1) {
+                this.substate = 6;
+            }
+            return new double[] { 0.0, 0.0, 0.2 };
+        }
+        if (this.substate == 6) {
+            if (state.getBeam1Val() == 1) {
+                this.substate = 0;
+            }
+            return new double[] { 0.0, 0.0, 0.2 };
         }
         return new double[] { 0, 0, 0.0 };
     }
 
     public boolean exit() {
-        if (this.substate == 2 || this.substate == 3) {
+        if (this.substate == 2 || this.substate == 3 || this.substate == 5 || this.substate == 6) {
             return false;
         }
         return true;

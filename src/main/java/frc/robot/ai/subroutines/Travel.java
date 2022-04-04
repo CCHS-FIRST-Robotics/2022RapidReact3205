@@ -86,7 +86,8 @@ public class Travel {
         direction_vec = SimpleMat.rot2d(direction_vec, -0.5 * theta);
 
         double current_vel = SimpleMat.dot(direction_vec, state.getVelVal());
-        double target_v = getPIDDist(state, adist);
+        //double target_v = getPIDDist(state, adist);
+        double target_v = this.v_contr.update(current_vel, adist);
         // SmartDashboard.putNumber("Travel/target_v", target_v);
         // SmartDashboard.putNumber("Travel/adist", adist);
         // SmartDashboard.putNumber("Travel/adist", a_max);

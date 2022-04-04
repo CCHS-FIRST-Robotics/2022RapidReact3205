@@ -168,7 +168,7 @@ public class Wheel {
             double a_pwr_prop = (Math.abs(fl) * this.fl_radss + Math.abs(fr) * this.fr_radss
                     + Math.abs(bl) * this.bl_radss + Math.abs(br) * this.br_radss);
             this.whl_o_vel = Constants.WHEEL_RADIUS * a_pwr_prop / 4;
-            this.whl_o_angvel = 10000000 * Constants.WHEEL_RADIUS
+            this.whl_o_angvel = 10 * Constants.WHEEL_RADIUS
                     * (2 / (Constants.ROBOT_LENGTH + Constants.ROBOT_WIDTH))
                     * a_pwr_prop / 4;
             this.whl_o_pos = this.whl_o_pos + this.whl_o_vel * dt;

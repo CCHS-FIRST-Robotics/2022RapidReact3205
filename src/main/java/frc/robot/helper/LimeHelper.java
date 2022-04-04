@@ -46,6 +46,8 @@ public class LimeHelper {
         double horiz_dist = getHorizDist(state, net);
         double r_dist = 0.61;
         double angle = 2 * Math.atan(r_dist / horiz_dist);
+        SmartDashboard.putNumber("Limelight/exit angle", angle);
+        SmartDashboard.putNumber("Limelight/exit current", (27 - Math.abs(ang_arr[0])) * deg2rad);
         if ((27 - Math.abs(ang_arr[0])) * deg2rad < angle) {
             return true;
         }

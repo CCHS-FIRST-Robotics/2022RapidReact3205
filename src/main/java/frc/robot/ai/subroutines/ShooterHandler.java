@@ -83,7 +83,7 @@ public class ShooterHandler {
         }
         if (this.state == 4) {
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
-            if (ct - d_time > 1) {
+            if (ct - d_time > 1.5) {
                 this.state = 5;
             }
         }
@@ -92,12 +92,14 @@ public class ShooterHandler {
             if (exit()) {
                 this.state = 0;
             }
-            intake_resp = 0.4;
-            sh1_target = 0.8 * Constants.SHOOTER_1_RPM * rpm2radss;
-            sh2_target = 0.8 * Constants.SHOOTER_2_RPM * rpm2radss;
+            intake_resp = 0.7;
+            sh1_target = 1 * Constants.SHOOTER_1_RPM * rpm2radss;
+            sh2_target = 1 * Constants.SHOOTER_2_RPM * rpm2radss;
         }
 
-        so2_resp = this.storage_2.update(so2_target);
+        if (so2_target != 0){
+            so2_resp = this.storage_2.update(so2_target);
+        }
         double sh1_resp = Math.max(-1, Math.min(1, this.shooter_1.update(sh1_target - state.getShooterVal()[0])));
         double sh2_resp = Math.max(-1, Math.min(1, this.shooter_2.update(sh2_target - state.getShooterVal()[1])));
         //SmartDashboard.putNumber("Shooter/state", this.state);
