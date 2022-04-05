@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Travel {
 
-    DPID fl;
-    DPID fr;
-    DPID bl;
-    DPID br;
+    APID fl;
+    APID fr;
+    APID bl;
+    APID br;
 
     TPID tvel_ctr;
 
@@ -28,10 +28,10 @@ public class Travel {
     double[] ipos = { 0, 0 };
 
     public void initPID() {
-        this.fl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.fr = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.bl = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
-        this.br = new DPID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fl = new APID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.fr = new APID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.bl = new APID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
+        this.br = new APID(Constants.C_BASE_PID[0], Constants.C_BASE_PID[1], Constants.C_BASE_PID[2]);
 
         this.tvel_ctr = new TPID(0.2, 0.8, 0.05);
     }
@@ -86,7 +86,7 @@ public class Travel {
         direction_vec = SimpleMat.rot2d(direction_vec, -0.5 * theta);
 
         double current_vel = SimpleMat.dot(direction_vec, state.getVelVal());
-        //double target_v = getPIDDist(state, adist);
+        // double target_v = getPIDDist(state, adist);
         double target_v = this.v_contr.update(current_vel, adist);
         // SmartDashboard.putNumber("Travel/target_v", target_v);
         // SmartDashboard.putNumber("Travel/adist", adist);

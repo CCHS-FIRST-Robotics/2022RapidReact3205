@@ -28,7 +28,7 @@ public class DriveEncoderSensor extends BaseSensor {
         double fr_raw = hardware.FRD_MOTOR.getSelectedSensorVelocity(1);
         double bl_raw = hardware.BLD_MOTOR.getSelectedSensorVelocity(1);
         double br_raw = hardware.BRD_MOTOR.getSelectedSensorVelocity(1);
-        //SmartDashboard.putNumber("fl raw", fl_raw);
+        // SmartDashboard.putNumber("fl raw", fl_raw);
         double dps2rads = 10 * 2 * Math.PI / 4096;
         fl_raw = fl_raw * dps2rads * -1;
         fr_raw = fr_raw * dps2rads * 1;
@@ -49,7 +49,7 @@ public class DriveEncoderSensor extends BaseSensor {
                 state.getWhlOAngVelVar());
         double[] npos = { pos_res[0], pos_res[1] };
         double[] nvel = { vel_res[0], vel_res[1] };
-        state.setPos(npos, pos_res[2]);
+        // state.setPos(npos, pos_res[2]);
         state.setVel(nvel, vel_res[2]);
         state.setHeading(h_res[0], h_res[1]);
         state.setAngVel(avel_res[0], avel_res[1]);

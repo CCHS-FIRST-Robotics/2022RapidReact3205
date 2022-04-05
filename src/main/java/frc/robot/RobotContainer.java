@@ -116,8 +116,6 @@ public class RobotContainer {
     SmartDashboard.putNumberArray("Start Pos", Constants.START_POS);
     SmartDashboard.putNumberArray("Start", Constants.START);
     Constants.START_POS = new double[] { Constants.START[0], Constants.START[1] };
-    Constants.sp = new double[] { -2.1239, 1.0258 };
-    Constants.sa = 46.2 * 2 * Math.PI / 360;
     this.main_command = this.ai.getCommand(this.hardware, this.main_state, this.map, this.controller_start_time,
         this.network);
 
@@ -130,9 +128,6 @@ public class RobotContainer {
     if (this.navx_sensor.shouldUse(this.hardware)) {
       this.navx_sensor.processValue(this.main_state, this.hardware);
     }
-    if (this.navx_accum.shouldUse(this.hardware)) {
-      this.navx_accum.processValue(this.main_state, this.hardware);
-    }
     if (this.shooter_e.shouldUse()) {
       this.shooter_e.processValue(this.main_state, this.hardware);
     }
@@ -141,12 +136,6 @@ public class RobotContainer {
     }
     if (this.rr_acc.shouldUse()) {
       this.rr_acc.processValue(this.main_state, this.hardware);
-    }
-    if (this.lidar.shouldUse()) {
-      // this.lidar.processValue(this.main_state, this.network);
-    }
-    if (this.s_lidar.shouldUse()) {
-      // this.s_lidar.processValue(this.main_state, this.hardware);
     }
     if (this.beam.shouldUse()) {
       this.beam.processValue(this.main_state, this.hardware);

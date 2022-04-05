@@ -45,13 +45,14 @@ public class UpdateState {
         // var
         double ave_prop_coeff = 0.25 * (Math.abs(command.fl_pprop) + Math.abs(command.fr_pprop)
                 + Math.abs(command.bl_pprop) + Math.abs(command.br_pprop));
-        
+
         double acc_error = SimpleMat.mag(SimpleMat.subtract(acc_vec, state.getAccVal()));
         SmartDashboard.putNumber("acc_diff", acc_error);
 
-        double[] nacc = state.kalman2Update(state.getAccVal(), state.getAccVar(), acc_vec, ave_prop_coeff * Constants.ACC_VARIANCE );
-        double[] nacc_0 = {nacc[0], nacc[1]};
-        //state.setAcc(nacc_0, nacc[2]);
-        //state.setAngAcc(ang_acc, ave_prop_coeff * Constants.ANG_VEL_VARIANCE);
+        double[] nacc = state.kalman2Update(state.getAccVal(), state.getAccVar(), acc_vec,
+                ave_prop_coeff * Constants.ACC_VARIANCE);
+        double[] nacc_0 = { nacc[0], nacc[1] };
+        state.setAcc(nacc_0, nacc[2] + ave_prop_coeff * 0.5 * Constants.ACC_VARIANCE);
+        state.setAngAcc(ang_acc, ave_prop_coeff * Constants.ANG_VEL_VARIANCE);
     }
 }

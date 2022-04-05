@@ -15,7 +15,7 @@ public class BallNet {
     }
 
     public void init(NetworkTableInstance inst) {
-        NetworkTable balls = inst.getTable("balls");
+        NetworkTable balls = inst.getTable("Balls");
         for (int c = 0; c < Constants.BALL_NUM; c++) {
             String pos_str = "pos_" + Integer.toString(c);
             String vel_str = "vel_" + Integer.toString(c);

@@ -68,7 +68,7 @@ public final class Constants {
     public static final double INIT_L_WHL_TRAC = 1;
     public static final double INIT_R_WHL_TRAC = 1;
 
-    public static final double INIT_FRICTION = 0.8;
+    public static final double INIT_FRICTION = 0.00;
 
     public static final double INIT_MIX = 0.5;
 
@@ -86,7 +86,7 @@ public final class Constants {
     // ==================
     // ENCODER VARIANCE
     // ==================
-    public static final double VAR_RAD_VAR = 0.02 * 0.02;
+    public static final double VAR_RAD_VAR = 0.5;
 
     // ==================
     // IMU VARIANCE
@@ -95,7 +95,7 @@ public final class Constants {
     public static final double DELTA_VAR = 0.0001;
     public static final double MAX_HEADING_VAR = 0.2 * 0.2;
 
-    public static final double IMU_ACC_VAR = 0.1 * 0.1;
+    public static final double IMU_ACC_VAR = 0.8 * 0.8;
 
     public static final double PIDGEON_OFFSET = 2 * Math.PI * 0 / 360;
 

@@ -14,6 +14,9 @@ public class Limelight extends BaseSensor {
         if (net.lime.getValid()) {
             return true;
         }
+        if (net.lime.getAngles()[0] == 0 && net.lime.getAngles()[1] == 0) {
+            return false;
+        }
         if (LimeHelper.getOutTRange(state, net)) {
             return false;
         }
