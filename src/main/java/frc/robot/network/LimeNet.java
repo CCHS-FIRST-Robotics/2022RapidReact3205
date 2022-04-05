@@ -9,6 +9,8 @@ public class LimeNet {
     NetworkTableEntry tx;
     NetworkTableEntry ty;
     NetworkTableEntry tv;
+    NetworkTableEntry thor;
+    NetworkTableEntry tver;
     NetworkTableEntry led_mode;
     NetworkTableEntry cam_mode;
     NetworkTableEntry pipeline;
@@ -25,6 +27,8 @@ public class LimeNet {
         this.tx = limelight.getEntry("tx");
         this.ty = limelight.getEntry("ty");
         this.tv = limelight.getEntry("tv");
+        this.thor = limelight.getEntry("thor");
+        this.tver = limelight.getEntry("tver");
     }
 
     public boolean getValid() {
@@ -40,5 +44,11 @@ public class LimeNet {
         setReadState();
         double[] ang_arr = { tx.getDouble(0), ty.getDouble(0) };
         return ang_arr;
+    }
+
+    public double[] getRect() {
+        setReadState();
+        double[] rect_arr = { thor.getDouble(0), tver.getDouble(0) };
+        return rect_arr;
     }
 }

@@ -143,9 +143,15 @@ public class RobotContainer {
     if (this.imu.shouldUse(hardware)) {
       this.imu.processValue(this.main_state, this.hardware);
     }
+    boolean use_lime = false;
     if (this.lime.shouldUse(this.main_state, this.network)) {
       this.lime.processValue(this.main_state, this.network);
+      use_lime = true;
     }
+    SmartDashboard.putBoolean("Limelight/use_lime", use_lime);
+    SmartDashboard.putNumber("variance/pos", main_state.getPosVar());
+    SmartDashboard.putNumber("variance/vel", main_state.getVelVar());
+    SmartDashboard.putNumber("variance/acc", main_state.getAccVar());
     this.map.getBalls(this.network);
 
     this.main_state.predict(Constants.MAIN_DT);

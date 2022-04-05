@@ -20,6 +20,9 @@ public class Limelight extends BaseSensor {
         if (LimeHelper.getOutTRange(state, net)) {
             return false;
         }
+        if (LimeHelper.getBoxWrongDims(net)) {
+            return false;
+        }
         return false;
     }
 

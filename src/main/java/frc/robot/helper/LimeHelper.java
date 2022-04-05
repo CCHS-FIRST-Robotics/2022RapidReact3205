@@ -53,4 +53,17 @@ public class LimeHelper {
         }
         return false;
     }
+
+    public static boolean getBoxWrongDims(Network net) {
+        double[] rect_arr = net.lime.getRect();
+        if (rect_arr[0] == 0 || rect_arr[1] == 0) {
+            return true;
+        }
+        // if vert height is more than 2/3 of horiz dist, then return true
+        if (rect_arr[1] / rect_arr[0] > 2 / 3) {
+            return true;
+        }
+        return false;
+    }
+
 }
