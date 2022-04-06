@@ -182,7 +182,7 @@ public class IMUSensor extends BaseSensor {
                 Constants.IMU_ACC_VAR);
 
         double[] new_acc = { kxacc[0], kyacc[1] };
-        state.setAcc(new_acc, kxacc[1]);
+        //state.setAcc(new_acc, kxacc[1]);
 
         updateHeadingVar();
     }

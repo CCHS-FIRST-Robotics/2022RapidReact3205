@@ -17,15 +17,21 @@ public class Auto15_2 {
         double[] start = Constants.START;
         double[] ball = Constants.BALL;
 
-        double[] ball_pos = { ball[0], ball[1] };
-        double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -0.5));
-        double[] ball_fwd = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], 0.3));
-
         this.start_point[0] = start[0];
         this.start_point[1] = start[1];
         this.start_heading = start[2];
 
-        this.met_list.add(Methods.INTAKE_STORE);
+
+        double[] ball_pos = { ball[0], ball[1] };
+        double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -0.7));
+        double[] ball_diff = SimpleMat.subtract(ball_back, start_point);
+        ball_back = SimpleMat.add(ball_back, SimpleMat.scaleVec(SimpleMat.unitVec(ball_diff), 0.4));
+
+        double[] ball_fwd = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], 0.4));
+
+
+
+        this.met_list.add(Methods.INTAKE_ONLY);
         ArrayList<double[]> empty_0 = new ArrayList<double[]>();
         this.vals.add(empty_0);
         this.angsl.add(0.0);
@@ -64,12 +70,7 @@ public class Auto15_2 {
         this.vals.add(empty_3);
         this.angsl.add(0.0);
 
-        this.met_list.add(Methods.FIRE_MID);
-        ArrayList<double[]> empty_3_5 = new ArrayList<double[]>();
-        this.vals.add(empty_3_5);
-        this.angsl.add(0.0);
-
-        this.met_list.add(Methods.SHOOTER_FIRE);
+        this.met_list.add(Methods.SHOOTER_DOUBLE);
         ArrayList<double[]> empty_4 = new ArrayList<double[]>();
         this.vals.add(empty_4);
         this.angsl.add(0.0);

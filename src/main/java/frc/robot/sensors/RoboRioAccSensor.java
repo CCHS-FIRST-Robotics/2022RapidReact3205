@@ -31,7 +31,7 @@ public class RoboRioAccSensor extends BaseSensor {
     }
 
     public void processValue(MainState state, HardwareObjects hardware) {
-        double[] acc_vec = { hardware.RR_ACC.getX() * -1, hardware.RR_ACC.getY() * -1 };
+        double[] acc_vec = { hardware.RR_ACC.getX() , hardware.RR_ACC.getY() };
         acc_vec = SimpleMat.scaleVec(acc_vec, Constants.GRAV_ACC);
         acc_vec = SimpleMat.add(acc_vec, this.zero);
 

@@ -14,12 +14,6 @@ public class Limelight extends BaseSensor {
         if (LimeHelper.getOutTRange(state, net)) {
             return false;
         }
-        if (LimeHelper.getBoxWrongDims(net)) {
-            return false;
-        }
-        if (net.lime.getRect()[0] < 10 || net.lime.getRect()[0] < 10) {
-            return false;
-        }
         if (net.lime.getValid()) {
             return true;
         }

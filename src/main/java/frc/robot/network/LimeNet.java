@@ -42,7 +42,7 @@ public class LimeNet {
 
     public double[] getAngles() {
         setReadState();
-        double[] ang_arr = { tx.getDouble(0), ty.getDouble(0) };
+        double[] ang_arr = { tx.getDouble(0) + 8, ty.getDouble(0) };
         return ang_arr;
     }
 

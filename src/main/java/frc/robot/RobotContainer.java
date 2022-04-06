@@ -115,7 +115,6 @@ public class RobotContainer {
     this.hardware.printMotorHealth();
     SmartDashboard.putNumberArray("Start Pos", Constants.START_POS);
     SmartDashboard.putNumberArray("Start", Constants.START);
-    Constants.START_POS = new double[] { Constants.START[0], Constants.START[1] };
     this.main_command = this.ai.getCommand(this.hardware, this.main_state, this.map, this.controller_start_time,
         this.network);
 

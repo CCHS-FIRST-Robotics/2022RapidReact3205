@@ -212,7 +212,7 @@ public class Controller {
 
             if (xbox.getLeftBumperReleased()) {
                 if (this.arty_s == 0) {
-                    this.arty = new FiringPosition(state, 0.2);
+                    this.arty = new FiringPosition(state, 0.3);
                     this.arty_s = 1;
 
                     this.pam_s = 0;

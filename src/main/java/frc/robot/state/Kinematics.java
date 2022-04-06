@@ -136,8 +136,8 @@ public class Kinematics {
             this.pos[1] = this.pos[1] + this.vel[1] * dt + 0.5 * (this.acc[1] + friction_a[1]) * dt * dt;
 
             // AVERAGE POS
-            this.pos[0] = (pos1[0] + pos[0]) / 2;
-            this.pos[1] = (pos1[1] + pos[1]) / 2;
+            //this.pos[0] = (pos1[0] + pos[0]) / 2;
+            //this.pos[1] = (pos1[1] + pos[1]) / 2;
 
             // VEL
             this.vel[0] = this.vel[0] + (this.acc[0] + friction_a[0]) * dt;

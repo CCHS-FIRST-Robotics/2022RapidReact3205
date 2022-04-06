@@ -20,7 +20,7 @@ public class SimpleTravel extends Travel {
                 / 60;
         //this.a_max = 0.4 * max_prop * Math.sin(Math.PI / 4) * 4 * Constants.MOTOR_MAX_TORQUE
         //        / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
-        this.a_max = 2;
+        this.a_max = 16;
         //SmartDashboard.putNumber("vmax", this.v_max);
         //SmartDashboard.putNumber("amax", this.a_max);
         this.v_contr = new FwdController(this.v_max, this.a_max);
@@ -46,8 +46,8 @@ public class SimpleTravel extends Travel {
 
     public boolean exit(MainState state) {
         double tdist = SimpleMat.mag(SimpleMat.subtract(state.getPosVal(), this.tpos));
-        if (tdist < 0.1) {
-            if (Math.abs(state.getHeadingVal() - thead) < 0.2) {
+        if (tdist < 0.05) {
+            if (Math.abs(state.getHeadingVal() - thead) < 0.1) {
                 return true;
             }
         }
@@ -56,8 +56,8 @@ public class SimpleTravel extends Travel {
         double[] sdiff = SimpleMat.subtract(this.ipos, this.tpos);
         sdiff = SimpleMat.unitVec(sdiff);
         if (SimpleMat.dot(tdiff, sdiff) < Math.cos(Math.PI * 0.125)) {
-            if (tdist < 0.15) {
-                if (Math.abs(state.getHeadingVal() - thead) < 0.2) {
+            if (tdist < 0.2) {
+                if (Math.abs(state.getHeadingVal() - thead) < 0.1) {
                     return true;
                 }
             }
@@ -70,7 +70,7 @@ public class SimpleTravel extends Travel {
 
         double vel_mag = SimpleMat.mag(state.getVelVal()) + SimpleMat.mag(state.getAccVal()) * Constants.MAIN_DT;
         double avel_mag = Math.abs(state.getAngVelVal()) + Math.abs(state.getAngAccVal()) * Constants.MAIN_DT;
-        if (vel_mag < 0.01 && avel_mag < 0.01 && tdist < 0.2) {
+        if (vel_mag < 0.4 && tdist < 0.3) {
             return true;
         }
         return false;

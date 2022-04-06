@@ -53,6 +53,7 @@ public class AI {
                 main_command = this.autonomous.getCommands(state, map, hardware, net1);
                 break;
             case DISABLED:
+                Constants.START_POS = new double[] { Constants.START[0], Constants.START[1] };
                 map.softInit(hardware, state, Constants.START_POS, Constants.START_H);
                 // state.setPos(Constants.sp, 0.01);
                 // SmartDashboard.putBoolean("Doing Disabled", true);

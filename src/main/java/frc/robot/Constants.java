@@ -68,7 +68,7 @@ public final class Constants {
     public static final double INIT_L_WHL_TRAC = 1;
     public static final double INIT_R_WHL_TRAC = 1;
 
-    public static final double INIT_FRICTION = 0.00;
+    public static final double INIT_FRICTION = 0.03;
 
     public static final double INIT_MIX = 0.5;
 

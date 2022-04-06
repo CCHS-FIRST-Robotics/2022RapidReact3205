@@ -77,7 +77,7 @@ public class Autonomous {
         if (net.lime.getValid()) {
             double[] lime_pos = LimeHelper.getPos(state, net);
             this.start_pos = lime_pos;
-            
+            Constants.START_POS = lime_pos;
         }
         map.softInit(hardware, state, this.start_pos, this.start_heading);
         map.pos.start_pos = this.start_pos;
@@ -146,7 +146,7 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "BALL CHASE");
                 break;
             case DROP_INTAKE:
-                this.rtrans = new RawTranslate(new double[] {0, -0.3}, 0.2);
+                this.rtrans = new RawTranslate(new double[] {0, -0.3}, 0.6);
                 SmartDashboard.putString("Auton/func", "DROP");
                 break;
             case INTAKE_STATIC:
