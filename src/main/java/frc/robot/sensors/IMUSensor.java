@@ -149,7 +149,8 @@ public class IMUSensor extends BaseSensor {
         double zt_acc = (double) xyz_acc[2] * -9.81 / 16384;
         double y_acc = yt_acc * Math.cos(r_pitch) + zt_acc * Math.sin(r_pitch);
 
-        double[] xy_acc = { y_acc, x_acc * -1 };
+        double[] xy_acc = { y_acc * -1, x_acc * -1 };
+        SmartDashboard.putNumberArray("Acc/Pigeon IMU", xy_acc);
         xy_acc = SimpleMat.rot2d(xy_acc, state.getHeadingVal() - Constants.PIDGEON_OFFSET);
         double[] global_acc = xy_acc;
 

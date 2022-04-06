@@ -51,8 +51,10 @@ public class UpdateState {
 
         double[] nacc = state.kalman2Update(state.getAccVal(), state.getAccVar(), acc_vec,
                 ave_prop_coeff * Constants.ACC_VARIANCE);
+        double[] naacc = state.kalmanUpdate(state.getAngAccVal(), state.getAngAccVar(), ang_acc,
+                ave_prop_coeff * Constants.ANG_ACC_VARIANCE);
         double[] nacc_0 = { nacc[0], nacc[1] };
         state.setAcc(nacc_0, nacc[2] + ave_prop_coeff * 0.5 * Constants.ACC_VARIANCE);
-        state.setAngAcc(ang_acc, ave_prop_coeff * Constants.ANG_VEL_VARIANCE);
+        state.setAngAcc(naacc[0], naacc[1]);
     }
 }

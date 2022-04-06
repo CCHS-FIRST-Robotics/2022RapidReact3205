@@ -18,9 +18,9 @@ public class NAVXSensor extends BaseSensor {
     }
 
     public boolean shouldUse(HardwareObjects hardware) {
-        if(hardware.NAVX.isConnected() == false)
+        if (hardware.NAVX.isConnected() == false)
             return false;
-        if(hardware.NAVX.isCalibrating() == true)
+        if (hardware.NAVX.isCalibrating() == true)
             return false;
 
         return true;
@@ -58,7 +58,8 @@ public class NAVXSensor extends BaseSensor {
         double heading = hardware.NAVX.getAngle() * -1 * 2 * Math.PI / 360;
         heading = SimpleMat.angleRectifier(heading + Constants.START_H);
 
-        double[] global_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY() * -1 };
+        double[] global_acc = { hardware.NAVX.getRawAccelX() * -1, hardware.NAVX.getRawAccelY() * -1 };
+        SmartDashboard.putNumberArray("Acc/NAVX ACC", global_acc);
         global_acc = SimpleMat.scaleVec(global_acc, -9.81);
         global_acc = SimpleMat.rot2d(global_acc, state.getHeadingVal());
         // global_acc = SimpleMat.add(global_acc, this.zero);
@@ -66,7 +67,7 @@ public class NAVXSensor extends BaseSensor {
         double ang_vel = hardware.NAVX.getRawGyroZ() * 1 * 2 * Math.PI / 360;
 
         double[] a2 = state.kalman2Update(state.getAccVal(), state.getAccVar(), global_acc, Constants.IMU_ACC_VAR);
-        double[] h2 = state.kalmanUpdate(state.getHeadingVal(), state.getHeadingVar(), heading, ang_var * 0.01);
+        double[] h2 = state.kalmanUpdate(state.getHeadingVal(), state.getHeadingVar(), heading, ang_var);
         double[] av2 = state.kalmanUpdate(state.getAngVelVal(), state.getAngVelVar(), ang_vel,
                 ang_var / Constants.MAIN_DT);
 
@@ -75,13 +76,13 @@ public class NAVXSensor extends BaseSensor {
         state.setHeading(h2[0], h2[1]);
         state.setAngVel(av2[0], av2[1]);
 
-        //SmartDashboard.putNumber("Navx Heading", heading);
+        // SmartDashboard.putNumber("Navx Heading", heading);
 
-        //SmartDashboard.putNumberArray("Navx Acc", global_acc);
+        // SmartDashboard.putNumberArray("Navx Acc", global_acc);
 
-        //SmartDashboard.putNumber("Navx Angvel", ang_vel);
+        // SmartDashboard.putNumber("Navx Angvel", ang_vel);
 
         double[] raw_acc = { hardware.NAVX.getRawAccelX(), hardware.NAVX.getRawAccelY(), hardware.NAVX.getRawAccelZ() };
-        //SmartDashboard.putNumberArray("Navx 3 Raw Acc", raw_acc);
+        // SmartDashboard.putNumberArray("Navx 3 Raw Acc", raw_acc);
     }
 }

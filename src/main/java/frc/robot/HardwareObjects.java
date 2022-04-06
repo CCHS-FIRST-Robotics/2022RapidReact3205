@@ -138,10 +138,10 @@ public class HardwareObjects {
         this.SHOOTER_1_MOTOR.configFactoryDefault();
         this.SHOOTER_2_MOTOR.restoreFactoryDefaults();
 
-        canFrameFreqTalon(this.FLD_MOTOR, 1.);
-        canFrameFreqTalon(this.FRD_MOTOR, 1.);
-        canFrameFreqTalon(this.BLD_MOTOR, 1.);
-        canFrameFreqTalon(this.BRD_MOTOR, 1.);
+        // canFrameFreqTalon(this.FLD_MOTOR, 1.);
+        // canFrameFreqTalon(this.FRD_MOTOR, 1.);
+        // canFrameFreqTalon(this.BLD_MOTOR, 1.);
+        // canFrameFreqTalon(this.BRD_MOTOR, 1.);
 
     }
 

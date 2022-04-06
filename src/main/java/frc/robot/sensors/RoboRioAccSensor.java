@@ -14,7 +14,7 @@ public class RoboRioAccSensor extends BaseSensor {
     }
 
     public boolean shouldUse() {
-        //not much that can be done here, but could check if in range
+        // not much that can be done here, but could check if in range
         return true;
     }
 
@@ -31,11 +31,11 @@ public class RoboRioAccSensor extends BaseSensor {
     }
 
     public void processValue(MainState state, HardwareObjects hardware) {
-        double[] acc_vec = { hardware.RR_ACC.getX(), hardware.RR_ACC.getY() * -1 };
+        double[] acc_vec = { hardware.RR_ACC.getX() * -1, hardware.RR_ACC.getY() * -1 };
         acc_vec = SimpleMat.scaleVec(acc_vec, Constants.GRAV_ACC);
         acc_vec = SimpleMat.add(acc_vec, this.zero);
 
-        //SmartDashboard.putNumberArray("RR Acc/RR Acc", acc_vec);
+        SmartDashboard.putNumberArray("Acc/RR Acc", acc_vec);
 
         acc_vec = SimpleMat.rot2d(acc_vec, state.getHeadingVal());
         double var = Constants.IMU_ACC_VAR * 2;

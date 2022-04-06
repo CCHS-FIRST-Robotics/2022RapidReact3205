@@ -81,6 +81,7 @@ public final class Constants {
     // VARIANCE LINEAR APPROX
     // ==================
     public static final double ANG_VEL_VARIANCE = 1.5 * 1.5;
+    public static final double ANG_ACC_VARIANCE = 3 * 3;
     public static final double ACC_VARIANCE = 2 * 2;
 
     // ==================
@@ -91,11 +92,11 @@ public final class Constants {
     // ==================
     // IMU VARIANCE
     // ==================
-    public static final double BASE_HEADING_VAR = 0.1 * 0.1;
+    public static final double BASE_HEADING_VAR = 0.3 * 0.3;
     public static final double DELTA_VAR = 0.0001;
-    public static final double MAX_HEADING_VAR = 0.2 * 0.2;
+    public static final double MAX_HEADING_VAR = 0.4 * 0.4;
 
-    public static final double IMU_ACC_VAR = 0.8 * 0.8;
+    public static final double IMU_ACC_VAR = 1 * 1;
 
     public static final double PIDGEON_OFFSET = 2 * Math.PI * 0 / 360;
 
