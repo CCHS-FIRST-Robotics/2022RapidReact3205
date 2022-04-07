@@ -21,7 +21,7 @@ public class SimpleTravel extends Travel {
         // this.a_max = 0.4 * max_prop * Math.sin(Math.PI / 4) * 4 *
         // Constants.MOTOR_MAX_TORQUE
         // / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
-        this.a_max = 5;
+        this.a_max = 2;
         // SmartDashboard.putNumber("vmax", this.v_max);
         // SmartDashboard.putNumber("amax", this.a_max);
         this.v_contr = new FwdController(this.v_max, this.a_max);

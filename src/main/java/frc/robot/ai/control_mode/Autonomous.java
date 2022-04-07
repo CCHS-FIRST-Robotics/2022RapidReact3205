@@ -94,7 +94,7 @@ public class Autonomous {
             case TRAVEL:
                 double[] pos = { this.coord_list.get(this.current_step).get(0)[0],
                         this.coord_list.get(this.current_step).get(0)[1] };
-                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.3);
+                this.travel = new SimpleTravel(pos, this.ang_list.get(this.current_step), 0.2);
                 this.travel.init(state);
                 SmartDashboard.putString("Auton/func", "TRAVEL");
                 break;
@@ -116,7 +116,7 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "PAM");
                 break;
             case FIRE_MID:
-                this.firing_pos = new FiringPosition(state, 0.2);
+                this.firing_pos = new FiringPosition(state, 0.15);
                 this.firing_pos.init(state);
                 SmartDashboard.putString("Auton/func", "FIRE MID");
                 break;
@@ -146,7 +146,7 @@ public class Autonomous {
                 SmartDashboard.putString("Auton/func", "BALL CHASE");
                 break;
             case DROP_INTAKE:
-                this.rtrans = new RawTranslate(new double[] {0, -0.3}, 0.6);
+                this.rtrans = new RawTranslate(new double[] {0, -0.1}, 0.6);
                 SmartDashboard.putString("Auton/func", "DROP");
                 break;
             case INTAKE_STATIC:

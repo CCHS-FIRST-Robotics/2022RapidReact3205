@@ -23,7 +23,7 @@ public class Auto15_2 {
 
 
         double[] ball_pos = { ball[0], ball[1] };
-        double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -0.7));
+        double[] ball_back = SimpleMat.add(ball_pos, SimpleMat.projectHeading(ball[2], -1));
         double[] ball_diff = SimpleMat.subtract(ball_back, start_point);
         ball_back = SimpleMat.add(ball_back, SimpleMat.scaleVec(SimpleMat.unitVec(ball_diff), 0.4));
 

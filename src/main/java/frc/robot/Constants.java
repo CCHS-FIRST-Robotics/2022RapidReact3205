@@ -181,12 +181,12 @@ public final class Constants {
     public static final double[] C_STRONG_PID = { 0.001, 0.004, 0.0000 };
     public static final double[] R_STRONG_PID = { 0.004, 0.015, 0.00 };
     public static final double C_ACC_LIM = 4;
-    public static final double INT_LIMIT = 1;
+    public static final double INT_LIMIT = 1.2;
     public static final double DERIV_LIMIT = 0.3;
 
-    public static final double INTERGRAL_HALFLIFE_T = 2;
+    public static final double INTERGRAL_HALFLIFE_T = 1.5;
 
-    public static final double INTEGRAL_HALFLIFE_T_S = 1;
+    public static final double INTEGRAL_HALFLIFE_T_S = 0.5;
 
     public static final double[] SLOW_CURVE = { 0.2, 0.4, 5 };
 
@@ -207,7 +207,7 @@ public final class Constants {
     public static final double FIRING_DIST = 1.968;
 
     // Limelight Parameters
-    public static final double LIME_POS_VAR = 0.05 * 0.05;
+    public static final double LIME_POS_VAR = 0.3 * 0.3;
     public static final double LIME_RING_HEIGHT = 2.64;
     public static final double LIME_RING_RAD = 0.61;
     public static final double LIME_ELEV_ANG = 45;

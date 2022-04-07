@@ -23,11 +23,11 @@ public class FiringPosition extends Travel {
         // this.a_max = 0.1 * max_prop * Math.sin(Math.PI / 4) * 4 *
         // Constants.MOTOR_MAX_TORQUE
         // / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
-        this.a_max = 4;
+        this.a_max = 3;
         // SmartDashboard.putNumber("vmax", this.v_max);
         // SmartDashboard.putNumber("amax", this.a_max);
         this.v_contr = new FwdController(this.v_max, this.a_max);
-        this.v_contr.jerk = this.a_max / 0.4;
+        this.v_contr.jerk = this.a_max / 0.5  ;
 
         this.angvel_max = max_prop * Constants.ROBOT_WIDTH * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * Math.PI
                 / 60;
@@ -65,13 +65,7 @@ public class FiringPosition extends Travel {
 
     public boolean exit(MainState state) {
         if (this.pam) {
-            if (state.getLimeVVal() == 0) {
-                return true;
-            }
-            double x_theta = state.getLimeAVal()[0];
-            if (Math.abs(x_theta) < 4) {
-                return true;
-            }
+            return true;
         }
         return false;
     }
@@ -80,15 +74,15 @@ public class FiringPosition extends Travel {
         // If angle is positive, must turn right, neg angvel
         // If angle is negative must turn left, pos angvel
         double x_theta = state.getLimeAVal()[0];
-        double mag = Math.abs(x_theta) * 10 / (27);
-        if (mag < 4) {
-            mag = 4;
+        double mag = Math.abs(x_theta) * 1 / (27);
+        if (mag < .4) {
+            mag = .4;
         }
-        if (mag > 10) {
-            mag = 10;
+        if (mag > 1) {
+            mag = 1;
         }
         double ang_vel = mag;
-        if (x_theta > 0) {
+        if (x_theta < 0) {
             ang_vel = ang_vel * -1;
         }
         double[] whl_array = MecanumIK.mecanumIK(new double[] { 0, 0 }, ang_vel);
