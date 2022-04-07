@@ -25,7 +25,7 @@ public class IMUSensor extends BaseSensor {
     public double log_yaw_vel;
 
     double x_acc_zero = 0;
-    double[] xyz_acc_zero = { 0, 0, 9.81 };
+    double[] xyz_acc_zero = { 0, 0 };
     double yz_mag_zero = 9.81;
 
     /**
@@ -66,17 +66,23 @@ public class IMUSensor extends BaseSensor {
      */
     public void reset(double angle, HardwareObjects hardware) {
         short[] xyz_acc = new short[3];
+        double[] ypr_deg = new double[3];
         hardware.IMU.getBiasedAccelerometer(xyz_acc);
-        double x_acc = (double) xyz_acc[0] * -9.81 / 16384;
-        double y_acc = (double) xyz_acc[1] * -9.81 / 16384;
-        double z_acc = (double) xyz_acc[2] * -9.81 / 16384;
+        hardware.IMU.getYawPitchRoll(ypr_deg);
+        // 16384 = 1g
 
-        this.x_acc_zero = x_acc;
-        this.xyz_acc_zero[0] = x_acc;
-        this.xyz_acc_zero[1] = y_acc;
-        this.xyz_acc_zero[2] = z_acc;
+        double r_pitch = ypr_deg[2] * 2 * Math.PI / 360;
 
-        this.yz_mag_zero = SimpleMat.mag(this.xyz_acc_zero) - 9.8;
+        double x_acc = (double) xyz_acc[1] * 9.81 / 16384;
+        x_acc = x_acc - x_acc_zero;
+
+        double yt_acc = (double) xyz_acc[0] * -9.81 / 16384;
+        double zt_acc = (double) xyz_acc[2] * -9.81 / 16384;
+        double y_acc = yt_acc * Math.cos(r_pitch) + zt_acc * Math.sin(r_pitch);
+
+        double[] xy_acc = { y_acc * -1, x_acc * -1 };
+
+        this.xyz_acc_zero = xy_acc;
 
         // hardware.IMU.setFusedHeading(angle * 360 / (2 * Math.PI));
     }
@@ -126,18 +132,6 @@ public class IMUSensor extends BaseSensor {
         hardware.IMU.getBiasedAccelerometer(xyz_acc);
 
         hardware.IMU.getYawPitchRoll(ypr_deg);
-
-        // SmartDashboard.putNumber("pidgeon/x dps", xyz_dps[0]);
-        // SmartDashboard.putNumber("pidgeon/y dps", xyz_dps[1]);
-        // SmartDashboard.putNumber("pidgeon/z dps", xyz_dps[2]);
-
-        // SmartDashboard.putNumber("pidgeon/x acc", xyz_acc[0]);
-        // SmartDashboard.putNumber("pidgeon/y acc", xyz_acc[1]);
-        // SmartDashboard.putNumber("pidgeon/z acc", xyz_acc[2]);
-
-        // SmartDashboard.putNumber("pidgeon/y deg", ypr_deg[0]);
-        // SmartDashboard.putNumber("pidgeon/p deg", ypr_deg[1]);
-        // SmartDashboard.putNumber("pidgeon/r deg", ypr_deg[2]);
         // 16384 = 1g
 
         double r_pitch = ypr_deg[2] * 2 * Math.PI / 360;
@@ -150,6 +144,7 @@ public class IMUSensor extends BaseSensor {
         double y_acc = yt_acc * Math.cos(r_pitch) + zt_acc * Math.sin(r_pitch);
 
         double[] xy_acc = { y_acc * -1, x_acc * -1 };
+        xy_acc = SimpleMat.subtract(xy_acc, this.xyz_acc_zero);
         SmartDashboard.putNumberArray("Acc/Pigeon IMU", xy_acc);
         xy_acc = SimpleMat.rot2d(xy_acc, state.getHeadingVal() - Constants.PIDGEON_OFFSET);
         double[] global_acc = xy_acc;
@@ -182,7 +177,7 @@ public class IMUSensor extends BaseSensor {
                 Constants.IMU_ACC_VAR);
 
         double[] new_acc = { kxacc[0], kyacc[1] };
-        //state.setAcc(new_acc, kxacc[1]);
+        // state.setAcc(new_acc, kxacc[1]);
 
         updateHeadingVar();
     }
