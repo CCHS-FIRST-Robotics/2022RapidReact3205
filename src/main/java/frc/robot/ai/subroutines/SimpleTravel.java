@@ -18,11 +18,12 @@ public class SimpleTravel extends Travel {
 
         this.v_max = 1 * max_prop * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * 2 * Math.PI
                 / 60;
-        //this.a_max = 0.4 * max_prop * Math.sin(Math.PI / 4) * 4 * Constants.MOTOR_MAX_TORQUE
-        //        / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
-        this.a_max = 16;
-        //SmartDashboard.putNumber("vmax", this.v_max);
-        //SmartDashboard.putNumber("amax", this.a_max);
+        // this.a_max = 0.4 * max_prop * Math.sin(Math.PI / 4) * 4 *
+        // Constants.MOTOR_MAX_TORQUE
+        // / (Constants.WHEEL_RADIUS * Constants.ROBOT_MASS);
+        this.a_max = 5;
+        // SmartDashboard.putNumber("vmax", this.v_max);
+        // SmartDashboard.putNumber("amax", this.a_max);
         this.v_contr = new FwdController(this.v_max, this.a_max);
 
         this.angvel_max = max_prop * Constants.ROBOT_WIDTH * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * Math.PI

@@ -8,6 +8,7 @@ public class MainState {
     Storage Sto = new Storage();
     Shooter Sho = new Shooter();
     Beam b = new Beam();
+    Lime l = new Lime();
 
     public void predict(double dt) {
         this.Whl.predict(dt, this.Phy.Val.heading, this.Phy.Val.acc, this.Phy.Val.ang_vel);
@@ -405,5 +406,31 @@ public class MainState {
 
     public void setBeam1(double val, double var) {
         this.b.val.beam_1 = val;
+    }
+
+    public double[] getLimeAVal() {
+        return this.l.val.angles;
+    }
+
+    public double getLimeAVar() {
+        return this.l.var.angles;
+    }
+
+    public void setLimeA(double[] val, double var) {
+        this.l.val.angles = val;
+        this.l.var.angles = var;
+    }
+
+    public double getLimeVVal() {
+        return this.l.val.valid;
+    }
+
+    public double getLimeVVar() {
+        return this.l.var.valid;
+    }
+
+    public void setLimeV(double val, double var) {
+        this.l.val.valid = val;
+        this.l.var.valid = var;
     }
 }

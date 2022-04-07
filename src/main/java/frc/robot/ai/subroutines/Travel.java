@@ -111,19 +111,6 @@ public class Travel {
         double blr = this.bl.updateRaw(whl_array[2], state.getBLRadssVal());
         double brr = this.br.updateRaw(whl_array[3], state.getBRRadssVal());
 
-        // SmartDashboard.putNumberArray("Travel/Whl Radss", whl_array);
-        // SmartDashboard.putNumber("Travel/target ang vel", target_ang_vel);
-        // SmartDashboard.putNumber("Travel/theta", theta);
-        // SmartDashboard.putNumber("Travel/thead", thead);
-        // SmartDashboard.putNumber("Travel/chead", state.getHeadingVal());
-        // SmartDashboard.putNumberArray("Travel/Direction Vec", direction_vec);
-        // SmartDashboard.putNumberArray("Travel/local_vel", local_vel);
-        // SmartDashboard.putNumber("Travel/flr", flr);
-        // SmartDashboard.putNumber("Travel/flr_actual", state.getFLRadssVal());
-        // SmartDashboard.putNumber("Travel/flr Integral", fl.integral);
-        // SmartDashboard.putNumber("Travel/flr P", fl.k_p);
-
-        // return new Command(0, 0, 0, 0);
         double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0, 0 };
         return new Command(ocmd);
     }
