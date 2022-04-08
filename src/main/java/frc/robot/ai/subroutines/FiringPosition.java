@@ -27,7 +27,7 @@ public class FiringPosition extends Travel {
         // SmartDashboard.putNumber("vmax", this.v_max);
         // SmartDashboard.putNumber("amax", this.a_max);
         this.v_contr = new FwdController(this.v_max, this.a_max);
-        this.v_contr.jerk = this.a_max / 0.5  ;
+        this.v_contr.jerk = this.a_max / 0.5;
 
         this.angvel_max = max_prop * Constants.ROBOT_WIDTH * Constants.WHEEL_RADIUS * Constants.MOTOR_MAX_RPM * Math.PI
                 / 60;
@@ -94,7 +94,8 @@ public class FiringPosition extends Travel {
         double[] ocmd = { flr, frr, blr, brr, 0, 0, 0, 0, 0, 0, 0, 0 };
         return new Command(ocmd);
     }
-
+            
+            
     public Command update(MainState state) {
         this.tpos = SimpleMat.scaleVec(SimpleMat.unitVec(state.getPosVal()), Constants.FIRING_DIST);
         this.thead = SimpleMat.angleRectifier(SimpleMat.vecsAngle2(new double[] { 0, 1 }, tpos));

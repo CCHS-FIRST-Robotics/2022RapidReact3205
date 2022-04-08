@@ -37,7 +37,7 @@ public class NAVXSensor extends BaseSensor {
         this.zero[0] = 0;
         this.zero[1] = 0;
         for (int c = 0; c < 10; c++) {
-            double[] global_acc = { hardware.NAVX.getRawAccelY() * -1, hardware.NAVX.getRawAccelX() * -1 };
+            double[] global_acc = { hardware.NAVX.getRawAccelY() * 1, hardware.NAVX.getRawAccelX() * -1 };
             global_acc = SimpleMat.scaleVec(global_acc, -9.81);
             this.zero = SimpleMat.add(this.zero, global_acc);
         }

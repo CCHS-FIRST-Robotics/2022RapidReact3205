@@ -19,9 +19,9 @@ public class NAVXAccumSensor extends BaseSensor {
     }
 
     public boolean shouldUse(HardwareObjects hardware) {
-        if(hardware.NAVX.isConnected() == false)
+        if (hardware.NAVX.isConnected() == false)
             return false;
-        if(hardware.NAVX.isCalibrating() == true)
+        if (hardware.NAVX.isCalibrating() == true)
             return false;
 
         return true;
@@ -56,8 +56,10 @@ public class NAVXAccumSensor extends BaseSensor {
         double pos_var = Constants.IMU_ACC_VAR * Math.pow(dt + 1, 2);
         double vel_var = Constants.IMU_ACC_VAR * (dt + 1);
 
-        double[] ld = { hardware.NAVX.getDisplacementX(), hardware.NAVX.getDisplacementY() * -1 };
-        double[] lv = { hardware.NAVX.getVelocityX(), hardware.NAVX.getVelocityY() * -1 };
+        double[] ld = { hardware.NAVX.getDisplacementY() * -1, hardware.NAVX.getDisplacementX() * 1 };
+        double[] lv = { hardware.NAVX.getVelocityY() * -1, hardware.NAVX.getVelocityX() * 1 };
+
+        SmartDashboard.putNumberArray("Velocity/", lv);
 
         double[] est_pos = SimpleMat.add(this.pos, SimpleMat.rot2d(ld, this.heading));
         double[] est_vel = SimpleMat.rot2d(lv, this.heading);
@@ -68,11 +70,11 @@ public class NAVXAccumSensor extends BaseSensor {
         double[] new_pos = { kpi[0], kpi[1] };
         double[] new_vel = { kvi[0], kvi[1] };
 
-        //SmartDashboard.putNumberArray("Accum/ld", ld);
-        //SmartDashboard.putNumberArray("Accum/lv", lv);
+        // SmartDashboard.putNumberArray("Accum/ld", ld);
+        // SmartDashboard.putNumberArray("Accum/lv", lv);
 
-        //SmartDashboard.putNumberArray("Accum/pos", est_pos);
-        //SmartDashboard.putNumberArray("Accum/vel", est_vel);
+        // SmartDashboard.putNumberArray("Accum/pos", est_pos);
+        // SmartDashboard.putNumberArray("Accum/vel", est_vel);
 
         state.setPos(new_pos, kpi[2]);
         state.setVel(new_vel, kvi[2]);

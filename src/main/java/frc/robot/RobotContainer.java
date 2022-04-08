@@ -142,6 +142,9 @@ public class RobotContainer {
     if (this.imu.shouldUse(hardware)) {
       this.imu.processValue(this.main_state, this.hardware);
     }
+    if (this.navx_accum.shouldUse(hardware)) {
+      this.navx_accum.processValue(this.main_state, this.hardware);
+    }
     boolean use_lime = false;
     if (this.lime.shouldUse(this.main_state, this.network)) {
       this.lime.processValue(this.main_state, this.network);
