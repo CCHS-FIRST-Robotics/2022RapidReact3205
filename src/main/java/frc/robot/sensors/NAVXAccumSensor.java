@@ -53,8 +53,8 @@ public class NAVXAccumSensor extends BaseSensor {
         double dt = (double) System.currentTimeMillis() / 1000;
         dt = dt - prev_time;
 
-        double pos_var = Constants.IMU_ACC_VAR * Math.pow(dt + 1, 2);
-        double vel_var = Constants.IMU_ACC_VAR * (dt + 1);
+        double pos_var = Constants.IMU_ACC_VAR * Math.pow(dt + Constants.MAIN_DT, 2) * 2;
+        double vel_var = Constants.IMU_ACC_VAR * (dt + Constants.MAIN_DT);
 
         double[] ld = { hardware.NAVX.getDisplacementY() * -1, hardware.NAVX.getDisplacementX() * 1 };
         double[] lv = { hardware.NAVX.getVelocityY() * -1, hardware.NAVX.getVelocityX() * 1 };
