@@ -21,6 +21,7 @@ public class LimeHelper {
     }
 
     public static double[] getPos(MainState state, Network net) {
+        
         double deg2rad = 2 * Math.PI / 360;
 
         double[] ang_arr = net.lime.getAngles();
@@ -41,11 +42,12 @@ public class LimeHelper {
     }
 
     public static boolean getOutTRange(MainState state, Network net) {
+        
         double[] ang_arr = net.lime.getAngles();
         double deg2rad = 2 * Math.PI / 360;
         double horiz_dist = getHorizDist(state, net);
         double r_dist = 0.61;
-        double angle = 1.5 * Math.atan(r_dist / (horiz_dist + r_dist));
+        double angle = 1 * Math.atan(r_dist / (horiz_dist + r_dist));
         SmartDashboard.putNumber("Limelight/exit angle", 27 * deg2rad - angle);
         SmartDashboard.putNumber("Limelight/exit current", ang_arr[0]);
         if (Math.abs(ang_arr[0]) * deg2rad > 27 * deg2rad - angle) {
@@ -56,9 +58,6 @@ public class LimeHelper {
 
     public static boolean getBoxWrongDims(Network net) {
         double[] rect_arr = net.lime.getRect();
-        if (rect_arr[0] == 0 || rect_arr[1] == 0) {
-            return true;
-        }
         // if vert height is more than 2/3 of horiz dist, then return true
         if (rect_arr[1] / rect_arr[0] > 2 / 3) {
             return true;

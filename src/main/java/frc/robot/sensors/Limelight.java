@@ -14,7 +14,12 @@ public class Limelight extends BaseSensor {
         if (LimeHelper.getOutTRange(state, net)) {
             return false;
         }
-
+        if (LimeHelper.getBoxWrongDims(net)){
+            return false;
+        }
+        if (LimeHelper.getHorizDist(state, net) > 8){
+            return false;
+        }
         if (net.lime.getValid()) {
             return true;
         }
@@ -23,6 +28,10 @@ public class Limelight extends BaseSensor {
 
     public void processValue(MainState state, Network net) {
         double[] new_pos = LimeHelper.getPos(state, net);
+        double diff = SimpleMat.mag(SimpleMat.subtract(new_pos, state.getPosVal()));
+        if (diff > 3){
+            return;
+        }
         double[] update = state.kalman2Update(state.getPosVal(), state.getPosVar(), new_pos, Constants.LIME_POS_VAR);
         double[] update_pos = { update[0], update[1] };
         state.setPos(update_pos, update[2]);

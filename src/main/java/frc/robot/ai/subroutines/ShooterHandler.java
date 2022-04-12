@@ -55,12 +55,12 @@ public class ShooterHandler {
         double intake_resp = 0;
 
         if (this.state != 0) {
-            sh1_target = Constants.SHOOTER_1_RPM * rpm2radss;
-            sh2_target = Constants.SHOOTER_2_RPM * rpm2radss;
+            sh1_target = 1 * Constants.SHOOTER_1_RPM * rpm2radss;
+            sh2_target = 1 * Constants.SHOOTER_2_RPM * rpm2radss;
         }
         if (this.state == 1) {
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
-            if (dt > 1) {
+            if (dt > 1.1) {
                 this.state = 2;
                 storage_2.softReset();
             }
@@ -88,13 +88,13 @@ public class ShooterHandler {
             }
         }
         if (this.state == 5) {
-            so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
+            sh1_target = sh1_target * 1.015;
+            sh2_target = sh2_target * 1.015;
+            so2_target = 1 * Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
             }
             intake_resp = 0.7;
-            sh1_target = 1 * Constants.SHOOTER_1_RPM * rpm2radss;
-            sh2_target = 1 * Constants.SHOOTER_2_RPM * rpm2radss;
         }
 
         if (so2_target != 0){
@@ -119,7 +119,7 @@ public class ShooterHandler {
         double ct = (System.currentTimeMillis() / 1000);
         if (this.state == 2) {
             double dt = ct - this.o_time;
-            if (dt > 3) {
+            if (dt > 3.5) {
                 return true;
             }
         }

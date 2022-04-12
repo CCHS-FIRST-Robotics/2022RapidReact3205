@@ -126,11 +126,11 @@ public final class Constants {
 
     public static final int TIMEOUT_MS = 50;
 
-    public static final double STORAGE_2_RPM = 1000;
+    public static final double STORAGE_2_RPM = 1100;
 
     public static final double SHOOTER_RATIO = 0.6666;
-    public static final double SHOOTER_1_RPM = 2000 / SHOOTER_RATIO;
-    public static final double SHOOTER_2_RPM = 2000 / SHOOTER_RATIO;
+    public static final double SHOOTER_1_RPM = 2200 / SHOOTER_RATIO;
+    public static final double SHOOTER_2_RPM = 2200 / SHOOTER_RATIO;
 
     // ==================
     // CERTAIN PHYSICAL CONSTANTS
@@ -178,8 +178,8 @@ public final class Constants {
     public static final double MAX_DT = 0.05;
     public static final double C_BASE_GAIN = 0.05;
     public static final double[] C_BASE_PID = { 0.004, 0.06, 0.0003 };
-    public static final double[] C_STRONG_PID = { 0.001, 0.004, 0.0000 };
-    public static final double[] R_STRONG_PID = { 0.004, 0.015, 0.00 };
+    public static final double[] C_STRONG_PID = { 0.0015, 0.005, 0.0000 };
+    public static final double[] R_STRONG_PID = { 0.0045, 0.018, 0.00 };
     public static final double C_ACC_LIM = 4;
     public static final double INT_LIMIT = 1.2;
     public static final double DERIV_LIMIT = 0.3;
@@ -198,21 +198,21 @@ public final class Constants {
     public static final double RESP_FILTER = 0.6;
 
     // Ball
-    public static final int BALL_NUM = 40;
+    public static final int BALL_NUM = 10;
 
     // Brownout protection
     public static final double[] VOLT_CONCERN_RANGE = { 7.0, 9.0 };
 
     // FIRING PARAMETERS
-    public static final double FIRING_DIST = 1.968;
+    public static final double FIRING_DIST = 2.184;
 
     // Limelight Parameters
-    public static final double LIME_POS_VAR = 0.3 * 0.3;
+    public static final double LIME_POS_VAR = 0.5 * 0.5;
     public static final double LIME_RING_HEIGHT = 2.64;
     public static final double LIME_RING_RAD = 0.61;
-    public static final double LIME_ELEV_ANG = 45;
+    public static final double LIME_ELEV_ANG = 47;
     // 58.3 - 10; // in degs
-    public static final double[] LIME_LPOS = { 0.2413, 0.6358 }; // Y, Z
+    public static final double[] LIME_LPOS = { 0.2667, 0.6477 }; // Y, Z
 
     // IMPORTANT
     public static final int TEAM = 1; // 0 = red, 1 = blue
@@ -222,6 +222,8 @@ public final class Constants {
 
     public static final double[] START = SR1_R1.START;
     public static final double[] BALL = SR1_R1.BALL;
+    public static final double[] BOARD_PROJECT = BoardTarget.R1;
+
     public static double[] START_POS = { START[0], START[1] };
     public static final double START_H = START[2];
 

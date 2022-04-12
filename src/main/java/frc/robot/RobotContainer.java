@@ -105,6 +105,7 @@ public class RobotContainer {
     this.rr_acc.reset(this.hardware);
     this.lidar.reset();
     this.s_lidar.reset(this.hardware);
+    this.imu.reset(Constants.START_H, this.hardware);
     this.hardware.resetMotors();
   }
 
@@ -112,7 +113,7 @@ public class RobotContainer {
    * mainLoop that executes state update, predict, ai and command scheduling.
    */
   public void mainLoop() {
-    this.hardware.printMotorHealth();
+    // this.hardware.printMotorHealth();
     SmartDashboard.putNumberArray("Start Pos", Constants.START_POS);
     SmartDashboard.putNumberArray("Start", Constants.START);
     this.main_command = this.ai.getCommand(this.hardware, this.main_state, this.map, this.controller_start_time,
@@ -143,17 +144,17 @@ public class RobotContainer {
       this.imu.processValue(this.main_state, this.hardware);
     }
     if (this.navx_accum.shouldUse(hardware)) {
-      this.navx_accum.processValue(this.main_state, this.hardware);
+      //this.navx_accum.processValue(this.main_state, this.hardware);
     }
     boolean use_lime = false;
     if (this.lime.shouldUse(this.main_state, this.network)) {
       this.lime.processValue(this.main_state, this.network);
       use_lime = true;
     }
-    SmartDashboard.putBoolean("Limelight/use_lime", use_lime);
-    SmartDashboard.putNumber("variance/pos", main_state.getPosVar());
-    SmartDashboard.putNumber("variance/vel", main_state.getVelVar());
-    SmartDashboard.putNumber("variance/acc", main_state.getAccVar());
+    //SmartDashboard.putBoolean("Limelight/use_lime", use_lime);
+    //SmartDashboard.putNumber("variance/pos", main_state.getPosVar());
+    //SmartDashboard.putNumber("variance/vel", main_state.getVelVar());
+    //SmartDashboard.putNumber("variance/acc", main_state.getAccVar());
     this.map.getBalls(this.network);
 
     this.main_state.predict(Constants.MAIN_DT);

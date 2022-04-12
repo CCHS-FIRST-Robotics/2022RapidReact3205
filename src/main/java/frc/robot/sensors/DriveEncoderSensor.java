@@ -51,7 +51,7 @@ public class DriveEncoderSensor extends BaseSensor {
         double[] nvel = { vel_res[0], vel_res[1] };
         // state.setPos(npos, pos_res[2]);
         state.setVel(nvel, vel_res[2]);
-        state.setHeading(h_res[0], h_res[1]);
+        //state.setHeading(h_res[0], h_res[1]);
         state.setAngVel(avel_res[0], avel_res[1]);
     }
 }

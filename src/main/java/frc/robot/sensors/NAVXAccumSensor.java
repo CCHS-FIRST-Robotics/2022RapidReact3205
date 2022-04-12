@@ -39,7 +39,7 @@ public class NAVXAccumSensor extends BaseSensor {
         // not moving
         double vel_mag = SimpleMat.mag(state.getVelVal()) + SimpleMat.mag(state.getAccVal()) * Constants.MAIN_DT;
         double avel_mag = Math.abs(state.getAngVelVal()) + Math.abs(state.getAngAccVal()) * Constants.MAIN_DT;
-        if (vel_mag < 0.2 && avel_mag < 0.2) {
+        if (vel_mag < 0.01 && avel_mag < 0.2) {
             return true;
         }
         return false;
@@ -59,7 +59,8 @@ public class NAVXAccumSensor extends BaseSensor {
         double[] ld = { hardware.NAVX.getDisplacementY() * -1, hardware.NAVX.getDisplacementX() * 1 };
         double[] lv = { hardware.NAVX.getVelocityY() * -1, hardware.NAVX.getVelocityX() * 1 };
 
-        SmartDashboard.putNumberArray("Velocity/", lv);
+        SmartDashboard.putNumberArray("Velocity/navx accum", lv);
+        SmartDashboard.putNumberArray("Displacement/navx accum", ld);
 
         double[] est_pos = SimpleMat.add(this.pos, SimpleMat.rot2d(ld, this.heading));
         double[] est_vel = SimpleMat.rot2d(lv, this.heading);
@@ -76,7 +77,7 @@ public class NAVXAccumSensor extends BaseSensor {
         // SmartDashboard.putNumberArray("Accum/pos", est_pos);
         // SmartDashboard.putNumberArray("Accum/vel", est_vel);
 
-        state.setPos(new_pos, kpi[2]);
+        //state.setPos(new_pos, kpi[2]);
         state.setVel(new_vel, kvi[2]);
 
     }

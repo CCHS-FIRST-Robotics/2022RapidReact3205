@@ -80,7 +80,7 @@ public class IMUSensor extends BaseSensor {
         double zt_acc = (double) xyz_acc[2] * -9.81 / 16384;
         double y_acc = yt_acc * Math.cos(r_pitch) + zt_acc * Math.sin(r_pitch);
 
-        double[] xy_acc = { xyz_acc[0], x_acc * -1 };
+        double[] xy_acc = { (double) xyz_acc[0] * -9.81 / 16384, x_acc * 1 };
 
         this.xyz_acc_zero = xy_acc;
 
@@ -143,7 +143,7 @@ public class IMUSensor extends BaseSensor {
         double zt_acc = (double) xyz_acc[2] * -9.81 / 16384;
         double y_acc = yt_acc * Math.cos(r_pitch) + zt_acc * Math.sin(r_pitch);
 
-        double[] xy_acc = { xyz_acc[0], x_acc * -1 };
+        double[] xy_acc = { (double) xyz_acc[0] * -9.81 / 16384, x_acc * 1 };
         xy_acc = SimpleMat.subtract(xy_acc, this.xyz_acc_zero);
         SmartDashboard.putNumberArray("Acc/Pigeon IMU", xy_acc);
         xy_acc = SimpleMat.rot2d(xy_acc, state.getHeadingVal() - Constants.PIDGEON_OFFSET);
@@ -156,6 +156,8 @@ public class IMUSensor extends BaseSensor {
         double heading = fusionStatus.heading;
         heading = heading * 2 * Math.PI / 360;
         heading = SimpleMat.angleRectifier(heading + Constants.START_H);
+
+        SmartDashboard.putNumber("IMU Heading", heading);
 
         this.log_fused_heading = heading;
 

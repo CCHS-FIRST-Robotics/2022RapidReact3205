@@ -378,10 +378,14 @@ public class Controller {
         double voltage = RobotController.getBatteryVoltage();
         double rmb = 1 - ((voltage - 7) / 4);
         rmb = Math.min(Math.max(0, rmb), 1);
-        xbox.setRumble(RumbleType.kLeftRumble, rmb);
+        double crmb = 0;
+        if (this.intake.substate != 0){
+            crmb = 1;
+        }
+        xbox.setRumble(RumbleType.kLeftRumble, crmb);
         e_xbox.setRumble(RumbleType.kRightRumble, rmb);
         e_xbox.setRumble(RumbleType.kLeftRumble, rmb);
-        xbox.setRumble(RumbleType.kRightRumble, rmb);
+        xbox.setRumble(RumbleType.kRightRumble, crmb);
 
         double[] ocmd = { flr, frr, blr, brr, intake, storage, storage_2, shooter_1, shooter_2, hang_l, hang_r, rin };
         // SmartDashboard.putNumberArray("Controller/cmd", ocmd);
