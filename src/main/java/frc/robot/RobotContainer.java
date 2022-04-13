@@ -165,7 +165,6 @@ public class RobotContainer {
     this.network.writeNTable(this.main_state);
 
     this.log = this.network.stereo_net.getHeadingVal();
-
   }
 
   /**
