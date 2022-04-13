@@ -160,6 +160,8 @@ public class RobotContainer {
     this.main_state.predict(Constants.MAIN_DT);
     // SmartDashboard.putNumberArray("PosArr",this.main_state.getPosVal());
 
+    SmartDashboard.putNumber("variance/vel", main_state.getVelVar());
+    
     this.network.writeNTable(this.main_state);
 
     this.log = this.network.stereo_net.getHeadingVal();

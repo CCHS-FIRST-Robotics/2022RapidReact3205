@@ -87,7 +87,7 @@ public final class Constants {
     // ==================
     // ENCODER VARIANCE
     // ==================
-    public static final double VAR_RAD_VAR = 0.5;
+    public static final double VAR_RAD_VAR = 4; // Wheel odometry variance handled in Wheel.java
 
     // ==================
     // IMU VARIANCE
