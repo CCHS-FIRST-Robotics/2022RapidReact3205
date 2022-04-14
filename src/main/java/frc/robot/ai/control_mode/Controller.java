@@ -177,7 +177,7 @@ public class Controller {
             }
             
             // WALL SHOOTING
-            if(e_xbox.getLeftBumperReleased()) {
+            if(xbox.getLeftBumperReleased()) {
                 if(this.shooter.state == 0) {
                     this.shooter.initWallFiring();
                 } else {
@@ -192,6 +192,7 @@ public class Controller {
                     this.intake.idle();
                 }
             }
+            
             if (xbox.getAButton()) {
                 storage_2 = storage_2 - 0.4;
             }
@@ -219,17 +220,20 @@ public class Controller {
                 }
             }
 
-            if (xbox.getLeftBumperReleased()) {
-                if (this.arty_s == 0) {
-                    this.arty = new FiringPosition(state, 0.3);
-                    this.arty_s = 1;
+            // AUTO ALIGNING (NOT USED)
+            // if (xbox.getLeftBumperReleased()) {
+            //     if (this.arty_s == 0) {
+            //         this.arty = new FiringPosition(state, 0.3);
+            //         this.arty_s = 1;
 
-                    this.pam_s = 0;
-                    this.chase_s = 0;
-                } else {
-                    this.arty_s = 0;
-                }
-            }
+            //         this.pam_s = 0;
+            //         this.chase_s = 0;
+            //     } else {
+            //         this.arty_s = 0;
+            //     }
+            // }
+
+
             if (xbox.getRightStickButtonReleased()) {
                 if (this.pam_s == 0) {
                     this.pam = new PointAtMiddle(state, 0.2);
