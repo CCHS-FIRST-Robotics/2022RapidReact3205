@@ -175,6 +175,15 @@ public class Controller {
             if (e_xbox.getYButton()){
                 rin = 0.4;
             }
+            
+            // WALL SHOOTING
+            if(e_xbox.getLeftBumperReleased()) {
+                if(this.shooter.state == 0) {
+                    this.shooter.initWallFiring();
+                } else {
+                    this.shooter.idle();
+                }
+            }
 
             if (xbox.getRightBumperReleased()) {
                 if (this.intake.substate == 0) {
@@ -248,6 +257,7 @@ public class Controller {
                     this.chase_s = 0;
                 }
             }
+
             if (this.pam_s == 1) {
                 Command tp_cmd = this.pam.update(state);
                 pam_cmd[0] = tp_cmd.fl_pprop;

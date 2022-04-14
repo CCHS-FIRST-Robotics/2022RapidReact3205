@@ -39,6 +39,13 @@ public class ShooterHandler {
         this.shooter_2.softReset();
     }
 
+    public void initWallFiring() {
+        this.state = 6;
+        this.o_time = System.currentTimeMillis() / 1000;
+        this.shooter_1.softReset();
+        this.shooter_2.softReset();
+    }
+
     public void idle() {
         this.state = 0;
     }
@@ -47,9 +54,9 @@ public class ShooterHandler {
         double ct = (System.currentTimeMillis() / 1000);
         double rpm2radss = 2 * Math.PI / 60;
 
-        double so2_target = 0;
-        double sh1_target = 0;
-        double sh2_target = 0;
+        double so2_target = 0;  // storage target rpm
+        double sh1_target = 0;  // shooter 1 target rpm
+        double sh2_target = 0;  // shooter 2 target rpm
 
         double so2_resp = 0;
         double intake_resp = 0;
@@ -88,8 +95,8 @@ public class ShooterHandler {
             }
         }
         if (this.state == 5) {
-            sh1_target = sh1_target * 1.015;
-            sh2_target = sh2_target * 1.015;
+            sh1_target = sh1_target * 1.018;
+            sh2_target = sh2_target * 1.018;
             so2_target = 1 * Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
@@ -97,6 +104,24 @@ public class ShooterHandler {
             intake_resp = 0.7;
         }
 
+        if(this.state == 6) {
+            double dt = (System.currentTimeMillis() / 1000) - this.o_time;
+            if (dt > 1.1) {
+                this.state = 7;
+                storage_2.softReset();
+            }
+            so2_target = 0;
+        }
+
+        if(this.state == 7) {
+            sh1_target = sh1_target * 0.5;
+            sh2_target = sh2_target * 0.5;
+            so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
+            if (exit()) {
+                this.state = 0;
+                this.storage_2.softReset();
+            }
+        }
         if (so2_target != 0){
             so2_resp = this.storage_2.update(so2_target);
         }

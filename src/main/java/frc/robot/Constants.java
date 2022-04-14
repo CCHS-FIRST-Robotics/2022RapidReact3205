@@ -81,8 +81,9 @@ public final class Constants {
     // VARIANCE LINEAR APPROX
     // ==================
     public static final double ANG_VEL_VARIANCE = 1.5 * 1.5;
-    public static final double ANG_ACC_VARIANCE = 3 * 3;
-    public static final double ACC_VARIANCE = 2 * 2;
+    public static final double ANG_ACC_VARIANCE = 1.5 * 1.5; // was 3 * 3
+    // public static final double ACC_VARIANCE = 2 * 2;
+    public static final double ACC_VARIANCE = 0.75;
 
     // ==================
     // ENCODER VARIANCE

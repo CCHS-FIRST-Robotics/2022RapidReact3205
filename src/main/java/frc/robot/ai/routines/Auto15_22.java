@@ -67,11 +67,19 @@ public class Auto15_22 {
         // this.vals.add(pickup_1);
         // this.angsl.add(0.5);
 
+        this.met_list.add(Methods.RAW_TRANS);
+        ArrayList<double[]> backout = new ArrayList<>();
+        backout.add(new double[] {0, 0.2});
+        this.vals.add(backout);
+        this.angsl.add(0.0);
+
         this.met_list.add(Methods.TRAVEL);
         ArrayList<double[]> SHA = new ArrayList<double[]>();
         SHA.add(board_pos);
         this.vals.add(SHA);
         this.angsl.add(b_h);
+
+       
 
         //this.met_list.add(Methods.RAW_TRANS);
         //ArrayList<double[]> backout = new ArrayList<double[]>();
