@@ -221,8 +221,8 @@ public final class Constants {
     public static double[] sp = { -2.1239, 1.0258 };
     public static double sa = 46.2 * 2 * Math.PI / 360;
 
-    public static final double[] START = SR1_R1.START;
-    public static final double[] BALL = SR1_R1.BALL;
+    public static final double[] START = SR3_R3.START;
+    public static final double[] BALL = SR3_R3.BALL;
     public static final double[] BOARD_PROJECT = BoardTarget.R1;
 
     public static double[] START_POS = { START[0], START[1] };

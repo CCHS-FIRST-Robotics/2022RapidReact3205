@@ -74,6 +74,8 @@ public class ShooterHandler {
         }
         if (this.state == 1) {
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
+            sh1_target = 0.898 * Constants.SHOOTER_1_RPM * rpm2radss;
+            sh2_target = 0.898 * Constants.SHOOTER_2_RPM * rpm2radss;
             if (dt > 1.1) {
                 this.state = 2;
                 storage_2.softReset();
@@ -101,32 +103,33 @@ public class ShooterHandler {
                 this.state = 5;
             }
         }
+        
         if (this.state == 5) {
-            sh1_target = sh1_target * 1.018;
-            sh2_target = sh2_target * 1.018;
+            sh1_target *= 0.975;
+            sh2_target *= 0.975;
             so2_target = 1 * Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
+
             }
             intake_resp = 0.7;
         }
 
         if(this.state == 6) {
-            double dt = (System.currentTimeMillis() / 1000) - this.o_time;
+            double dt = ct - this.o_time;
             if(dt > 1.1) {
                 this.state = 7;
-                storage_2.softReset();
+                d_time = (System.currentTimeMillis() / 1000);
             }
-            so2_target = 0;
+            so2_target = 0.0;
         }
 
         if(this.state == 7) {
-
-            sh1_target = sh1_target * 0.8;
-            sh2_target = sh2_target * 0.8;
+            sh1_target *= 0.8;
+            sh2_target *= 0.8;
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (ct - d_time > 1.5) {
-                this.state = 5;
+                this.state = 9;
             }
            
         }
@@ -140,6 +143,17 @@ public class ShooterHandler {
                 storage_2.softReset();
             }
             so2_target = 0;
+        }
+
+        if (this.state == 9) {
+            sh1_target *= 0.99;
+            sh2_target *= 0.99;
+            so2_target = 1 * Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
+            if (exit()) {
+                this.state = 0;
+
+            }
+            intake_resp = 0.7;
         }
 
         if (so2_target != 0){

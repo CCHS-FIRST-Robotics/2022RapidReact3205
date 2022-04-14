@@ -149,7 +149,12 @@ public class Controller {
             lr_turn = 0;
             fb_1 = 0;
 
-            intake = e_xbox.getRightX();
+            
+            if(Math.abs(e_xbox.getRightX()) <= 0.5) {
+                intake = 0;
+            } else {
+                intake = e_xbox.getRightX();
+            }
 
             storage = e_xbox.getRightY();
 
@@ -192,7 +197,7 @@ public class Controller {
                     this.intake.idle();
                 }
             }
-            
+
             if (xbox.getAButton()) {
                 storage_2 = storage_2 - 0.4;
             }
