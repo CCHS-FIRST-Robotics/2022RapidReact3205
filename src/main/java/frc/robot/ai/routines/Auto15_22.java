@@ -87,7 +87,7 @@ public class Auto15_22 {
         //this.vals.add(backout);
         //this.angsl.add(1.);
 
-        this.met_list.add(Methods.SHOOTER_FIRE);
+        this.met_list.add(Methods.SHOOTER_FIRE_FAR);
         ArrayList<double[]> empty_4 = new ArrayList<double[]>();
         this.vals.add(empty_4);
         this.angsl.add(0.0);

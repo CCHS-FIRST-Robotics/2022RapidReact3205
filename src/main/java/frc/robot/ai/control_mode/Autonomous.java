@@ -140,6 +140,10 @@ public class Autonomous {
                 this.shooter.initDoubleFiring();
                 SmartDashboard.putString("Auton/func", "SHOOTER_DOUBLE");
                 break;
+            case SHOOTER_FIRE_FAR:
+                this.shooter.initAuton2Firing();
+                SmartDashboard.putString("Auton/func", "SHOOTER_FIRE");
+                break;
             case BALL_CHASE:
                 this.intake.autoIntake(state);
                 this.ball_chase = new BallChase(state, map, -1, 0.3);
@@ -164,6 +168,7 @@ public class Autonomous {
                 this.rtrans = new RawTranslate(move_vec, this.ang_list.get(this.current_step));
                 SmartDashboard.putString("Auton/func", "Raw Trans");
                 break;
+           
         }
     }
 
