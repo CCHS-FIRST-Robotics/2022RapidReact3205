@@ -27,9 +27,9 @@ public class IntakeHandler {
     }
 
     public void autoIntake(MainState state) {
-        if (state.getBeam0_5Val() == 0 && state.getBeam1Val() == 0) {
-            this.substate = 2;
-        } else {
+        if (state.getBeam0_5Val() == 0 && state.getBeam1Val() == 0) { // no ball in intake
+            this.substate = 2; 
+        } else { // ball in intake
             this.substate = 1;
         }
         this.start_time = System.currentTimeMillis() / 1000;
@@ -65,7 +65,7 @@ public class IntakeHandler {
             if (c_time - this.storage_time > 0.1) {
                 this.substate = 0;
             }
-            return new double[] { 0.1, -0.1, 0 };
+            return new double[] { 0.1, 0.1, 0 };
         }
         if (this.substate == 5) {
             if (c_time - this.storage_time > 0.1) {

@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShooterHandler {
 
     DPID storage_2;
-    DPID shooter_1;
-    DPID shooter_2;
+    DPID shooter_1; // front motor
+    DPID shooter_2; // back motor
 
     public int state = 0;
 
@@ -74,8 +74,8 @@ public class ShooterHandler {
         }
         if (this.state == 1) {
             double dt = (System.currentTimeMillis() / 1000) - this.o_time;
-            sh1_target = 0.898 * Constants.SHOOTER_1_RPM * rpm2radss;
-            sh2_target = 0.898 * Constants.SHOOTER_2_RPM * rpm2radss;
+            sh1_target = 0.8995 * Constants.SHOOTER_1_RPM * rpm2radss;
+            sh2_target = 0.8995 * Constants.SHOOTER_2_RPM * rpm2radss;
             if (dt > 1.1) {
                 this.state = 2;
                 storage_2.softReset();
@@ -125,10 +125,10 @@ public class ShooterHandler {
         }
 
         if(this.state == 7) {
-            sh1_target *= 0.8;
-            sh2_target *= 0.8;
+            sh1_target *= 0.6464; //0.791 -> 0.8
+            sh2_target *= 0.791; //0.791 -> 0.8
             so2_target = Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
-            if (ct - d_time > 1.5) {
+            if (ct - d_time > 1.6) {
                 this.state = 9;
             }
            
@@ -146,8 +146,8 @@ public class ShooterHandler {
         }
 
         if (this.state == 9) {
-            sh1_target *= 0.99;
-            sh2_target *= 0.99;
+            sh1_target *= 0.789;
+            sh2_target *= 0.965;
             so2_target = 1 * Constants.STORAGE_2_RPM * rpm2radss  - state.getStorage2Val();
             if (exit()) {
                 this.state = 0;
@@ -182,7 +182,7 @@ public class ShooterHandler {
                 return true;
             }
         }
-        if (this.state == 5) {
+        if (this.state == 5 || this.state == 9) {
             if (ct - d_time > 4) {
                 return true;
             }
