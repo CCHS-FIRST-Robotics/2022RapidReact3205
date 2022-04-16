@@ -211,7 +211,7 @@ public final class Constants {
     public static final double LIME_POS_VAR = 0.5 * 0.5;
     public static final double LIME_RING_HEIGHT = 2.64;
     public static final double LIME_RING_RAD = 0.61;
-    public static final double LIME_ELEV_ANG = 47;
+    public static final double LIME_ELEV_ANG = 45;
     // 58.3 - 10; // in degs
     public static final double[] LIME_LPOS = { 0.2667, 0.6477 }; // Y, Z
 
